@@ -23,8 +23,8 @@ def eval(valor,obj):
     elif not valor:
         for x in listaMinasObjetos:
             if x.cuadro == obj:
-               x.cuadro = Button(mainFrame, fg="black", bg="#123456", width=2, height=2, font=mainFont)
-               x.cuadro.grid(row=x.x,column=x.y)
+               x.cuadro = Button(mainFrame, fg = "black", bg = "#123456", width = 2, height = 2, font = mainFont)
+               x.cuadro.grid(row = x.x, column = x.y)
         for y in obj.coordenadas_alrededor:
             #progra_2.main.lista[main.lista.index(self.x) + y[0] * progra_2.main.largo + y[1]]).click(True)
             coordenada = obj.x + y[0] * progra_2.main.largo + y[1]
@@ -38,20 +38,20 @@ def demostrar(obj,x,y):
     valorDelClick = progra_2.main.lista[progra_2.main.lista.index(obj)].click(True)
     if obj.mina:
         for par in listaMinasObjetos:
-            if par.cuadro== obj:
+            if par.cuadro == obj:
                 progra_2.main.lista[progra_2.main.lista.index(par.cuadro)].click(True)
-                par.boton= Label(mainFrame, image=minaPNG)
-                par.boton.grid(row=x,column=y)
-    eval(valorDelClick,obj) 
+                par.boton = Label(mainFrame, image = minaPNG)
+                par.boton.grid(row = x, column = y)
+    eval(valorDelClick, obj)
 
 class minasGUI:
-    def __init__(self,boton, cuadro, x, y):
+    def __init__(self, boton, cuadro, x, y):
         self.x = x
         self.y = y
         self.boton = boton
         self.cuadro = cuadro
     def setupObj(self):
-        self.boton.bind("<Button-1>", lambda x: demostrar(self.cuadro,self.x,self.y))
+        self.boton.bind("<Button-1>", lambda x: demostrar(self.cuadro, self.x, self.y))
         self.boton.grid(row=self.x, column=self.y)
 
 def listo_minas(custom ,dif):
