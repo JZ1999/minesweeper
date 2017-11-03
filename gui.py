@@ -191,6 +191,7 @@ TwoPlayerM = Button(menuFrame, width=mainWidth,text="2-Player \nMultiplayer",fg=
 minaPNG = PhotoImage(file="./mina.png")
 minaPNG = minaPNG.zoom(12)
 minaPNG = minaPNG.subsample(400)
+print("wfw")
 reiniciarIcon = PhotoImage(file="./reiniciar.png")
 reiniciarIcon = reiniciarIcon.zoom(1)
 reiniciarIcon = reiniciarIcon.subsample(20)
