@@ -206,7 +206,7 @@ root = Tk()
 
 root.title("Minesweeper")
 root.configure(background="#111111")
-#root.geometry("400x400")
+root.geometry("600x600")
 mainFont = ("Times", 11, "bold")
 mainFg = "black"
 mainBg = "#FFFFFF"
