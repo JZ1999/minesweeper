@@ -78,6 +78,7 @@ class minasGUI:
                                                          self.x, self.y))
         self.boton.grid(row=self.x, column=self.y)
 
+<<<<<<< HEAD
 def listo_minas(custom, dif, valor=True):  # valor es para reiniciar
     global listaMinasObjetos, mainFrame
     listaMinasObjetos = []
@@ -97,83 +98,69 @@ def listo_minas(custom, dif, valor=True):  # valor es para reiniciar
             tkinter.messagebox.showwarning(
                 "Error", "no debes incluir espacios")
             return
-        try:
-            int(textA.get())
-            int(textL.get())
-            int(textM.get())
-        except:
-            tkinter.messagebox.showwarning(
-                "Error", "Deben ser numeros y enteros")
-            return
-        if int(textA.get()) < 3:
-            tkinter.messagebox.showwarning(
-                "Error", "Ancho debe ser mayor o igual a 3")
-            return
-        elif int(textA.get()) > 15:
-            tkinter.messagebox.showwarning(
-                "Error", "Ancho debe ser menor o igual a 15")
-            return
-        elif int(textL.get()) < 3:
-            tkinter.messagebox.showwarning(
-                "Error", "Largo debe ser mayor o igual a 3")
-            return
-        elif int(textL.get()) > 15:
-            tkinter.messagebox.showwarning(
-                "Error", "Largo debe ser menor o igual a 15")
-            return
-        elif int(textM.get()) < 1:
-            tkinter.messagebox.showwarning(
-                "Error", "Minas deben de ser mas que una")
-            return
-        elif int(textM.get()) > (int(textA.get()) * int(textL.get())) - 1:
-            tkinter.messagebox.showwarning(
-                "Error", "Deben haber menos minas que cuadritos")
-            return
-        progra_2.main.ubicar_minas(0, ancho=int(textA.get()), largo=int(
-            textL.get()), minas=int(textM.get()))
-
-    else:
-        progra_2.main.ubicar_minas(dif)
-    global total
-    total = progra_2.main.total - progra_2.main.minas
-    reiniciar = Label(root, bg="black", image=reiniciarIcon)
-    reiniciar.grid(row=0, column=0)
-    reiniciar.bind("<Button-1>", lambda x: listo_minas(custom, dif, False))
-    progra_2.main.lista[0].alrededor_mina()
-    minasLabel = Label(topMainFrame, text= progra_2.main.minas, bg="black", fg="red")
-    minasLabel.grid(row=0, column=0, sticky="W", padx=65)
-
-    def tiempoFunc():
-        aux = 1
-        while True:
-            if not aux:
-                time.sleep(1)
-            else:
-                aux -= 1
+=======
+        if custom:
             try:
-                tiempoLabel.destroy()
+                int(textA.get())
+                int(textL.get())
+                int(textM.get())
             except:
-                pass
-            tiempoLabel = Label(topMainFrame, text=int(
-                time.time()) - iniTime, bg="black", fg="red")
-            Thread(target=tiempoLabel.grid(
-                row=0, column=2, sticky="E", padx=65)).start()
-            # tiempo.grid(row=0, column=2, sticky="E")
+                tkinter.messagebox.showwarning("Error","Deben ser numeros y enteros")
+                return
 
-    Thread(target=tiempoFunc).start()
-    for objeto in progra_2.main.lista:
-        rowVar = progra_2.main.lista.index(
-            objeto) // progra_2.main.largo  # la fila
-        columnVar = progra_2.main.lista.index(
-            objeto) % progra_2.main.largo  # la columna
-        # print(rowVar)
-        listaMinasObjetos.append(minasGUI(
-            Button(mainFrame, width=1, height=1, bg="#8b8d8e"), objeto, rowVar, columnVar))
+            if int(textA.get()) < 3:
+                tkinter.messagebox.showwarning("Error","Ancho debe ser mayor o igual a 3")
+                return
+            elif int(textA.get()) > 15:
+                tkinter.messagebox.showwarning("Error", "Ancho debe ser menor o igual a 15")
+                return
+            elif int(textL.get()) < 3:
+                tkinter.messagebox.showwarning("Error", "Largo debe ser mayor o igual a 3")
+                return
+            elif int(textL.get()) > 15:
+                tkinter.messagebox.showwarning("Error", "Largo debe ser menor o igual a 15")
+                return
+            elif int(textM.get()) < 1:
+                tkinter.messagebox.showwarning("Error", "Minas deben de ser mas que una")
+                return
+            elif int(textM.get()) > (int(textA.get())*int(textL.get()))-1:
+                tkinter.messagebox.showwarning("Error", "Deben haber menos minas que cuadritos")
+                return
+            progra_2.main.ubicar_minas(0,ancho= int (textA.get()),largo=int(textL.get()),minas=int(textM.get()))
+            reiniciar = Label(root,image=reiniciarIcon)
+            reiniciar.grid(row=0,column=0)
+        
+        else:
+            reiniciar = Label(topMainFrame,bg = "black", image=reiniciarIcon)
+            reiniciar.grid(row=0,column=1)
+            progra_2.main.ubicar_minas(dif)
+        progra_2.main.lista[0].alrededor_mina()
+        minasLabel = Label(topMainFrame, text=20, bg="black", fg="red", width=30)
+        minasLabel.grid(row=0, column=0, sticky="W")
+        def tiempoFunc():
+            aux = 1
+            while True:
+                if not aux:time.sleep(1)
+                else:aux-=1
+                try:tiempoLabel.destroy()
+                except:
+                    pass
+                tiempoLabel = Label(topMainFrame, text=int(time.time())-iniTime, bg="black", fg="red", width=30)
+                Thread(target = tiempoLabel.grid(row=0, column=2, sticky="E" )).start()
+                #tiempo.grid(row=0, column=2, sticky="E")
 
-        # listaMinasObjetos[-1].boton.bind("<Button-1>",lambda x: demostrar(objeto))
-        listaMinasObjetos[-1].setupObj()
-        # listaMinasObjetos[-1].boton.grid(row=rowVar, column=columnVar)
-    try:
+        Thread(target=tiempoFunc).start()
+        for objeto in progra_2.main.lista:
+                rowVar = progra_2.main.lista.index(objeto)//progra_2.main.largo#la fila
+                columnVar = progra_2.main.lista.index(objeto)%progra_2.main.largo#la columna
+                #print(rowVar)
+                listaMinasObjetos.append(minasGUI(Button(mainFrame, width=1,height=1, bg="#8b8d8e"), objeto, rowVar, columnVar) )
+
+                #listaMinasObjetos[-1].boton.bind("<Button-1>",lambda x: demostrar(objeto))
+                listaMinasObjetos[-1].setupObj()
+                #listaMinasObjetos[-1].boton.grid(row=rowVar, column=columnVar)
+>>>>>>> d1cbba332a1a485b12111db39c080b3f38553d6c
+   try:
         containerCustom.destroy()
     except:
         pass
