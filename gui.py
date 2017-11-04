@@ -111,8 +111,8 @@ def listo_minas(custom ,dif):
             reiniciar.grid(row=0,column=1)
             progra_2.main.ubicar_minas(dif)
         progra_2.main.lista[0].alrededor_mina()
-        minasLabel = Label(topMainFrame, text=20, bg="black", fg="red")
-        minasLabel.grid(row=0, column=0, sticky="W", padx=65)
+        minasLabel = Label(topMainFrame, text=20, bg="black", fg="red", width=30)
+        minasLabel.grid(row=0, column=0, sticky="W")
         def tiempoFunc():
             aux = 1
             while True:
@@ -122,8 +122,8 @@ def listo_minas(custom ,dif):
                     tiempoLabel.destroy()
                 except:
                     pass
-                tiempoLabel = Label(topMainFrame, text=int(time.time())-iniTime, bg="black", fg="red")
-                Thread(target = tiempoLabel.grid(row=0, column=2, sticky="E", padx=65)).start()
+                tiempoLabel = Label(topMainFrame, text=int(time.time())-iniTime, bg="black", fg="red", width=30)
+                Thread(target = tiempoLabel.grid(row=0, column=2, sticky="E" )).start()
                 #tiempo.grid(row=0, column=2, sticky="E")
 
         Thread(target=tiempoFunc).start()
