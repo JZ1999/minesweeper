@@ -5,6 +5,7 @@ class partida:
         self.lista = []
         self.largo = 0
         self.minas = 0
+        self.total = 0
 
     def ubicar_minas(self,dificultad, **customizado):  # creacion y ubicacion de la mina y lista, esto no va en esta class
         nivel = [[8, 8, 10], [16, 16, 40], [16, 30, 99]]
@@ -15,8 +16,9 @@ class partida:
             largo = customizado["largo"]
             minas = customizado["minas"]
         self.largo = largo
+        self.total = largo * ancho
         self.minas = minas
-        lista = [[]] * (largo * ancho)
+        lista = [[]] * (self.total)
         lista = list(map(lambda x: cuadro(), lista))# pichudisima
         for t in range(len(lista)):
             lista[t].x = t
