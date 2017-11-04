@@ -1,3 +1,6 @@
+import threading
+from threading import Thread
+import time
 from tkinter import *
 import progra_2
 import tkinter.messagebox
@@ -59,11 +62,19 @@ class minasGUI:
         self.boton.bind("<Button-1>", lambda x: demostrar(self.cuadro, self.x, self.y))
         self.boton.grid(row=self.x, column=self.y)
 
+
+
 def listo_minas(custom ,dif):
         global listaMinasObjetos, mainFrame
         
+
+        iniTime = int(time.time())
+
         mainFrame = Frame(root)
-        mainFrame.grid()
+        mainFrame.grid(row=1)
+        topMainFrame = Frame(root)
+        topMainFrame.grid(row=0)
+        topMainFrame.config(bg="black")
         if custom:
             try:
                 int(textA.get())
@@ -96,10 +107,26 @@ def listo_minas(custom ,dif):
             reiniciar.grid(row=0,column=0)
         
         else:
-            reiniciar = Label(root,bg = "black", image=reiniciarIcon)
-            reiniciar.grid(row=0,column=0)
+            reiniciar = Label(topMainFrame,bg = "black", image=reiniciarIcon)
+            reiniciar.grid(row=0,column=1)
             progra_2.main.ubicar_minas(dif)
         progra_2.main.lista[0].alrededor_mina()
+        minasLabel = Label(topMainFrame, text=20, bg="black", fg="red")
+        minasLabel.grid(row=0, column=0, sticky="W", padx=65)
+        def tiempoFunc():
+            aux = 1
+            while True:
+                if not aux:time.sleep(1)
+                else: aux-=1
+                try:
+                    tiempoLabel.destroy()
+                except:
+                    pass
+                tiempoLabel = Label(topMainFrame, text=int(time.time())-iniTime, bg="black", fg="red")
+                Thread(target = tiempoLabel.grid(row=0, column=2, sticky="E", padx=65)).start()
+                #tiempo.grid(row=0, column=2, sticky="E")
+
+        Thread(target=tiempoFunc).start()
         for objeto in progra_2.main.lista:
                 rowVar = progra_2.main.lista.index(objeto)//progra_2.main.largo#la fila
                 columnVar = progra_2.main.lista.index(objeto)%progra_2.main.largo#la columna
@@ -120,7 +147,7 @@ def pedirCustom(key):
     #tkinter.messagebox.showinfo("personalizado", "personalizado, por favor escriba las caracteristicas del juego")
 
     containerCustom = Frame(root)
-    
+
     containerCustom.grid(row=1)
 
     textA = StringVar()
