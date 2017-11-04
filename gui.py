@@ -34,7 +34,7 @@ def eval(valor,obj,total):
 					coordenada = obj.x + y[0] * progra_2.main.largo + y[1]
 					if not progra_2.main.lista[coordenada].activo:
 						s = progra_2.main.lista[coordenada].click(True)
-						eval(s,progra_2.main.lista[coordenada], tota)
+						eval(s,progra_2.main.lista[coordenada], total)
 	else:
 		tkinter.messagebox.showinfo("ganaste","perfecto")
 	    
@@ -58,7 +58,7 @@ class minasGUI:
         self.boton = boton
         self.cuadro = cuadro
     def setupObj(self):
-        self.boton.bind("<Button-1>", lambda x: demostrar(self.cuadro, self.x, self.y, progra_2.main.lista.minas))
+        self.boton.bind("<Button-1>", lambda x: demostrar(self.cuadro, self.x, self.y, progra_2.main.minas))
         self.boton.grid(row=self.x, column=self.y)
 
 def listo_minas(custom, dif, valor = True):# valor es para reiniciar
