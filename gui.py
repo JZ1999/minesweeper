@@ -5,25 +5,29 @@ import tkinter.messagebox
 listaMinasObjetos = []#Contiene listas de cada cuadrito y su botón respectivo
 
 def color(num):
-    valores = {1:"blue",2:"#479E3A",3:"#EF4321"}
+    valores = {1:"blue",2:"#2d1a4f",3:"#EF4321", 4:"#000000" , 5: "#ba031f" , 6: "#06ad91", 7: "#152959" , 8: "#565759"}
     return valores[num]
 
 def eval(valor,obj):
     print("valor",obj.x,valor)
+    for x in progra_2.main.lista:
+        if listaMinasObjetos == progra_2.main.lista:
+            print("sssssssssssssssssss")
+        print(x.x)
     if valor == -5:
         pass
     if valor == -1:
-        tkinter.messagebox.showwarning("Noob", "Por lo menos sabes jugar?")
+        pass#tkinter.messagebox.showwarning("Noob", "Por lo menos sabes jugar?")
     elif valor in [1,2,3,4,5,6,7,8]:
         for x in listaMinasObjetos:
             if x.cuadro == obj:
                fgColor = color(valor)
-               x.cuadro = Button(mainFrame, text=valor, fg=fgColor ,bg="#FFFFFF", width=1, height=1)
+               x.cuadro = Button(mainFrame, text=valor, fg=fgColor ,bg="#8b8d8e", width=1, height=1)
                x.cuadro.grid(row=x.x,column=x.y)
     elif not valor:
         for x in listaMinasObjetos:
             if x.cuadro == obj:
-               x.cuadro = Button(mainFrame, fg="black", bg="#123456", width=1, height=1 )
+               x.cuadro = Button(mainFrame, fg="black", bg="#a6a7a8", width=1, height=1 )
                x.cuadro.grid(row=x.x,column=x.y)
         for y in obj.coordenadas_alrededor:
             #progra_2.main.lista[main.lista.index(self.x) + y[0] * progra_2.main.largo + y[1]]).click(True)
@@ -38,20 +42,21 @@ def demostrar(obj,x,y):
     valorDelClick = progra_2.main.lista[progra_2.main.lista.index(obj)].click(True)
     if obj.mina:
         for par in listaMinasObjetos:
-            if par.cuadro== obj:
+            print("ds")
+            if par.cuadro == obj:
                 progra_2.main.lista[progra_2.main.lista.index(par.cuadro)].click(True)
-                par.boton= Label(mainFrame, image=minaPNG)
-                par.boton.grid(row=x,column=y)
-    eval(valorDelClick,obj) 
+                par.boton = Label(mainFrame, image = minaPNG)
+                par.boton.grid(row = x, column = y)
+    eval(valorDelClick, obj)
 
 class minasGUI:
-    def __init__(self,boton, cuadro, x, y):
+    def __init__(self, boton, cuadro, x, y):
         self.x = x
         self.y = y
         self.boton = boton
         self.cuadro = cuadro
     def setupObj(self):
-        self.boton.bind("<Button-1>", lambda x: demostrar(self.cuadro,self.x,self.y))
+        self.boton.bind("<Button-1>", lambda x: demostrar(self.cuadro, self.x, self.y))
         self.boton.grid(row=self.x, column=self.y)
 
 def listo_minas(custom ,dif):
@@ -62,12 +67,12 @@ def listo_minas(custom ,dif):
         if custom:
             try:
                 int(textA.get())
-                int(textL.get()) 
-                int(text.M.get())
+                int(textL.get())
+                int(textM.get())
             except:
                 tkinter.messagebox.showwarning("Error","Deben ser numeros y enteros")
                 return
-                
+
             if int(textA.get()) < 3:
                 tkinter.messagebox.showwarning("Error","Ancho debe ser mayor o igual a 3")
                 return
@@ -91,15 +96,15 @@ def listo_minas(custom ,dif):
             reiniciar.grid(row=0,column=0)
         
         else:
-            reiniciar = Label(root,image=reiniciarIcon)
+            reiniciar = Label(root,bg = "black", image=reiniciarIcon)
             reiniciar.grid(row=0,column=0)
             progra_2.main.ubicar_minas(dif)
         progra_2.main.lista[0].alrededor_mina()
         for objeto in progra_2.main.lista:
                 rowVar = progra_2.main.lista.index(objeto)//progra_2.main.largo#la fila
                 columnVar = progra_2.main.lista.index(objeto)%progra_2.main.largo#la columna
-                #print(rowVar) 
-                listaMinasObjetos.append(minasGUI(Button(mainFrame, width=1,height=1, bg="#000000"), objeto, rowVar, columnVar) )
+                #print(rowVar)
+                listaMinasObjetos.append(minasGUI(Button(mainFrame, width=1,height=1, bg="#8b8d8e"), objeto, rowVar, columnVar) )
 
                 #listaMinasObjetos[-1].boton.bind("<Button-1>",lambda x: demostrar(objeto))
                 listaMinasObjetos[-1].setupObj()
@@ -143,7 +148,8 @@ def pedirCustom(key):
 def Game(players, multiplayer):
     menuFrame.destroy()
     global container
-    container = Frame(root, bd=10, relief="groove")# freme kja :v
+    container = Frame(root, bd=10 ,relief="groove")# freme kja :v
+    container.config(bg = "#8b8d8e")
 
     #8x8
     mode1Butt = Button(container, text = "8x8", fg = mainFg,bg = mainBg, font = mainFont, width = mainWidth)
@@ -172,7 +178,7 @@ def Game(players, multiplayer):
 root = Tk()
 
 root.title("Minesweeper")
-root.configure(background="#555555")
+root.configure(background="#111111")
 #root.geometry("400x400")
 mainFont = ("Times", 11, "bold")
 mainFg = "black"
@@ -183,8 +189,9 @@ OnePlayerL = Button(menuFrame, width=mainWidth,text="1-Player",fg=mainFg,bg=main
 TwoPlayerL = Button(menuFrame, width=mainWidth,text="2-Player",fg= mainFg,bg=mainBg,font=mainFont,command=lambda: Game(2,False))
 TwoPlayerM = Button(menuFrame, width=mainWidth,text="2-Player \nMultiplayer",fg=mainFg,bg=mainBg,font=mainFont,command=lambda: Game(2,True))
 minaPNG = PhotoImage(file="./mina.png")
-minaPNG = minaPNG.zoom(3)
-minaPNG = minaPNG.subsample(18)
+minaPNG = minaPNG.zoom(12)
+minaPNG = minaPNG.subsample(400)
+print("wfw")
 reiniciarIcon = PhotoImage(file="./reiniciar.png")
 reiniciarIcon = reiniciarIcon.zoom(1)
 reiniciarIcon = reiniciarIcon.subsample(20)

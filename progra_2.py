@@ -6,7 +6,7 @@ class partida:
         self.largo = 0
 
     def ubicar_minas(self,dificultad, **customizado):  # creacion y ubicacion de la mina y lista, esto no va en esta class
-        nivel = [[8,8 , 10], [16, 16, 40], [16, 30, 99]]
+        nivel = [[8, 8, 10], [16, 16, 40], [16, 30, 99]]
         if dificultad:
             ancho, largo, minas = nivel[dificultad - 1][0], nivel[dificultad - 1][1], nivel[dificultad - 1][2]
         else:
@@ -16,8 +16,7 @@ class partida:
         self.largo = largo
         lista = [[]] * (largo * ancho)
         lista = list(map(lambda x: cuadro(), lista))# pichudisima
-
-        for t in range(len(lista)- 1):
+        for t in range(len(lista)):
             lista[t].x = t
         while minas:
             x = choice(lista)
@@ -75,14 +74,20 @@ class cuadro(partida):
                     alrededor.remove([1, -1])
                 except:
                     pass
-            main.lista[main.lista.index(x)].coordenadas_alrededor = alrededor
+
             for y in alrededor:
                 if main.lista[main.lista.index(x) + y[0] * main.largo + y[1]].mina:
                     main.lista[main.lista.index(x)].minas_alrededor += 1
-
+            main.lista[main.lista.index(x)].coordenadas_alrededor = alrededor
     def click(self, click_izquierda):
         #derecho activa casilla
         #izquierdo pone bandera
+        # retorna 0 si no tiene ni una mina alrededor y entonces se activa
+        # retorna 1-8 y seran las minas que toene alrededor y se activa
+        # retorna -1 si es una mina y se activa
+        # retorna -5 si no hace nada y se queda la casilla igual
+        # retorna -3 si hay que poner bandera y no se activa
+        # retorna -2 si hayq ue quitar bandera, queda el cuadro normal y no se activa
         if click_izquierda:
             if not self.activo:
                 if not self.bandera:
@@ -95,8 +100,10 @@ class cuadro(partida):
                 return -5
             return -5
         else:
-            self.bandera = not self.bandera
-            if self.bandera:
-                return -3
-            return -2
+            if not self.activo:
+                self.bandera = not self.bandera
+                if self.bandera:
+                    return -3
+                return -2
+            return -5
 main = partida()
