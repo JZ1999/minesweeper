@@ -142,7 +142,7 @@ def listo_minas(custom, dif, valor=True):  # valor es para reiniciar
 
     minasLabel = Label(topMainFrame, text=20, bg="black", fg="red", width=30)
     minasLabel.grid(row=0, column=0, sticky="W")
-    #aqui es el error de la caja al tkintear el minero
+    #aqui es el error de la caja al tkintear el miner
 
 
     def tiempoFunc():
