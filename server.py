@@ -27,6 +27,7 @@ class Servidor:
         	    self.coneccion.send(bytes(data))
 	        if not data:
         	    self.conecciones.remove(c)
+                    print(str(a[0])+":"+str(a[1])+" desconectado")
 	            c.close()
         	    break
 
@@ -47,9 +48,15 @@ class Servidor:
 
 class Cliente:
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    def mandarMSG(self):
+    #mande por kwargs la accion del jugador
+    #Formato:
+    # x = str posicion del cuadro al que le dio click
+    # retirado = bool si el usuario se rindio
+    # puntos = str puntos del usuario
+    def mandarMSG(self, *args):
         while True:
-            self.sock.send(bytes(input(""), 'utf-8'))
+            #self.sock.send(bytes(input(""), 'utf-8'))
+            self.sock.send(bytes(" ".join(args)))
     def __init__(self, addr):
         self.sock.connect((addr, 10000))
         
@@ -64,8 +71,17 @@ class Cliente:
             print(data)
 
 
-if(len(sys.argv )> 1):
-	cliente = Cliente(sys.argv[1])
-else:
-    server = Servidor()
-    server.correr()
+#if(len(sys.argv )> 1):
+	##cliente = Cliente(sys.argv[1])
+#else:
+    #server = Servidor()
+    #server.correr()
+
+def ini():
+    if type(modo) != int:
+        raise NameError("El ini debe tener como entrada un int")
+    elif modo == 0:
+        server = Servidor()
+        server.correr()
+    cliente = CLiente("0.0.0.0")
+
