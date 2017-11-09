@@ -4,6 +4,8 @@ class partida:
     def __init__(self):
         self.lista = []
         self.largo = 0
+        self.minas = 0
+        self.total = 0
 
     def ubicar_minas(self,dificultad, **customizado):  # creacion y ubicacion de la mina y lista, esto no va en esta class
         nivel = [[8, 8, 10], [16, 16, 40], [16, 30, 99]]
@@ -14,7 +16,9 @@ class partida:
             largo = customizado["largo"]
             minas = customizado["minas"]
         self.largo = largo
-        lista = [[]] * (largo * ancho)
+        self.total = largo * ancho
+        self.minas = minas
+        lista = [[]] * (self.total)
         lista = list(map(lambda x: cuadro(), lista))# pichudisima
         for t in range(len(lista)):
             lista[t].x = t
@@ -24,9 +28,7 @@ class partida:
                 lista[lista.index(x)].mina = True
                 minas -= 1
         self.lista = lista
-
-    def retornando_lista(self):
-        return self.lista
+        print("wdcftgbhyu")
 
 class cuadro(partida):
     def __init__(self):
@@ -38,8 +40,6 @@ class cuadro(partida):
         self.coordenadas_alrededor = [] # esta va a tener las instrucciones para ir a los vecinos del cuadro
         super().__init__()
 
-    def retornar_unos_y_ceros(self):
-        return self.minas_alrededor
 
     def alrededor_mina(self):
         arreglo = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]]
@@ -78,6 +78,7 @@ class cuadro(partida):
             for y in alrededor:
                 if main.lista[main.lista.index(x) + y[0] * main.largo + y[1]].mina:
                     main.lista[main.lista.index(x)].minas_alrededor += 1
+
             main.lista[main.lista.index(x)].coordenadas_alrededor = alrededor
     def click(self, click_izquierda):
         #derecho activa casilla
