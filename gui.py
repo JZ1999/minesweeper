@@ -9,29 +9,28 @@ listaMinasObjetos = []  # Contiene listas de cada cuadrito y su botón respectiv
 
 
 def color(num):
-    valores = {1: "blue", 2: "#2d1a4f", 3: "#EF4321", 4: "#000000",
-               5: "#ba031f", 6: "#06ad91", 7: "#152959", 8: "#565759"}
+    valores = {1: "blue", 2: "#2d1a4f", 3: "#EF4321", 4: "#000000", 5: "#ba031f", 6: "#06ad91", 7: "#152959", 8: "#565759"}
     return valores[num]
 
 
 def eval(valor, obj):
     global total
-    print("valor", total)
+    print("total" , total, valor)
+
     perdiendo = [["Noob", "Por lo menos sabes jugar?"], ["noob", "jugando como nunca, pierde como siempre"], ["noob", "mejor dediquese a candy crush"]]
     if total == 1 and valor >= 0:
-    	print("ff")
     	for x in listaMinasObjetos:
             if x.cuadro == obj:
                 fgColor = color(valor)
                 x.cuadro = Button(mainFrame, text=valor, fg=fgColor, bg="#8b8d8e", width=1, height=1)
                 x.cuadro.grid(row=x.x, column=x.y)
-    	tkinter.messagebox.showinfo("ganaste", "perfecto")
+    	#tkinter.messagebox.showinfo("ganaste", "perfecto")
     else:
         if valor == -5:
             pass
         if valor == -1:
             a = progra_2.choice(perdiendo)
-            tkinter.messagebox.showinfo(a[0], a[1])
+            #tkinter.messagebox.showinfo(a[0], a[1])
         elif valor in [1, 2, 3, 4, 5, 6, 7, 8]:
             total -= 1
             print("valor", total)
@@ -45,11 +44,12 @@ def eval(valor, obj):
             total -= 1
             print("valor", total)
             for x in listaMinasObjetos:
+                print(listaMinasObjetos,"final")
                 if x.cuadro == obj:
                     x.cuadro = Button(mainFrame, fg="black",
                                       bg="#a6a7a8", width=1, height=1)
                     x.cuadro.grid(row=x.x, column=x.y)
-                for y in obj.coordenadas_alrededor:
+            for y in obj.coordenadas_alrededor:
                     coordenada = obj.x + y[0] * progra_2.main.largo + y[1]
                     if not progra_2.main.lista[coordenada].activo:
                         s = progra_2.main.lista[coordenada].click(True)
@@ -84,15 +84,11 @@ class minasGUI:
         self.boton.grid(row=self.x, column=self.y)
 
 
-def listo_minas(custom, dif, valor=True):  # valor es para reiniciar
+def listo_minas(custom, dif):  # valor es para reiniciar
     global listaMinasObjetos, mainFrame
-    listaMinasObjetos = []
-
-    if not valor:
-        mainFrame.destroy()
 
     iniTime = int(time.time())
-
+    print("lol",listaMinasObjetos)
     mainFrame = Frame(root)
     mainFrame.grid(row=1)
     topMainFrame = Frame(root)
@@ -130,16 +126,18 @@ def listo_minas(custom, dif, valor=True):  # valor es para reiniciar
             tkinter.messagebox.showwarning("Error", "Deben haber menos minas que cuadritos")
             return
         
-        progra_2.main.ubicar_minas(0,ancho= int (textA.get()),largo=int(textL.get()),minas=int(textM.get()))
+        progra_2.main.ubicar_minas(0,ancho= int(textA.get()),largo=int(textL.get()),minas=int(textM.get()))
 
         
 
     else:
+        print("ecoem")
         progra_2.main.ubicar_minas(dif)
     reiniciar = Label(topMainFrame,bg = "black", image=reiniciarIcon)
+    global total
+    total = progra_2.main.total - progra_2.main.minas
     reiniciar.grid(row=0,column=1)
-    reiniciar.bind("<Button-1>", lambda x: listo_minas(custom, dif, False))
-
+    reiniciar.bind("<Button-1>", lambda x: listo_minas(custom, dif))
     minasLabel = Label(topMainFrame, text=20, bg="black", fg="red", width=30)
     minasLabel.grid(row=0, column=0, sticky="W")
     #aqui es el error de la caja al tkintear el miner
@@ -157,21 +155,21 @@ def listo_minas(custom, dif, valor=True):  # valor es para reiniciar
             Thread(target = tiempoLabel.grid(row=0, column=2, sticky="E" )).start()
             #tiempo.grid(row=0, column=2, sticky="E")
 
-        Thread(target=tiempoFunc).start()
-        for objeto in progra_2.main.lista:
-                rowVar = progra_2.main.lista.index(objeto)//progra_2.main.largo#la fila
-                columnVar = progra_2.main.lista.index(objeto)%progra_2.main.largo#la columna
-                #print(rowVar)
-                listaMinasObjetos.append(minasGUI(Button(mainFrame, width=1,height=1, bg="#8b8d8e"), objeto, rowVar, columnVar) )
+    Thread(target=tiempoFunc).start()
+    for objeto in progra_2.main.lista:
+             rowVar = progra_2.main.lista.index(objeto)//progra_2.main.largo#la fila
+             columnVar = progra_2.main.lista.index(objeto)%progra_2.main.largo#la columna
+             #print(rowVar)
+             listaMinasObjetos.append(minasGUI(Button(mainFrame, width=1,height=1, bg="#8b8d8e"), objeto, rowVar, columnVar) )
 
-                #listaMinasObjetos[-1].boton.bind("<Button-1>",lambda x: demostrar(objeto))
-                listaMinasObjetos[-1].setupObj()
-        try:
-            containerCustom.destroy()
-        except:
-            pass
-        container.destroy()
-
+             #listaMinasObjetos[-1].boton.bind("<Button-1>",lambda x: demostrar(objeto))
+             listaMinasObjetos[-1].setupObj()
+             #listaMinasObjetos[-1].boton.grid(row=rowVar, column=columnVar)
+    try:
+         containerCustom.destroy() 
+    except:
+         pass
+    container.destroy()
 
 def pedirCustom(key):
     global textA, textL, textM, containerCustom

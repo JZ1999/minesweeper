@@ -1,4 +1,4 @@
-import threading
+﻿import threading
 import socket
 import sys
 
@@ -7,7 +7,7 @@ class Servidor:
 	sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	def __init__(self):
 		#primer parametro es el IP que le quiere poner al sock, segundo es el puerto
-		self.sock.bind(('0.0.0.0', 10000))
+		self.sock.bind(('0.0.0.0', 3002))
 
 		#Abilita las conecciones con el parametro diciendo cuantas conecciones deja
 		self.sock.listen(1)
@@ -20,7 +20,7 @@ class Servidor:
 	def manejo(self, c, a):
 	    
 	    while True:
-        	#recv es la informacion que se recive de la coneccion, 1024 esel maximo de informacion que se puede recivir en bytes
+        	#recv es la informacion que se recive de la coneccion, 1024 es el maximo de informacion que se puede recibir en bytes
 	        data = c.recv(1024)
         	for self.coneccion in self.conecciones:
 	            #mandandole data en bytes a coneccion
@@ -51,7 +51,7 @@ class Cliente:
         while True:
             self.sock.send(bytes(input(""), 'utf-8'))
     def __init__(self, addr):
-        self.sock.connect((addr, 10000))
+        self.sock.connect((addr, 3002))
         
         iThread = threading.Thread(target=self.mandarMSG)
         iThread.daemon = True
