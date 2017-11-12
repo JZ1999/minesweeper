@@ -42,6 +42,7 @@ class cuadro(partida):
 
 
     def alrededor_mina(self):
+        print(34)
         arreglo = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]]
         for x in main.lista:
             coordenada = main.lista.index(x)

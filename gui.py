@@ -15,7 +15,7 @@ def color(num):
 
 def eval(valor, obj):
     global total
-    print("total" , total, valor)
+ #   print("total" , total, valor)
 
     perdiendo = [["Noob", "Por lo menos sabes jugar?"], ["noob", "jugando como nunca, pierde como siempre"], ["noob", "mejor dediquese a candy crush"]]
     if total == 1 and valor >= 0:
@@ -33,21 +33,22 @@ def eval(valor, obj):
             #tkinter.messagebox.showinfo(a[0], a[1])
         elif valor in [1, 2, 3, 4, 5, 6, 7, 8]:
             total -= 1
-            print("valor", total)
+           # print("valor", valor)
             for x in listaMinasObjetos:
+                #print("cuadro, objeto",x.cuadro, obj)
                 if x.cuadro == obj:
+                   # print("valor",valor)
                     fgColor = color(valor)
                     x.cuadro = Button(
                         mainFrame, text=valor, fg=fgColor, bg="#8b8d8e", width=1, height=1)
                     x.cuadro.grid(row=x.x, column=x.y)
         elif not valor:
             total -= 1
-            print("valor", total)
+            #print("valor", total, obj.coordenadas_alrededor)
+
             for x in listaMinasObjetos:
-                print(listaMinasObjetos,"final")
                 if x.cuadro == obj:
-                    x.cuadro = Button(mainFrame, fg="black",
-                                      bg="#a6a7a8", width=1, height=1)
+                    x.cuadro = Button(mainFrame, fg = "black", bg="#a6a7a8", width=1, height=1)
                     x.cuadro.grid(row=x.x, column=x.y)
             for y in obj.coordenadas_alrededor:
                     coordenada = obj.x + y[0] * progra_2.main.largo + y[1]
@@ -61,7 +62,6 @@ def demostrar(obj, x, y):
 	valorDelClick = progra_2.main.lista[progra_2.main.lista.index(obj)].click(True)
 	if obj.mina:
 		for par in listaMinasObjetos:
-			print("ds")
 			if par.cuadro == obj:
 				progra_2.main.lista[progra_2.main.lista.index(par.cuadro)].click(True)
 				par.boton = Label(mainFrame, image=minaPNG)
@@ -88,7 +88,6 @@ def listo_minas(custom, dif):  # valor es para reiniciar
     global listaMinasObjetos, mainFrame
 
     iniTime = int(time.time())
-    print("lol",listaMinasObjetos)
     mainFrame = Frame(root)
     mainFrame.grid(row=1)
     topMainFrame = Frame(root)
@@ -126,23 +125,22 @@ def listo_minas(custom, dif):  # valor es para reiniciar
             tkinter.messagebox.showwarning("Error", "Deben haber menos minas que cuadritos")
             return
         
-        progra_2.main.ubicar_minas(0,ancho= int(textA.get()),largo=int(textL.get()),minas=int(textM.get()))
-
-        
-
+        progra_2.main.ubicar_minas(0,ancho= int(textA.get()),largo=int(textL.get()),minas=int(textM.get()))        
     else:
-        print("ecoem")
         progra_2.main.ubicar_minas(dif)
     reiniciar = Label(topMainFrame,bg = "black", image=reiniciarIcon)
+    progra_2.main.lista[2].alrededor_mina()
     global total
     total = progra_2.main.total - progra_2.main.minas
     reiniciar.grid(row=0,column=1)
     reiniciar.bind("<Button-1>", lambda x: listo_minas(custom, dif))
+    #iniTime = int(time.time())
+
     minasLabel = Label(topMainFrame, text=20, bg="black", fg="red", width=30)
     minasLabel.grid(row=0, column=0, sticky="W")
     #aqui es el error de la caja al tkintear el miner
 
-
+    """
     def tiempoFunc():
         aux = 1
         while True:
@@ -156,6 +154,8 @@ def listo_minas(custom, dif):  # valor es para reiniciar
             #tiempo.grid(row=0, column=2, sticky="E")
 
     Thread(target=tiempoFunc).start()
+	"""
+    
     for objeto in progra_2.main.lista:
              rowVar = progra_2.main.lista.index(objeto)//progra_2.main.largo#la fila
              columnVar = progra_2.main.lista.index(objeto)%progra_2.main.largo#la columna
@@ -165,6 +165,7 @@ def listo_minas(custom, dif):  # valor es para reiniciar
              #listaMinasObjetos[-1].boton.bind("<Button-1>",lambda x: demostrar(objeto))
              listaMinasObjetos[-1].setupObj()
              #listaMinasObjetos[-1].boton.grid(row=rowVar, column=columnVar)
+    
     try:
          containerCustom.destroy() 
     except:
