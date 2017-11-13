@@ -24,7 +24,7 @@ def eval(valor, obj):
                 fgColor = color(valor)
                 x.cuadro = Button(mainFrame, text=valor, fg=fgColor, bg="#8b8d8e", width=1, height=1)
                 x.cuadro.grid(row=x.x, column=x.y)
-    	#tkinter.messagebox.showinfo("ganaste", "perfecto")
+    	tkinter.messagebox.showinfo("ganaste", "perfecto")
     else:
         if valor == -5:
             pass
@@ -93,7 +93,7 @@ def listo_minas(custom, dif):  # valor es para reiniciar
     topMainFrame = Frame(root)
     topMainFrame.grid(row=0)
     topMainFrame.config(bg="black")
-    if custom and valor:
+    if custom:
         if " " in textA.get() or " " in textL.get() or " " in textM.get():
             tkinter.messagebox.showwarning(
                 "Error", "no debes incluir espacios")
@@ -136,9 +136,9 @@ def listo_minas(custom, dif):  # valor es para reiniciar
     reiniciar.bind("<Button-1>", lambda x: listo_minas(custom, dif))
     #iniTime = int(time.time())
 
-    minasLabel = Label(topMainFrame, text=20, bg="black", fg="red", width=30)
+    minasLabel = Label(topMainFrame, text=progra_2.main.minas, bg="black", fg="red", width=30)
     minasLabel.grid(row=0, column=0, sticky="W")
-    #aqui es el error de la caja al tkintear el miner
+    
 
     """
     def tiempoFunc():
@@ -174,7 +174,7 @@ def listo_minas(custom, dif):  # valor es para reiniciar
 
 def pedirCustom(key):
     global textA, textL, textM, containerCustom
-    # tkinter.messagebox.showinfo("personalizado", "personalizado, por favor escriba las caracteristicas del juego")
+    #tkinter.messagebox.showinfo("personalizado", "personalizado, por favor escriba las caracteristicas del juego")
 
     containerCustom = Frame(root)
 
@@ -240,10 +240,12 @@ root = Tk()
 root.title("Minesweeper")
 root.configure(background="#111111")
 root.geometry("600x600")
+
 mainFont = ("Times", 11, "bold")
 mainFg = "black"
 mainBg = "#FFFFFF"
 mainWidth = 16  # ancho de botones
+
 menuFrame = Frame(root, bd=10, relief="groove")
 OnePlayerL = Button(menuFrame, width=mainWidth, text="1-Player",
                     fg=mainFg, bg=mainBg, font=mainFont, command=lambda: Game(1, False))
@@ -259,6 +261,7 @@ reiniciarIcon = reiniciarIcon.zoom(1)
 reiniciarIcon = reiniciarIcon.subsample(20)
 
 menuFrame.grid(row=0, column=2, sticky="E")
+
 OnePlayerL.grid(row=0, column=0)
 TwoPlayerL.grid(row=1, column=0)
 TwoPlayerM.grid(row=2, column=0)

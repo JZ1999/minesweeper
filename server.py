@@ -84,4 +84,3 @@ def ini():
         server = Servidor()
         server.correr()
     cliente = CLiente("0.0.0.0")
-
