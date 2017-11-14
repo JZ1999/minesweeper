@@ -47,11 +47,24 @@ def eval(valor, obj):
             for x in listaMinasObjetos:
                 if x.cuadro == obj:
                     fgColor = color(valor)
-                    x.cuadro = Button(
-                        mainFrame, text=valor, fg=fgColor, bg="#8b8d8e", width=1, height=1)
+                    x.cuadro = Button(mainFrame, text=valor, fg=fgColor, bg="#8b8d8e", width=1, height=1)
+                    x.cuadro.grid(row=x.x, column=x.y)
+        elif valor == -3:
+            for x in listaMinasObjetos:
+                if x.cuadro == obj:
+                    x.cuadro = Button(mainFrame, fg="black",
+                                      bg="#555555", width=1, height=1)
+                    x.cuadro.grid(row=x.x, column=x.y)
+        elif valor == -2:
+
+            for x in listaMinasObjetos:
+                if x.cuadro == obj:
+                    x.cuadro = Button(mainFrame, fg="black",
+                                      bg="#a6a7a8", width=1, height=1)
                     x.cuadro.grid(row=x.x, column=x.y)
         elif not valor:
             total -= 1
+
             for x in listaMinasObjetos:
                 if x.cuadro == obj:
                     x.cuadro = Button(mainFrame, fg="black",
@@ -65,30 +78,39 @@ def eval(valor, obj):
     
 
 
-def demostrar(obj, x, y):
-	valorDelClick = progra_2.main.lista[progra_2.main.lista.index(obj)].click(True)
+def demostrar(obj, x, y, izquierdo = True):
+	if izquierdo:
+		valorDelClick = progra_2.main.lista[progra_2.main.lista.index(obj)].click(True)
+	else:
+		valorDelClick  = progra_2.main.lista[progra_2.main.lista.index(obj)].click(False)
+	
 	if obj.mina:
 		for par in listaMinasObjetos:
-			if par.cuadro == obj:
+			if par.mina:
 				progra_2.main.lista[progra_2.main.lista.index(par.cuadro)].click(True)
 				par.boton = Label(mainFrame, image=minaPNG)
-				par.boton.grid(row=x, column=y)
+				par.boton.grid(row=par.x, column=par.y)
+	
 	eval(valorDelClick, obj)
 	
 
 
 class minasGUI:
 
-    def __init__(self, boton, cuadro, x, y):
+    def __init__(self, boton, cuadro, x, y, mina):
+
         self.x = x
         self.y = y
         self.boton = boton
         self.cuadro = cuadro
+        self.mina = mina
+        print("wdwdw",cuadro,boton)
 
     def setupObj(self):
 
         self.boton.bind("<Button-1>", lambda x: demostrar(self.cuadro,self.x, self.y))
         self.boton.grid(row=self.x, column=self.y)
+        self.boton.bind("<Button-3>", lambda x: demostrar(self.cuadro, self.x, self.y , False))
 
 
 def recibapuntosFunc(puntosParam):
@@ -185,7 +207,7 @@ def listo_minas(custom, dif, mult=False):  # valor es para reiniciar
              rowVar = progra_2.main.lista.index(objeto)//progra_2.main.largo#la fila
              columnVar = progra_2.main.lista.index(objeto)%progra_2.main.largo#la columna
              #print(rowVar)
-             listaMinasObjetos.append(minasGUI(Button(mainFrame, width=1,height=1, bg="#8b8d8e"), objeto, rowVar, columnVar) )
+             listaMinasObjetos.append(minasGUI(Button(mainFrame, width=1,height=1, bg="#8b8d8e"), objeto, rowVar, columnVar, objeto.mina) )
 
              #listaMinasObjetos[-1].boton.bind("<Button-1>",lambda x: demostrar(objeto))
              listaMinasObjetos[-1].setupObj()

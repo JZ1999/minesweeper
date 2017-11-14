@@ -79,7 +79,7 @@ def ini():
         raise NameError("El ini debe tener como entrada un int")
     elif modo == 0:
         server = Servidor()
-        server.correr()
+        server.correr
     cliente = CLiente("0.0.0.0")
 """
 if __name__ == "__main__":
