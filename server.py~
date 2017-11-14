@@ -60,7 +60,7 @@ class Cliente:
         
         iThread = threading.Thread(target=self.mandarMSG)
         iThread.daemon = True
-        #iThread.start()
+        iThread.start()
         
         rThread = threading.Thread(target=self.recibir)
         rThread.daemon = True

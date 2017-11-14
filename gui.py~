@@ -90,8 +90,6 @@ class minasGUI:
         self.boton.grid(row=self.x, column=self.y)
 
 
-def recibapuntosFunc(puntosParam):
-    pass
 def puntos2Func():
     while True:
         Label(root, text=puntos2, fg="#800000", bg=mainBg, width=10).grid(row=1, column=2)
