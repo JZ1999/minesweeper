@@ -34,13 +34,14 @@ def eval(valor, obj):
                 fgColor = color(valor)
                 x.cuadro = Button(mainFrame, text=valor, fg=fgColor, bg="#8b8d8e", width=1, height=1)
                 x.cuadro.grid(row=x.x, column=x.y)
-        #tkinter.messagebox.showinfo("Ganaste", "Dale en una dificultad mas dificil :3")
+    	tkinter.messagebox.showinfo("Ganaste", "Dale en una dificultad mas dificil :3")
+      
     else:
         if valor == -5:
             pass
         if valor == -1:
             a = progra_2.choice(perdiendo)
-            tkinter.messagebox.showinfo(a[0], a[1])
+            #tkinter.messagebox.showinfo(a[0], a[1])
         elif valor in [1, 2, 3, 4, 5, 6, 7, 8]:
             total -= 1
             for x in listaMinasObjetos:
@@ -101,7 +102,7 @@ def puntos1Func():
         Label(root, text=puntos, fg="#000080", bg=mainBg, width=10).grid(row=1, column=0)
         time.sleep(0.5)
 def listo_minas(custom, dif, mult=False):  # valor es para reiniciar
-    global listaMinasObjetos, mainFrame, cliente, puntos
+    global listaMinasObjetos, mainFrame, cliente, puntos, puntos2
 
     esJ1 = True
     puntos = 0
@@ -154,9 +155,6 @@ def listo_minas(custom, dif, mult=False):  # valor es para reiniciar
             return
         
         progra_2.main.ubicar_minas(0,ancho= int(textA.get()),largo=int(textL.get()),minas=int(textM.get()))
-
-        
-
     else:
         progra_2.main.ubicar_minas(dif)
     reiniciar = Label(topMainFrame,bg = "black", image=reiniciarIcon)
@@ -166,7 +164,7 @@ def listo_minas(custom, dif, mult=False):  # valor es para reiniciar
     reiniciar.bind("<Button-1>", lambda x: listo_minas(custom, dif))
     minasLabel = Label(topMainFrame, text=20, bg="black", fg="red", width=30)
     minasLabel.grid(row=0, column=0, sticky="W")
-    #aqui es el error de la caja al tkintear el miner
+    progra_2.main.lista[0].alrededor_mina()
 
 
     def tiempoFunc():

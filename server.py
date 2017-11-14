@@ -54,7 +54,7 @@ class Cliente:
             data = self.sock.recv(1024)
             if not data:
                 break
-            return data.split(" ")
+            print(data)
     def __init__(self, addr):
         self.sock.connect((addr, 10000))
         
