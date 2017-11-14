@@ -195,7 +195,7 @@ def pedirCustom(key):
 
     readyButt = Button(containerCustom, text="Ok", fg=mainFg, bg=mainBg,
                        font=mainFont, width=mainWidth, command=lambda:  listo_minas(True, 0))
-
+ 
     readyButt.grid(row = 3, column = 0)
     labelAncho.grid(row = 0, column = 0)
     entryAncho.grid(row = 0, column = 1)
