@@ -1,37 +1,36 @@
-﻿import threading
+﻿import time
+import threading
 import socket
 import sys
 
 class Servidor:
 	#primer parametro es que usaremos IPV4, 2do es para decir usaremos una coneccion TCP
-	sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-	def __init__(self):
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        def __init__(self):
 		#primer parametro es el IP que le quiere poner al sock, segundo es el puerto
-		self.sock.bind(('0.0.0.0', 3002))
+                self.sock.bind(('127.0.0.1', 10000))
 
 		#Abilita las conecciones con el parametro diciendo cuantas conecciones deja
-		self.sock.listen(1)
+                self.sock.listen(1)
 
 	#Lista donde tendremos todas las conecciones
-	conecciones = []
-
-
-
-	def manejo(self, c, a):
-	    
-	    while True:
-        	#recv es la informacion que se recive de la coneccion, 1024 es el maximo de informacion que se puede recibir en bytes
-	        data = c.recv(1024)
-        	for self.coneccion in self.conecciones:
-	            #mandandole data en bytes a coneccion
-        	    self.coneccion.send(bytes(data))
-	        if not data:
-        	    self.conecciones.remove(c)
+        conecciones = []
+        
+        def manejo(self, c, a):
+            while True:
+                #recv es la informacion que se recive de la coneccion, 1024 es el maximo de informacion que se puede recibir en bytes
+                data = c.recv(1024)
+                for self.coneccion in self.conecciones:
+                    #mandandole data en bytes a coneccion
+                    self.coneccion.send(bytes(data))
+                if not data:
                     print(str(a[0])+":"+str(a[1])+" desconectado")
-	            c.close()
-        	    break
-
-	def correr(self):
+                    self.conecciones.remove(c)
+                    c.close()
+                    break
+                time.sleep(0.2)
+                
+        def correr(self): 
             while True:
                 # c = coneccion, a = address
                 c, a = self.sock.accept()
@@ -56,19 +55,25 @@ class Cliente:
     def mandarMSG(self, *args):
         while True:
             #self.sock.send(bytes(input(""), 'utf-8'))
-            self.sock.send(bytes(" ".join(args)))
+            self.sock.send(bytes(" ".join(args), "utf-8"))
+            time.sleep(0.5)
     def __init__(self, addr):
-        self.sock.connect((addr, 3002))
+        self.sock.connect((addr, 10000))
         
         iThread = threading.Thread(target=self.mandarMSG)
         iThread.daemon = True
         iThread.start()
-
+        
+        rThread = threading.Thread(target=recibir)
+        rThread.daemon = True
+        rThread.start()
+    def recibir():
         while True:
             data = self.sock.recv(1024)
             if not data:
                 break
             print(data)
+            time.sleep(0.5)
 
 
 #if(len(sys.argv )> 1):
@@ -76,6 +81,7 @@ class Cliente:
 #else:
     #server = Servidor()
     #server.correr()
+"""
 
 def ini():
     if type(modo) != int:
@@ -84,3 +90,8 @@ def ini():
         server = Servidor()
         server.correr()
     cliente = CLiente("0.0.0.0")
+"""
+if __name__ == "__main__":
+    server = Servidor()
+    server.correr()
+

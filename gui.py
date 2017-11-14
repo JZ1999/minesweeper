@@ -1,3 +1,4 @@
+import server
 import threading
 from threading import Thread
 import time
@@ -15,7 +16,6 @@ def color(num):
 
 def eval(valor, obj):
     global total
- #   print("total" , total, valor)
 
     perdiendo = [["Noob", "Por lo menos sabes jugar?"], ["noob", "jugando como nunca, pierde como siempre"], ["noob", "mejor dediquese a candy crush"]]
     if total == 1 and valor >= 0:
@@ -24,7 +24,7 @@ def eval(valor, obj):
                 fgColor = color(valor)
                 x.cuadro = Button(mainFrame, text=valor, fg=fgColor, bg="#8b8d8e", width=1, height=1)
                 x.cuadro.grid(row=x.x, column=x.y)
-    	tkinter.messagebox.showinfo("ganaste", "perfecto")
+    	#tkinter.messagebox.showinfo("ganaste", "perfecto")
     else:
         if valor == -5:
             pass
@@ -33,22 +33,18 @@ def eval(valor, obj):
             #tkinter.messagebox.showinfo(a[0], a[1])
         elif valor in [1, 2, 3, 4, 5, 6, 7, 8]:
             total -= 1
-           # print("valor", valor)
             for x in listaMinasObjetos:
-                #print("cuadro, objeto",x.cuadro, obj)
                 if x.cuadro == obj:
-                   # print("valor",valor)
                     fgColor = color(valor)
                     x.cuadro = Button(
                         mainFrame, text=valor, fg=fgColor, bg="#8b8d8e", width=1, height=1)
                     x.cuadro.grid(row=x.x, column=x.y)
         elif not valor:
             total -= 1
-            #print("valor", total, obj.coordenadas_alrededor)
-
             for x in listaMinasObjetos:
                 if x.cuadro == obj:
-                    x.cuadro = Button(mainFrame, fg = "black", bg="#a6a7a8", width=1, height=1)
+                    x.cuadro = Button(mainFrame, fg="black",
+                                      bg="#a6a7a8", width=1, height=1)
                     x.cuadro.grid(row=x.x, column=x.y)
             for y in obj.coordenadas_alrededor:
                     coordenada = obj.x + y[0] * progra_2.main.largo + y[1]
@@ -84,7 +80,7 @@ class minasGUI:
         self.boton.grid(row=self.x, column=self.y)
 
 
-def listo_minas(custom, dif):  # valor es para reiniciar
+def listo_minas(custom, dif, mult=False):  # valor es para reiniciar
     global listaMinasObjetos, mainFrame
 
     iniTime = int(time.time())
@@ -93,7 +89,9 @@ def listo_minas(custom, dif):  # valor es para reiniciar
     topMainFrame = Frame(root)
     topMainFrame.grid(row=0)
     topMainFrame.config(bg="black")
-    if custom:
+    if mult:
+        cliente = server.Cliente("127.0.0.1")
+    if custom and valor:
         if " " in textA.get() or " " in textL.get() or " " in textM.get():
             tkinter.messagebox.showwarning(
                 "Error", "no debes incluir espacios")
@@ -125,22 +123,22 @@ def listo_minas(custom, dif):  # valor es para reiniciar
             tkinter.messagebox.showwarning("Error", "Deben haber menos minas que cuadritos")
             return
         
-        progra_2.main.ubicar_minas(0,ancho= int(textA.get()),largo=int(textL.get()),minas=int(textM.get()))        
+        progra_2.main.ubicar_minas(0,ancho= int(textA.get()),largo=int(textL.get()),minas=int(textM.get()))
+
+        
+
     else:
         progra_2.main.ubicar_minas(dif)
     reiniciar = Label(topMainFrame,bg = "black", image=reiniciarIcon)
-    progra_2.main.lista[2].alrededor_mina()
     global total
     total = progra_2.main.total - progra_2.main.minas
     reiniciar.grid(row=0,column=1)
     reiniciar.bind("<Button-1>", lambda x: listo_minas(custom, dif))
-    #iniTime = int(time.time())
-
-    minasLabel = Label(topMainFrame, text=progra_2.main.minas, bg="black", fg="red", width=30)
+    minasLabel = Label(topMainFrame, text=20, bg="black", fg="red", width=30)
     minasLabel.grid(row=0, column=0, sticky="W")
-    
+    #aqui es el error de la caja al tkintear el miner
 
-    """
+
     def tiempoFunc():
         aux = 1
         while True:
@@ -150,12 +148,14 @@ def listo_minas(custom, dif):  # valor es para reiniciar
             except:
                 pass
             tiempoLabel = Label(topMainFrame, text=int(time.time())-iniTime, bg="black", fg="red", width=30)
-            Thread(target = tiempoLabel.grid(row=0, column=2, sticky="E" )).start()
+            tiempoThread = Thread(target = tiempoLabel.grid(row=0, column=2, sticky="E" ))
+            tiempoThread.daemon = True
+            tiempoThread.start()
             #tiempo.grid(row=0, column=2, sticky="E")
 
-    Thread(target=tiempoFunc).start()
-	"""
-    
+    tfuncThread = Thread(target=tiempoFunc)
+    tfuncThread.daemon = True
+    tfuncThread.start()
     for objeto in progra_2.main.lista:
              rowVar = progra_2.main.lista.index(objeto)//progra_2.main.largo#la fila
              columnVar = progra_2.main.lista.index(objeto)%progra_2.main.largo#la columna
@@ -165,7 +165,6 @@ def listo_minas(custom, dif):  # valor es para reiniciar
              #listaMinasObjetos[-1].boton.bind("<Button-1>",lambda x: demostrar(objeto))
              listaMinasObjetos[-1].setupObj()
              #listaMinasObjetos[-1].boton.grid(row=rowVar, column=columnVar)
-    
     try:
          containerCustom.destroy() 
     except:
@@ -174,7 +173,7 @@ def listo_minas(custom, dif):  # valor es para reiniciar
 
 def pedirCustom(key):
     global textA, textL, textM, containerCustom
-    #tkinter.messagebox.showinfo("personalizado", "personalizado, por favor escriba las caracteristicas del juego")
+    # tkinter.messagebox.showinfo("personalizado", "personalizado, por favor escriba las caracteristicas del juego")
 
     containerCustom = Frame(root)
 
@@ -208,7 +207,7 @@ def pedirCustom(key):
 def Game(players, multiplayer):
     menuFrame.destroy()
     global container
-    container = Frame(root, bd=10, relief="groove")  # freme kja :v
+    container = Frame(root, bd=10, relief="groove")  
     container.config(bg="#8b8d8e")
 
     # 8x8
@@ -227,7 +226,7 @@ def Game(players, multiplayer):
     mode4Butt.bind("<Button-1>", pedirCustom)
     mode3Butt.bind("<Button-1>", lambda x: listo_minas(False, 3))
     mode2Butt.bind("<Button-1>", lambda x: listo_minas(False, 2))
-    mode1Butt.bind("<Button-1>", lambda x: listo_minas(False, 1))
+    mode1Butt.bind("<Button-1>", lambda x: listo_minas(False, 1, True))
 
     container.grid()
     mode1Butt.grid(row=0, column=0)
@@ -240,12 +239,10 @@ root = Tk()
 root.title("Minesweeper")
 root.configure(background="#111111")
 root.geometry("600x600")
-
 mainFont = ("Times", 11, "bold")
 mainFg = "black"
 mainBg = "#FFFFFF"
 mainWidth = 16  # ancho de botones
-
 menuFrame = Frame(root, bd=10, relief="groove")
 OnePlayerL = Button(menuFrame, width=mainWidth, text="1-Player",
                     fg=mainFg, bg=mainBg, font=mainFont, command=lambda: Game(1, False))
@@ -261,7 +258,6 @@ reiniciarIcon = reiniciarIcon.zoom(1)
 reiniciarIcon = reiniciarIcon.subsample(20)
 
 menuFrame.grid(row=0, column=2, sticky="E")
-
 OnePlayerL.grid(row=0, column=0)
 TwoPlayerL.grid(row=1, column=0)
 TwoPlayerM.grid(row=2, column=0)
