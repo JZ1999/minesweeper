@@ -29,6 +29,7 @@ class partida:
                 lista[lista.index(x)].mina = True
                 minas -= 1
         self.lista = lista
+        print("wdcftgbhyu")
 
 class cuadro(partida):
     def __init__(self):

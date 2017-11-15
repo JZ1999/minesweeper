@@ -17,7 +17,6 @@ def color(num):
 
 def eval(valor, obj):
     global total
-    print(valor)
     if not progra_2.main.perdio:    
 	    try:
 	        cliente
@@ -58,7 +57,6 @@ def eval(valor, obj):
 	                                      bg="#555555", width=1, height=1)
 	                    x.cuadro.grid(row=x.x, column=x.y)
 	        elif valor == -2:
-	        	print(1211131)
 	        	obj.destroy()
 	        	"""
 	            for x in listaMinasObjetos:
@@ -117,8 +115,10 @@ class minasGUI:
         self.boton.bind("<Button-3>", lambda x: demostrar(self.cuadro, self.x, self.y , False))
 
 
-def recibapuntosFunc(puntosParam):
-    pass
+def reciba_puntos_Func(puntosParam):
+    while True:
+        recv = cliente.recibir()
+        print(next(recv))
 
 def puntos2Func():
     while True:
@@ -143,7 +143,9 @@ def listo_minas(custom, dif, mult=False , nuev = False):  # valor es para reinic
     esJ1 = True
     puntos = 0
     puntos2 = 0
-    recibapuntosThread = Thread(target=recibapuntosFunc, args=(puntos2 if esJ1 else puntos2))
+    recibapuntosThread = Thread(target=reciba_puntos_Func, args=(puntos2 if esJ1 else puntos2))
+    recibapuntosThread.daemon = True
+    recibapuntosThread.start()
     iniTime = int(time.time())
     mainFrame = Frame(root)
     mainFrame.grid(row=1, column=1)
@@ -309,7 +311,7 @@ root.title("Minesweeper")
 root.configure(background="#111111")
 root.geometry("600x600")
 
-#root.protocol("WM_DELETE_WINDOW", on_closing)
+root.protocol("WM_DELETE_WINDOW", on_closing)
 mainFont = ("Times", 11, "bold")
 mainFg = "black"
 mainBg = "#FFFFFF"
