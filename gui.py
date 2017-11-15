@@ -17,64 +17,69 @@ def color(num):
 
 def eval(valor, obj):
     global total
-    
-    try:
-        cliente
-        for indice in listaMinasObjetos:
-            if indice.cuadro == obj:
-                pos_indice = str(listaMinasObjetos.index(indice))
-                break
-        cliente.mandarMSG(str(puntos),pos_indice)
-    except:
-        pass
-    perdiendo = [["Noob", "Por lo menos sabes jugar?"], ["Noob", "Jugando como nunca, pierde como siempre"], ["Noob", "Mejor dediquese a candy crush"]]
-    if total == 1 and valor >= 0:
-    	for x in listaMinasObjetos:
-            if x.cuadro == obj:
-                fgColor = color(valor)
-                x.cuadro = Button(mainFrame, text=valor, fg=fgColor, bg="#8b8d8e", width=1, height=1)
-                x.cuadro.grid(row=x.x, column=x.y)
-    	tkinter.messagebox.showinfo("Ganaste", "Dale en una dificultad mas dificil :3")
-      
-    else:
-        if valor == -5:
-            pass
-        if valor == -1:
-            a = progra_2.choice(perdiendo)
-            #tkinter.messagebox.showinfo(a[0], a[1])
-        elif valor in [1, 2, 3, 4, 5, 6, 7, 8]:
-            total -= 1
-            for x in listaMinasObjetos:
-                if x.cuadro == obj:
-                    fgColor = color(valor)
-                    x.cuadro = Button(mainFrame, text=valor, fg=fgColor, bg="#8b8d8e", width=1, height=1)
-                    x.cuadro.grid(row=x.x, column=x.y)
-        elif valor == -3:
-            for x in listaMinasObjetos:
-                if x.cuadro == obj:
-                    x.cuadro = Button(mainFrame, fg="black",
-                                      bg="#555555", width=1, height=1)
-                    x.cuadro.grid(row=x.x, column=x.y)
-        elif valor == -2:
+    print(valor)
+    if not progra_2.main.perdio:    
+	    try:
+	        cliente
+	        for indice in listaMinasObjetos:
+	            if indice.cuadro == obj:
+	                pos_indice = str(listaMinasObjetos.index(indice))
+	                break
+	        cliente.mandarMSG(str(puntos),pos_indice)
+	    except:
+	        pass
+	    perdiendo = [["Noob", "Por lo menos sabes jugar?"], ["Noob", "Jugando como nunca, pierde como siempre"], ["Noob", "Mejor dediquese a candy crush"]]
+	    if total == 1 and valor >= 0:
+	    	for x in listaMinasObjetos:
+	            if x.cuadro == obj:
+	                fgColor = color(valor)
+	                x.cuadro = Button(mainFrame, text=valor, fg=fgColor, bg="#8b8d8e", width=1, height=1)
+	                x.cuadro.grid(row=x.x, column=x.y)
+	    	tkinter.messagebox.showinfo("Ganaste", "Dale en una dificultad mas dificil :3")
+	      
+	    else:
+	        if valor == -5:
+	            pass
+	        if valor == -1:
+	        	progra_2.main.perdio = True
+	        	a = progra_2.choice(perdiendo)
+	            #tkinter.messagebox.showinfo(a[0], a[1])
+	        elif valor > 0:
+	            total -= 1
+	            for x in listaMinasObjetos:
+	                if x.cuadro == obj:
+	                    fgColor = color(valor)
+	                    x.cuadro = Button(mainFrame, text=valor, fg=fgColor, bg="#8b8d8e", width=1, height=1)
+	                    x.cuadro.grid(row=x.x, column=x.y)
+	        elif valor == -3:
+	            for x in listaMinasObjetos:
+	                if x.cuadro == obj:
+	                    x.cuadro = Button(mainFrame, fg="black",
+	                                      bg="#555555", width=1, height=1)
+	                    x.cuadro.grid(row=x.x, column=x.y)
+	        elif valor == -2:
+	        	print(1211131)
+	        	obj.destroy()
+	        	"""
+	            for x in listaMinasObjetos:
+	                if x.cuadro == obj:
+	                    x.cuadro = Button(mainFrame, fg="blue",
+	                                      bg="#a6a7a8", width=1, height=1)
+	                    x.cuadro.grid(row=x.x, column=x.y)
+	            """
+	        elif not valor:
+	            total -= 1
 
-            for x in listaMinasObjetos:
-                if x.cuadro == obj:
-                    x.cuadro = Button(mainFrame, fg="black",
-                                      bg="#a6a7a8", width=1, height=1)
-                    x.cuadro.grid(row=x.x, column=x.y)
-        elif not valor:
-            total -= 1
-
-            for x in listaMinasObjetos:
-                if x.cuadro == obj:
-                    x.cuadro = Button(mainFrame, fg="black",
-                                      bg="#a6a7a8", width=1, height=1)
-                    x.cuadro.grid(row=x.x, column=x.y)
-            for y in obj.coordenadas_alrededor:
-                    coordenada = obj.x + y[0] * progra_2.main.largo + y[1]
-                    if not progra_2.main.lista[coordenada].activo:
-                        s = progra_2.main.lista[coordenada].click(True)
-                        eval(s, progra_2.main.lista[coordenada])
+	            for x in listaMinasObjetos:
+	                if x.cuadro == obj:
+	                    x.cuadro = Button(mainFrame, fg="black",
+	                                      bg="#a6a7a8", width=1, height=1)
+	                    x.cuadro.grid(row=x.x, column=x.y)
+	            for y in obj.coordenadas_alrededor:
+	                    coordenada = obj.x + y[0] * progra_2.main.largo + y[1]
+	                    if not progra_2.main.lista[coordenada].activo:
+	                        s = progra_2.main.lista[coordenada].click(True)
+	                        eval(s, progra_2.main.lista[coordenada])
     
 
 
@@ -84,7 +89,7 @@ def demostrar(obj, x, y, izquierdo = True):
 	else:
 		valorDelClick  = progra_2.main.lista[progra_2.main.lista.index(obj)].click(False)
 	
-	if obj.mina:
+	if obj.mina and not obj.bandera:
 		for par in listaMinasObjetos:
 			if par.mina:
 				progra_2.main.lista[progra_2.main.lista.index(par.cuadro)].click(True)
@@ -104,7 +109,6 @@ class minasGUI:
         self.boton = boton
         self.cuadro = cuadro
         self.mina = mina
-        print("wdwdw",cuadro,boton)
 
     def setupObj(self):
 
@@ -123,9 +127,13 @@ def puntos1Func():
     while True:
         Label(root, text=puntos, fg="#000080", bg=mainBg, width=10).grid(row=1, column=0)
         time.sleep(0.5)
-def listo_minas(custom, dif, mult=False):  # valor es para reiniciar
+def listo_minas(custom, dif, mult=False , nuev = False):  # valor es para reiniciar
     global listaMinasObjetos, mainFrame, cliente, puntos, puntos2
-
+    try:
+    	if nuev:
+    		mainFrame.destroy()
+    except:
+    	raise
     esJ1 = True
     puntos = 0
     puntos2 = 0
@@ -144,7 +152,7 @@ def listo_minas(custom, dif, mult=False):  # valor es para reiniciar
         puntos2Thread = Thread(target=puntos2Func)
         puntos2Thread.daemon = True
         puntos2Thread.start()
-    if custom and valor:
+    if custom:
         if " " in textA.get() or " " in textL.get() or " " in textM.get():
             tkinter.messagebox.showwarning(
                 "Error", "no debes incluir espacios")
@@ -183,10 +191,12 @@ def listo_minas(custom, dif, mult=False):  # valor es para reiniciar
     global total
     total = progra_2.main.total - progra_2.main.minas
     reiniciar.grid(row=0,column=1)
-    reiniciar.bind("<Button-1>", lambda x: listo_minas(custom, dif))
+    reiniciar.bind("<Button-1>", lambda x: listo_minas(custom, dif,False,True))
     minasLabel = Label(topMainFrame, text=20, bg="black", fg="red", width=30)
     minasLabel.grid(row=0, column=0, sticky="W")
     progra_2.main.lista[0].alrededor_mina()
+
+
 
 
     def tiempoFunc():
@@ -217,7 +227,6 @@ def listo_minas(custom, dif, mult=False):  # valor es para reiniciar
     except:
          pass
     container.destroy()
-
 def pedirCustom(key):
     global textA, textL, textM, containerCustom
     # tkinter.messagebox.showinfo("personalizado", "personalizado, por favor escriba las caracteristicas del juego")
@@ -292,7 +301,7 @@ root.title("Minesweeper")
 root.configure(background="#111111")
 root.geometry("600x600")
 
-root.protocol("WM_DELETE_WINDOW", on_closing)
+#root.protocol("WM_DELETE_WINDOW", on_closing)
 mainFont = ("Times", 11, "bold")
 mainFg = "black"
 mainBg = "#FFFFFF"

@@ -6,6 +6,7 @@ class partida:
         self.largo = 0
         self.minas = 0
         self.total = 0
+        self.perdio = False
 
     def ubicar_minas(self,dificultad, **customizado):  # creacion y ubicacion de la mina y lista, esto no va en esta class
         nivel = [[8, 8, 10], [16, 16, 40], [16, 30, 99]]
@@ -42,7 +43,6 @@ class cuadro(partida):
 
 
     def alrededor_mina(self):
-        print(34)
         arreglo = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]]
         for x in main.lista:
             coordenada = main.lista.index(x)
@@ -105,7 +105,7 @@ class cuadro(partida):
             if not self.activo:
                 self.bandera = not self.bandera
                 if self.bandera:
-                    return -3
-                return -2
-            return -5
+                    return -3#pone bandera
+                return -2#quita bandera
+            return -5# la casilla esta activa, no puede poner bandera
 main = partida()
