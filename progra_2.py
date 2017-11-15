@@ -2,6 +2,7 @@ from random import *
 
 class partida:
     def __init__(self):
+        
         self.lista = []
         self.largo = 0
         self.minas = 0

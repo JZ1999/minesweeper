@@ -96,10 +96,11 @@ def demostrar(obj, x, y, izquierdo = True):
 				par.boton = Label(mainFrame, image=minaPNG)
 				par.boton.grid(row=par.x, column=par.y)
 	if obj.bandera:
+		progra_2.main.mina -= 1
 		for par in listaMinasObjetos:
 			if par.cuadro.bandera:
 				progra_2.main.lista[progra_2.main.lista.index(par.cuadro)].click(True)
-				par.boton = Label(mainFrame, image=banderaPNG)
+				par.boton = Label(mainFrame, image=banderaPNG, bg = "black")
 				par.boton.grid(row=par.x, column=par.y)
 	eval(valorDelClick, obj)
 	
@@ -208,7 +209,7 @@ def listo_minas(custom, dif, mult=False , nuev = False):  # valor es para reinic
     total = progra_2.main.total - progra_2.main.minas
     reiniciar.grid(row=0,column=1)
     reiniciar.bind("<Button-1>", lambda x: listo_minas(custom, dif,False,True))
-    minasLabel = Label(topMainFrame, text=20, bg="black", fg="red", width=30)
+    minasLabel = Label(topMainFrame, text=progra_2.main.minas, bg="black", fg="red", width=30)
     minasLabel.grid(row=0, column=0, sticky="W")
     progra_2.main.lista[0].alrededor_mina()
 
@@ -243,6 +244,12 @@ def listo_minas(custom, dif, mult=False , nuev = False):  # valor es para reinic
     except:
          pass
     container.destroy()
+def reinicio(custom):
+	progra_2.main.lista = []
+	listaMinasObjetos(custom)
+
+
+
 def pedirCustom(key):
     global textA, textL, textM, containerCustom
     # tkinter.messagebox.showinfo("personalizado", "personalizado, por favor escriba las caracteristicas del juego")
@@ -333,8 +340,8 @@ minaPNG = PhotoImage(file="./mina.png")
 minaPNG = minaPNG.zoom(28)
 minaPNG = minaPNG.subsample(389)
 banderaPNG = PhotoImage(file = "./bandera.png")
-banderaPNG = banderaPNG.zoom(2)
-banderaPNG = banderaPNG.subsample(1)
+banderaPNG = banderaPNG.zoom(28)
+banderaPNG = banderaPNG.subsample(390)
 reiniciarIcon = PhotoImage(file="./reiniciar.png")
 reiniciarIcon = reiniciarIcon.zoom(1)
 reiniciarIcon = reiniciarIcon.subsample(20)
