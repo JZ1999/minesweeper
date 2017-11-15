@@ -54,13 +54,13 @@ class Cliente:
             data = self.sock.recv(1024)
             if not data:
                 break
-            return data.split(" ")
+            print(data)
     def __init__(self, addr):
         self.sock.connect((addr, 10000))
         
         iThread = threading.Thread(target=self.mandarMSG)
         iThread.daemon = True
-        iThread.start()
+        #iThread.start()
         
         rThread = threading.Thread(target=self.recibir)
         rThread.daemon = True
@@ -79,7 +79,7 @@ def ini():
         raise NameError("El ini debe tener como entrada un int")
     elif modo == 0:
         server = Servidor()
-        server.correr()
+        server.correr
     cliente = CLiente("0.0.0.0")
 """
 if __name__ == "__main__":

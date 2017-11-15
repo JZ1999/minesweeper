@@ -48,7 +48,7 @@ class Cliente:
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     def mandarMSG(self, *args):
         self.sock.send(bytes(" ".join(args), "utf-8"))
-        time.sleep(0.5)
+        #time.sleep(0.5)
     def recibir(self):
         while True:
             data = self.sock.recv(1024)

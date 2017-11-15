@@ -204,9 +204,6 @@ def listo_minas(custom, dif, mult=False , nuev = False):  # valor es para reinic
         while True:
             if not aux:time.sleep(1)
             else:aux-=1
-            try:tiempoLabel.destroy()
-            except:
-                pass
             tiempoLabel = Label(topMainFrame, text=int(time.time())-iniTime, bg="black", fg="red", width=30)
             tiempoLabel.grid(row=0, column=2, sticky="E" )
 
