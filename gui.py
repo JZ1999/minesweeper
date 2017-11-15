@@ -95,20 +95,25 @@ def demostrar(obj, x, y, izquierdo = True):
 				progra_2.main.lista[progra_2.main.lista.index(par.cuadro)].click(True)
 				par.boton = Label(mainFrame, image=minaPNG)
 				par.boton.grid(row=par.x, column=par.y)
-	
+	if obj.bandera:
+		for par in listaMinasObjetos:
+			if par.cuadro.bandera:
+				progra_2.main.lista[progra_2.main.lista.index(par.cuadro)].click(True)
+				par.boton = Label(mainFrame, image=banderaPNG)
+				par.boton.grid(row=par.x, column=par.y)
 	eval(valorDelClick, obj)
 	
 
 
 class minasGUI:
 
-    def __init__(self, boton, cuadro, x, y, mina):
-
+    def __init__(self, boton, cuad, x, y, mina):
         self.x = x
         self.y = y
         self.boton = boton
-        self.cuadro = cuadro
+        self.cuadro = cuad
         self.mina = mina
+   
 
     def setupObj(self):
 
@@ -327,6 +332,9 @@ TwoPlayerM = Button(menuFrame, width=mainWidth, text="2-Player \nMultiplayer",
 minaPNG = PhotoImage(file="./mina.png")
 minaPNG = minaPNG.zoom(28)
 minaPNG = minaPNG.subsample(389)
+banderaPNG = PhotoImage(file = "./bandera.png")
+banderaPNG = banderaPNG.zoom(2)
+banderaPNG = banderaPNG.subsample(1)
 reiniciarIcon = PhotoImage(file="./reiniciar.png")
 reiniciarIcon = reiniciarIcon.zoom(1)
 reiniciarIcon = reiniciarIcon.subsample(20)

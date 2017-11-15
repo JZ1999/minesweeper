@@ -39,6 +39,7 @@ class cuadro(partida):
         self.mina = False 
         self.minas_alrededor = 0
         self.coordenadas_alrededor = [] # esta va a tener las instrucciones para ir a los vecinos del cuadro
+
         super().__init__()
 
 
