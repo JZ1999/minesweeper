@@ -119,21 +119,27 @@ class minasGUI:
 
 def recibapuntosFunc(puntosParam):
     pass
+
 def puntos2Func():
     while True:
         Label(root, text=puntos2, fg="#800000", bg=mainBg, width=10).grid(row=1, column=2)
         time.sleep(0.5)
+
 def puntos1Func():
     while True:
         Label(root, text=puntos, fg="#000080", bg=mainBg, width=10).grid(row=1, column=0)
         time.sleep(0.5)
+
 def listo_minas(custom, dif, mult=False , nuev = False):  # valor es para reiniciar
     global listaMinasObjetos, mainFrame, cliente, puntos, puntos2
+    progra_2.main.perdio = False
+
     try:
     	if nuev:
     		mainFrame.destroy()
     except:
     	raise
+
     esJ1 = True
     puntos = 0
     puntos2 = 0
@@ -144,6 +150,7 @@ def listo_minas(custom, dif, mult=False , nuev = False):  # valor es para reinic
     topMainFrame = Frame(root)
     topMainFrame.grid(row=0,columnspan=3)
     topMainFrame.config(bg="black")
+    
     if mult:
         cliente = server.Cliente("127.0.0.1")
         puntosThread = Thread(target=puntos1Func)
@@ -154,13 +161,13 @@ def listo_minas(custom, dif, mult=False , nuev = False):  # valor es para reinic
         puntos2Thread.start()
     if custom:
         if " " in textA.get() or " " in textL.get() or " " in textM.get():
-            tkinter.messagebox.showwarning(
-                "Error", "no debes incluir espacios")
+            tkinter.messagebox.showwarning("Error", "no debes incluir espacios")
             return
         try:
             int(textA.get())
             int(textL.get())
             int(textM.get())
+
         except:
             tkinter.messagebox.showwarning("Error","Deben ser numeros y enteros")
             return
@@ -171,19 +178,23 @@ def listo_minas(custom, dif, mult=False , nuev = False):  # valor es para reinic
         elif int(textA.get()) > 15:
             tkinter.messagebox.showwarning("Error", "Ancho debe ser menor o igual a 15")
             return
+
         elif int(textL.get()) < 3:
             tkinter.messagebox.showwarning("Error", "Largo debe ser mayor o igual a 3")
             return
+
         elif int(textL.get()) > 15:
             tkinter.messagebox.showwarning("Error", "Largo debe ser menor o igual a 15")
             return
+
         elif int(textM.get()) < 1:
             tkinter.messagebox.showwarning("Error", "Minas deben de ser mas que una")
             return
+
         elif int(textM.get()) > (int(textA.get())*int(textL.get()))-1:
             tkinter.messagebox.showwarning("Error", "Deben haber menos minas que cuadritos")
             return
-        
+
         progra_2.main.ubicar_minas(0,ancho= int(textA.get()),largo=int(textL.get()),minas=int(textM.get()))
     else:
         progra_2.main.ubicar_minas(dif)
