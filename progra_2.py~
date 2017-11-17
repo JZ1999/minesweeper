@@ -2,7 +2,6 @@ from random import *
 
 class partida:
     def __init__(self):
-        
         self.lista = []
         self.largo = 0
         self.minas = 0
@@ -30,7 +29,8 @@ class partida:
                 lista[lista.index(x)].mina = True
                 minas -= 1
         self.lista = lista
-        
+        print("wdcftgbhyu")
+
 class cuadro(partida):
     def __init__(self):
         self.x = None
@@ -39,7 +39,6 @@ class cuadro(partida):
         self.mina = False 
         self.minas_alrededor = 0
         self.coordenadas_alrededor = [] # esta va a tener las instrucciones para ir a los vecinos del cuadro
-
         super().__init__()
 
 
@@ -103,15 +102,10 @@ class cuadro(partida):
                 return -5
             return -5
         else:
-            print(1)
             if not self.activo:
-                print(2)
                 self.bandera = not self.bandera
                 if self.bandera:
-                    print("error")
                     return -3#pone bandera
-                print(3)
                 return -2#quita bandera
-            print("mega error")
             return -5# la casilla esta activa, no puede poner bandera
 main = partida()

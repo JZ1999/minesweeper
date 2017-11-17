@@ -22,7 +22,8 @@ class Servidor:
                 data = c.recv(1024)
                 for self.coneccion in self.conecciones:
                     #mandandole data en bytes a coneccion
-                    self.coneccion.send(bytes(data))
+                    if c != self.coneccion:
+                        self.coneccion.send(bytes(data))
                 if not data:
                     print(str(a[0])+":"+str(a[1])+" desconectado")
                     self.conecciones.remove(c)
@@ -48,13 +49,13 @@ class Cliente:
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     def mandarMSG(self, *args):
         self.sock.send(bytes(" ".join(args), "utf-8"))
-        time.sleep(0.5)
+        #time.sleep(0.5)
     def recibir(self):
         while True:
             data = self.sock.recv(1024)
             if not data:
                 break
-            print(data)
+            yield data
     def __init__(self, addr):
         self.sock.connect((addr, 10000))
         
@@ -64,7 +65,7 @@ class Cliente:
         
         rThread = threading.Thread(target=self.recibir)
         rThread.daemon = True
-        rThread.start()
+        #rThread.start()
 
 
 #if(len(sys.argv )> 1):

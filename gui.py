@@ -17,9 +17,10 @@ def color(num):
 
 def eval(valor, obj):
     global total
-    print(valor)
     if not progra_2.main.perdio:    
 	    try:
+	        5 % 0
+	        print("loooooooooooool")
 	        cliente
 	        for indice in listaMinasObjetos:
 	            if indice.cuadro == obj:
@@ -51,14 +52,13 @@ def eval(valor, obj):
 	                    fgColor = color(valor)
 	                    x.cuadro = Button(mainFrame, text=valor, fg=fgColor, bg="#8b8d8e", width=1, height=1)
 	                    x.cuadro.grid(row=x.x, column=x.y)
-	        elif valor == -3:
-	            for x in listaMinasObjetos:
-	                if x.cuadro == obj:
-	                    x.cuadro = Button(mainFrame, fg="black",
-	                                      bg="#555555", width=1, height=1)
-	                    x.cuadro.grid(row=x.x, column=x.y)
+	        # elif valor == -3:
+	        #     for x in listaMinasObjetos:
+	        #         if x.cuadro == obj:
+	        #             x.cuadro = Button(mainFrame, fg="black",
+	        #                               bg="#555555", width=1, height=1)
+	        #             x.cuadro.grid(row=x.x, column=x.y)
 	        elif valor == -2:
-	        	print(1211131)
 	        	obj.destroy()
 	        	"""
 	            for x in listaMinasObjetos:
@@ -84,6 +84,7 @@ def eval(valor, obj):
 
 
 def demostrar(obj, x, y, izquierdo = True):
+	print(222)
 	if izquierdo:
 		valorDelClick = progra_2.main.lista[progra_2.main.lista.index(obj)].click(True)
 	else:
@@ -96,12 +97,22 @@ def demostrar(obj, x, y, izquierdo = True):
 				par.boton = Label(mainFrame, image=minaPNG)
 				par.boton.grid(row=par.x, column=par.y)
 	if obj.bandera:
-		progra_2.main.mina -= 1
+		obj.mina -= 1
 		for par in listaMinasObjetos:
 			if par.cuadro.bandera:
+
+				print("si funciona, ", par.cuadro.activo)
 				progra_2.main.lista[progra_2.main.lista.index(par.cuadro)].click(True)
-				par.boton = Label(mainFrame, image=banderaPNG, bg = "black")
-				par.boton.grid(row=par.x, column=par.y)
+				listaMinasObjetos[listaMinasObjetos.index(par)].boton = Button(mainFrame, image=banderaPNG, bg = "black")
+				listaMinasObjetos[listaMinasObjetos.index(par)].cuadro.boton.grid(row=par.x, column=par.y)
+	# if not obj.bandera:
+	# 	obj.mina -= 1
+	# 	for par in listaMinasObjetos:
+	# 		if not par.cuadro.bandera:
+	# 			print("si funciona")
+	# 			progra_2.main.lista[progra_2.main.lista.index(par.cuadro)].click(True)
+	# 			par.boton = Label(mainFrame, image=banderaPNG, bg = "black")
+	# 			par.boton.grid(row=par.x, column=par.y)
 	eval(valorDelClick, obj)
 	
 
@@ -123,8 +134,10 @@ class minasGUI:
         self.boton.bind("<Button-3>", lambda x: demostrar(self.cuadro, self.x, self.y , False))
 
 
-def recibapuntosFunc(puntosParam):
-    pass
+def reciba_puntos_Func(puntosParam):
+    while True:
+        recv = cliente.recibir()
+        print(next(recv))
 
 def puntos2Func():
     while True:
@@ -149,7 +162,9 @@ def listo_minas(custom, dif, mult=False , nuev = False):  # valor es para reinic
     esJ1 = True
     puntos = 0
     puntos2 = 0
-    recibapuntosThread = Thread(target=recibapuntosFunc, args=(puntos2 if esJ1 else puntos2))
+    recibapuntosThread = Thread(target=reciba_puntos_Func, args=(puntos2 if esJ1 else puntos2))
+    recibapuntosThread.daemon = True
+    #recibapuntosThread.start()
     iniTime = int(time.time())
     mainFrame = Frame(root)
     mainFrame.grid(row=1, column=1)
@@ -221,9 +236,6 @@ def listo_minas(custom, dif, mult=False , nuev = False):  # valor es para reinic
         while True:
             if not aux:time.sleep(1)
             else:aux-=1
-            try:tiempoLabel.destroy()
-            except:
-                pass
             tiempoLabel = Label(topMainFrame, text=int(time.time())-iniTime, bg="black", fg="red", width=30)
             tiempoLabel.grid(row=0, column=2, sticky="E" )
 
