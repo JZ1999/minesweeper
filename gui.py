@@ -89,7 +89,6 @@ def demostrar(obj, x, y, izquierdo = True):
 		valorDelClick = progra_2.main.lista[progra_2.main.lista.index(obj)].click(True)
 	else:
 		valorDelClick  = progra_2.main.lista[progra_2.main.lista.index(obj)].click(False)
-	
 	if obj.mina and not obj.bandera:
 		for par in listaMinasObjetos:
 			if par.mina:
