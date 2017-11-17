@@ -108,7 +108,6 @@ class cuadro(partida):
                 print(2)
                 self.bandera = not self.bandera
                 if self.bandera:
-                    print("error")
                     return -3#pone bandera
                 print(3)
                 return -2#quita bandera

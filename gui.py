@@ -16,8 +16,8 @@ def color(num):
 
 
 def eval(valor, obj):
-    global total
-    if not progra_2.main.perdio:    
+	    global total
+    #if not progra_2.main.perdio:    
 	    # try:
      #            cliente
      #            for indice in listaMinasObjetos:
@@ -89,34 +89,49 @@ def eval(valor, obj):
     
 
 
-def demostrar(obj, x, y, izquierdo = True):
+def demostrar(obj, izquierdo = True):
 	print(222)
+	try:
+		print("1",obj.bandera)
+	except:
+		print("no 1")
+	try:
+		print("2",obj.lista)
+	except:
+		print("no 2")
+
+	try:
+		print("3",obj.y)
+	except:
+		print("no 3")
+
+	try:
+		print("4",obj.cuadro)
+	except:
+		print("no 4")
+	print(111111111111)
+
 	if izquierdo:
-		valorDelClick = progra_2.main.lista[progra_2.main.lista.index(obj)].click(True)
+		valorDelClick = progra_2.main.lista[progra_2.main.lista.index(obj.cuadro)].click(True)
 	else:
-		valorDelClick  = progra_2.main.lista[progra_2.main.lista.index(obj)].click(False)
+		valorDelClick  = progra_2.main.lista[progra_2.main.lista.index(obj.cuadro)].click(False)
 	# for x in listaMinasObjetos:
 	# 	try:
 	# 		print(x.cuadro.bandera)
 	# 	except:
 	# 		print("raois")
-	if obj.mina and not obj.bandera:
+	print(obj.mina, "validando")
+	if obj.mina and not obj.cuadro.bandera:
+		print(obj.mina, "validando")
 		for par in listaMinasObjetos:
 			if par.mina:
 				progra_2.main.lista[progra_2.main.lista.index(par.cuadro)].click(True)
-				par.boton = Label(mainFrame, image=minaPNG)
-				par.boton.grid(row=par.x, column=par.y)
-	if obj.bandera:
-		obj.mina -= 1
-		for par in listaMinasObjetos:
-			try:
-				if par.cuadro.bandera:
-					print("si funciona, ", par.cuadro.activo)
-					progra_2.main.lista[progra_2.main.lista.index(par.cuadro)].click(True)
-					listaMinasObjetos[listaMinasObjetos.index(par)].boton = Button(mainFrame, image=banderaPNG, bg = "black")
-					listaMinasObjetos[listaMinasObjetos.index(par)].cuadro.boton.grid(row=par.x, column=par.y)
-			except:
-				print(x.cuadro.bandera)
+				obj.boton = Label(mainFrame, image=minaPNG)
+				obj.boton.grid(row=par.x, column=par.y)
+	if obj.cuadro.bandera:
+			obj.boton = Button(mainFrame, image=banderaPNG, bg = "black")
+			obj.boton.grid(row=obj.x, column=obj.y)
+		
 	# if not obj.bandera:
 	# 	obj.mina -= 1
 	# 	for par in listaMinasObjetos:
@@ -125,7 +140,7 @@ def demostrar(obj, x, y, izquierdo = True):
 	# 			progra_2.main.lista[progra_2.main.lista.index(par.cuadro)].click(True)
 	# 			par.boton = Label(mainFrame, image=banderaPNG, bg = "black")
 	# 			par.boton.grid(row=par.x, column=par.y)
-	eval(valorDelClick, obj)
+	eval(valorDelClick, obj.cuadro)
 	
 
 
@@ -141,9 +156,9 @@ class minasGUI:
 
     def setupObj(self):
 
-        self.boton.bind("<Button-1>", lambda x: demostrar(self.cuadro,self.x, self.y))
+        self.boton.bind("<Button-1>", lambda x: demostrar(self))
         self.boton.grid(row=self.x, column=self.y)
-        self.boton.bind("<Button-3>", lambda x: demostrar(self.cuadro, self.x, self.y , False))
+        self.boton.bind("<Button-3>", lambda x: demostrar(self, False))
 
 
 #def reciba_puntos_Func(puntosParam):
@@ -163,6 +178,7 @@ def puntos1Func():
 
 def listo_minas(custom, dif, mult=False , nuev = False,):  # valor es para reiniciar
     global listaMinasObjetos, mainFrame, cliente, puntos, puntos2, jugador1
+    jugador1 = True
     progra_2.main.perdio = False
 
     try:
@@ -312,7 +328,8 @@ def pedirCustom(key):
 
 def Game(players, multiplayer):
     menuFrame.destroy()
-    global container , puntos2, puntos1
+    global container , puntos2, puntos
+    puntos, puntos2 = 0, 0
     container = Frame(root, bd=10, relief="groove")  
     container.config(bg="#8b8d8e")
 
@@ -398,6 +415,10 @@ def main():
     mainBg = "#FFFFFF"
     mainWidth = 16  # ancho de botones
     menuFrame = Frame(root, bd=10, relief="groove")
+    banderaPNG = PhotoImage(file ="./bandera.png")
+    banderaPNG = banderaPNG.zoom(28)
+    banderaPNG = banderaPNG.subsample(390) 
+    
     OnePlayerL = Button(menuFrame, width=mainWidth, text="1-Player",
                         fg=mainFg, bg=mainBg, font=mainFont, command=lambda: Game(1, False))
     TwoPlayerL = Button(menuFrame, width=mainWidth, text="2-Player",
@@ -411,9 +432,6 @@ def main():
     # reiniciarIcon = reiniciarIcon.zoom(1)
     # reiniciarIcon = reiniciarIcon.subsample(20)
     print(123456)
-    banderaPNG = PhotoImage(file = "./bandera.png")
-    banderaPNG = banderaPNG.zoom(28)
-    banderaPNG = banderaPNG.subsample(390) 
     menuFrame.grid(row=0, column=2, sticky="E")
     OnePlayerL.grid(row=0, column=0)
     TwoPlayerL.grid(row=1, column=0)
