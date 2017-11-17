@@ -28,7 +28,7 @@ def eval(valor, obj):
                 #print(str(puntos),pos_indice)
 	    # except:
 	    #     pass
-	    # perdiendo = [["Noob", "Por lo menos sabes jugar?"], ["Noob", "Jugando como nunca, pierde como siempre"], ["Noob", "Mejor dediquese a candy crush"]]
+	    perdiendo = [["Noob", "Por lo menos sabes jugar?"], ["Noob", "Jugando como nunca, pierde como siempre"], ["Noob", "Mejor dediquese a candy crush"]]
 	    if total == 1 and valor >= 0:
 	    	for x in listaMinasObjetos:
 	            if x.cuadro == obj:
@@ -95,11 +95,11 @@ def demostrar(obj, x, y, izquierdo = True):
 		valorDelClick = progra_2.main.lista[progra_2.main.lista.index(obj)].click(True)
 	else:
 		valorDelClick  = progra_2.main.lista[progra_2.main.lista.index(obj)].click(False)
-	for x in listaMinasObjetos:
-		try:
-			print(x.cuadro.bandera)
-		except:
-			print("raois")
+	# for x in listaMinasObjetos:
+	# 	try:
+	# 		print(x.cuadro.bandera)
+	# 	except:
+	# 		print("raois")
 	if obj.mina and not obj.bandera:
 		for par in listaMinasObjetos:
 			if par.mina:
@@ -161,7 +161,7 @@ def puntos1Func():
         Label(root, text=puntos, fg="#000080", bg=mainBg, width=10).grid(row=1, column=0)
         time.sleep(0.5)
 
-def listo_minas(custom, dif, mult=False , nuev = False):  # valor es para reiniciar
+def listo_minas(custom, dif, mult=False , nuev = False,):  # valor es para reiniciar
     global listaMinasObjetos, mainFrame, cliente, puntos, puntos2, jugador1
     progra_2.main.perdio = False
 
@@ -171,8 +171,6 @@ def listo_minas(custom, dif, mult=False , nuev = False):  # valor es para reinic
     except:
     	raise
 
-    puntos = 0
-    puntos2 = 0
 
     #recibapuntosThread = Thread(target=reciba_puntos_Func, args=(puntos2 if esJ1 else puntos2))
     #recibapuntosThread.daemon = True
@@ -208,16 +206,16 @@ def listo_minas(custom, dif, mult=False , nuev = False):  # valor es para reinic
         if int(textA.get()) < 3:
             tkinter.messagebox.showwarning("Error","Ancho debe ser mayor o igual a 3")
             return
-        elif int(textA.get()) > 15:
-            tkinter.messagebox.showwarning("Error", "Ancho debe ser menor o igual a 15")
+        elif int(textA.get()) > 30:
+            tkinter.messagebox.showwarning("Error", "Ancho debe ser menor o igual a 30")
             return
 
         elif int(textL.get()) < 3:
             tkinter.messagebox.showwarning("Error", "Largo debe ser mayor o igual a 3")
             return
 
-        elif int(textL.get()) > 15:
-            tkinter.messagebox.showwarning("Error", "Largo debe ser menor o igual a 15")
+        elif int(textL.get()) > 30:
+            tkinter.messagebox.showwarning("Error", "Largo debe ser menor o igual a 30")
             return
 
         elif int(textM.get()) < 1:
@@ -243,17 +241,17 @@ def listo_minas(custom, dif, mult=False , nuev = False):  # valor es para reinic
 
 
 
-    def tiempoFunc():
-        aux = 1
-        while True:
-            if not aux:time.sleep(1)
-            else:aux-=1
-            tiempoLabel = Label(topMainFrame, text=int(time.time())-iniTime, bg="black", fg="red", width=30)
-            tiempoLabel.grid(row=0, column=2, sticky="E" )
+    # def tiempoFunc():
+    #     aux = 1
+    #     while True:
+    #         if not aux:time.sleep(1)
+    #         else:aux-=1
+    #         tiempoLabel = Label(topMainFrame, text=int(time.time())-iniTime, bg="black", fg="red", width=30)
+    #         tiempoLabel.grid(row=0, column=2, sticky="E" )
 
-    tfuncThread = Thread(target=tiempoFunc)
-    tfuncThread.daemon = True
-    tfuncThread.start()
+    # tfuncThread = Thread(target=tiempoFunc)
+    # tfuncThread.daemon = True
+    # tfuncThread.start()
     for objeto in progra_2.main.lista:
              rowVar = progra_2.main.lista.index(objeto)//progra_2.main.largo#la fila
              columnVar = progra_2.main.lista.index(objeto)%progra_2.main.largo#la columna
@@ -314,7 +312,7 @@ def pedirCustom(key):
 
 def Game(players, multiplayer):
     menuFrame.destroy()
-    global container
+    global container , puntos2, puntos1
     container = Frame(root, bd=10, relief="groove")  
     container.config(bg="#8b8d8e")
 
