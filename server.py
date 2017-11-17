@@ -1,4 +1,5 @@
-﻿import time
+﻿import os
+import time
 import threading
 import socket
 import sys
@@ -19,21 +20,26 @@ class Servidor:
         def manejo(self, c, a):
             while True:
                 #recv es la informacion que se recive de la coneccion, 1024 es el maximo de informacion que se puede recibir en bytes
-                data = c.recv(1024)
+                data = c[0].recv(1024)
                 for self.coneccion in self.conecciones:
                     #mandandole data en bytes a coneccion
-                    if c != self.coneccion:
-                        self.coneccion.send(bytes(data))
+                    if c[0] != self.coneccion[0]:
+                        self.coneccion[0].send(bytes(data))
                 if not data:
-                    print(str(a[0])+":"+str(a[1])+" desconectado")
+                    print(str(a[0])+":"+str(a[1])+" desconectado ID: "+c[1])
                     self.conecciones.remove(c)
-                    c.close()
+                    c[0].close()
                     break
-                
         def correr(self): 
+            id = 0
             while True:
+                if not id:
+                    os.remove("temp")
+                id+=1
                 # c = coneccion, a = address
                 c, a = self.sock.accept()
+                #creando una variable en la clase de c de ID
+                c = (c,str(id))
                 #El thread se ocupa para tener mas que una coneccion a la misma vez
                 #target = funcion que se aplicara con lo que retorna el método de Thread, args = los parametros de la funcion de target
                 cThread = threading.Thread(target=self.manejo, args=(c, a))
@@ -42,11 +48,15 @@ class Servidor:
                 #Comienza el thread
                 cThread.start()
                 self.conecciones.append(c)
-                print(str(a[0])+":"+str(a[1])+" conectado")
+                with open("temp","a") as temp:
+                    temp.write(str(c))
+                    temp.close()
+                print(str(a[0])+":"+str(a[1])+" conectado ID: "+c[1])
 
 
 class Cliente:
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    info = None#Informacion que manda al server
     def mandarMSG(self, *args):
         self.sock.send(bytes(" ".join(args), "utf-8"))
         #time.sleep(0.5)
@@ -55,7 +65,8 @@ class Cliente:
             data = self.sock.recv(1024)
             if not data:
                 break
-            yield data
+            print(data.decode("UTF-8"))
+            info = (data.decode("UTF-8")).split(" ")
     def __init__(self, addr):
         self.sock.connect((addr, 10000))
         
@@ -65,24 +76,9 @@ class Cliente:
         
         rThread = threading.Thread(target=self.recibir)
         rThread.daemon = True
-        #rThread.start()
+        rThread.start()
 
 
-#if(len(sys.argv )> 1):
-	##cliente = Cliente(sys.argv[1])
-#else:
-    #server = Servidor()
-    #server.correr()
-"""
-
-def ini():
-    if type(modo) != int:
-        raise NameError("El ini debe tener como entrada un int")
-    elif modo == 0:
-        server = Servidor()
-        server.correr
-    cliente = CLiente("0.0.0.0")
-"""
 if __name__ == "__main__":
     server = Servidor()
     server.correr()
