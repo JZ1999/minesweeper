@@ -91,26 +91,7 @@ def eval(valor, obj):
 
 def demostrar(obj, izquierdo = True):
 	print(222)
-	try:
-		print("1",obj.bandera)
-	except:
-		print("no 1")
-	try:
-		print("2",obj.lista)
-	except:
-		print("no 2")
-
-	try:
-		print("3",obj.y)
-	except:
-		print("no 3")
-
-	try:
-		print("4",obj.cuadro)
-	except:
-		print("no 4")
-	print(111111111111)
-
+	
 	if izquierdo:
 		valorDelClick = progra_2.main.lista[progra_2.main.lista.index(obj.cuadro)].click(True)
 	else:
@@ -121,7 +102,7 @@ def demostrar(obj, izquierdo = True):
 	# 	except:
 	# 		print("raois")
 	print(obj.mina, "validando")
-	if obj.mina and not obj.cuadro.bandera:
+	if obj.mina and not obj.cuadro.bandera and izquierdo:
 		print(obj.mina, "validando")
 		for par in listaMinasObjetos:
 			if par.mina:
@@ -129,8 +110,23 @@ def demostrar(obj, izquierdo = True):
 				obj.boton = Label(mainFrame, image=minaPNG)
 				obj.boton.grid(row=par.x, column=par.y)
 	if obj.cuadro.bandera:
-			obj.boton = Button(mainFrame, image=banderaPNG, bg = "black")
-			obj.boton.grid(row=obj.x, column=obj.y)
+		obj.boton.destroy()
+		obj.boton = Button(mainFrame, bg = "red")
+		obj.boton.grid(row=obj.x, column=obj.y)
+
+		obj.boton.bind("<Button-1>", lambda x: demostrar(obj))
+		
+		obj.boton.bind("<Button-3>", lambda x: demostrar(obj, False))
+	else:
+		obj.boton.destroy()
+		obj.boton = Button(mainFrame, width=1,height=1, bg="#8b8d8e")
+		obj.boton.grid(row=obj.x, column=obj.y)
+
+		obj.boton.bind("<Button-1>", lambda x: demostrar(obj))
+		
+		obj.boton.bind("<Button-3>", lambda x: demostrar(obj, False))
+	
+
 		
 	# if not obj.bandera:
 	# 	obj.mina -= 1
