@@ -16,78 +16,85 @@ def color(num):
 
 
 def eval(valor, obj):
-	    global total
-    #if not progra_2.main.perdio:    
-	    # try:
-     #            cliente
-     #            for indice in listaMinasObjetos:
-     #                if indice.cuadro == obj:
-     #                    pos_indice = str(listaMinasObjetos.index(indice))
-     #                    break
-     #            cliente.mandarMSG(str(puntos),pos_indice)
-                #print(str(puntos),pos_indice)
-	    # except:
-	    #     pass
-	    perdiendo = [["Noob", "Por lo menos sabes jugar?"], ["Noob", "Jugando como nunca, pierde como siempre"], ["Noob", "Mejor dediquese a candy crush"]]
-	    if total == 1 and valor >= 0:
-	    	for x in listaMinasObjetos:
-	            if x.cuadro == obj:
-	                fgColor = color(valor)
-	                x.cuadro = Button(mainFrame, text=valor, fg=fgColor, bg="#8b8d8e", width=1, height=1)
-	                x.cuadro.grid(row=x.x, column=x.y)
-	    	tkinter.messagebox.showinfo("Ganaste", "Dale en una dificultad mas dificil :3")
-	      
-	    else:
-	        if valor == -5:
-	            pass
-	        if valor == -1:
+    global total , totalminas, multi, jugador1
+    jugador1 = not jugador1
+    try:
+        print(puntos2,"cececwc")
+    except:
+        print("no existe")
+    if not progra_2.main.perdio:    
+        try:
+                cliente
+                for indice in listaMinasObjetos:
+                     if indice.cuadro == obj:
+                         pos_indice = str(listaMinasObjetos.index(indice))
+                         break
+                cliente.mandarMSG(str(puntos),pos_indice)
+                print(str(puntos),pos_indice)
+        except:
+	         pass
+        perdiendo = [["Noob", "Por lo menos sabes jugar?"], ["Noob", "Jugando como nunca, pierde como siempre"], ["Noob", "Mejor dediquese a candy crush"]]
+
+        if total == 1 and valor >= 0 and not multi:
+            for x in listaMinasObjetos:
+                if x.cuadro == obj:
+                    fgColor = color(valor)
+                    x.cuadro = Button(mainFrame, text=valor, fg=fgColor, bg="#8b8d8e", width=1, height=1)
+                    x.cuadro.grid(row=x.x, column=x.y)
+            tkinter.messagebox.showinfo("Ganaste", "Dale en una dificultad mas dificil :3")
+          
+        else:
+            if valor == -1:
                     try:
-                        print("oo")
+                        print(1)
                         if jugador1:
                             puntos+=1
+                            if puntos > totalminas:
+                                tkinter.messagebox.showinfo("jugador 1 gano")           	
                         else:
                             puntos2+=1
-                        print("ok")
+                            if puntos2 > totalminas:
+                                tkinter.messagebox.showinfo("jugador 2 gano")           	
+                        
                     except:
                         progra_2.main.perdio = True
                         a = progra_2.choice(perdiendo)
-	            #tkinter.messagebox.showinfo(a[0], a[1])
-	        elif valor > 0:
-	            total -= 1
-	            for x in listaMinasObjetos:
-	                if x.cuadro == obj:
-	                    fgColor = color(valor)
-	                    x.cuadro = Button(mainFrame, text=valor, fg=fgColor, bg="#8b8d8e", width=1, height=1)
-	                    x.cuadro.grid(row=x.x, column=x.y)
-	        # elif valor == -3:
-	        #     for x in listaMinasObjetos:
-	        #         if x.cuadro == obj:
-	        #             x.cuadro = Button(mainFrame, fg="black",
-	        #                               bg="#555555", width=1, height=1)
-	        #             x.cuadro.grid(row=x.x, column=x.y)
-	        #elif valor == -2:
-	        # #	obj.destroy()
-	        	
-	        #     for x in listaMinasObjetos:
-	        #         if x.cuadro == obj:
-	        #             x.cuadro = Button(mainFrame, fg="blue",
-	        #                               bg="#a6a7a8", width=1, height=1)
-	        #             x.cuadro.grid(row=x.x, column=x.y)
-	        elif not valor:
-	            total -= 1
+                        tkinter.messagebox.showinfo(a[0], a[1])
+                        quit()
+            elif valor > 0:
+                total -= 1
+                for x in listaMinasObjetos:
+                    if x.cuadro == obj:
+                        fgColor = color(valor)
+                        x.cuadro = Button(mainFrame, text=valor, fg=fgColor, bg="#8b8d8e", width=1, height=1)
+                        x.cuadro.grid(row=x.x, column=x.y)
+            elif valor == -3:
+	             for x in listaMinasObjetos:
+	                 if x.cuadro == obj:
+	                     x.cuadro = Button(mainFrame, fg="black",
+	                                       bg="#555555", width=1, height=1)
+	                     x.cuadro.grid(row=x.x, column=x.y)
+            elif valor == -2:
+                obj.destroy()
+                for x in listaMinasObjetos:
+                    if x.cuadro == obj:
+                        x.cuadro = Button(mainFrame, fg="blue",
+                                       bg="#a6a7a8", width=1, height=1)
+                        x.cuadro.grid(row=x.x, column=x.y)
+            elif not valor:
+                total -= 1
 
-	            for x in listaMinasObjetos:
-	                if x.cuadro == obj:
-	                    x.cuadro = Button(mainFrame, fg="black",
-	                                      bg="#a6a7a8", width=1, height=1)
-	                    x.cuadro.grid(row=x.x, column=x.y)
-	            for y in obj.coordenadas_alrededor:
-	                    coordenada = obj.x + y[0] * progra_2.main.largo + y[1]
-	                    if not progra_2.main.lista[coordenada].activo:
-	                        s = progra_2.main.lista[coordenada].click(True)
-	                        eval(s, progra_2.main.lista[coordenada])
-    
-
+                for x in listaMinasObjetos:
+                    if x.cuadro == obj:
+                        x.cuadro = Button(mainFrame, fg="black",
+                                          bg="#a6a7a8", width=1, height=1)
+                        x.cuadro.grid(row=x.x, column=x.y)
+                for y in obj.coordenadas_alrededor:
+                        coordenada = obj.x + y[0] * progra_2.main.largo + y[1]
+                        if not progra_2.main.lista[coordenada].activo:
+                            s = progra_2.main.lista[coordenada].click(True)
+                            eval(s, progra_2.main.lista[coordenada])
+        
 
 def demostrar(obj, izquierdo = True):
 	print(222)
@@ -96,13 +103,13 @@ def demostrar(obj, izquierdo = True):
 		valorDelClick = progra_2.main.lista[progra_2.main.lista.index(obj.cuadro)].click(True)
 	else:
 		valorDelClick  = progra_2.main.lista[progra_2.main.lista.index(obj.cuadro)].click(False)
-	# for x in listaMinasObjetos:
-	# 	try:
-	# 		print(x.cuadro.bandera)
-	# 	except:
-	# 		print("raois")
+	for x in listaMinasObjetos:
+		try:
+			print(x.cuadro.bandera)
+		except:
+			print("raois")
 	print(obj.mina, "validando")
-	if obj.mina and not obj.cuadro.bandera and izquierdo:
+	if obj.mina and not obj.cuadro.bandera and izquierdo and not multi:
 		print(obj.mina, "validando")
 		for par in listaMinasObjetos:
 			if par.mina:
@@ -125,17 +132,16 @@ def demostrar(obj, izquierdo = True):
 		obj.boton.bind("<Button-1>", lambda x: demostrar(obj))
 		
 		obj.boton.bind("<Button-3>", lambda x: demostrar(obj, False))
-	
 
-		
-	# if not obj.bandera:
-	# 	obj.mina -= 1
-	# 	for par in listaMinasObjetos:
-	# 		if not par.cuadro.bandera:
-	# 			print("si funciona")
-	# 			progra_2.main.lista[progra_2.main.lista.index(par.cuadro)].click(True)
-	# 			par.boton = Label(mainFrame, image=banderaPNG, bg = "black")
-	# 			par.boton.grid(row=par.x, column=par.y)
+	
+	if not obj.bandera:
+		obj.mina -= 1
+		for par in listaMinasObjetos:
+			if not par.cuadro.bandera:
+				print("si funciona")
+				progra_2.main.lista[progra_2.main.lista.index(par.cuadro)].click(True)
+				par.boton = Label(mainFrame, image=banderaPNG, bg = "black")
+				par.boton.grid(row=par.x, column=par.y)
 	eval(valorDelClick, obj.cuadro)
 	
 
@@ -157,10 +163,10 @@ class minasGUI:
         self.boton.bind("<Button-3>", lambda x: demostrar(self, False))
 
 
-#def reciba_puntos_Func(puntosParam):
-    #while True:
-        #recv = cliente.recibir()
-        #print(next(recv))
+def reciba_puntos_Func(puntosParam):
+    while True:
+        recv = cliente.recibir()
+        print(next(recv))
 
 def puntos2Func():
     while True:
@@ -174,9 +180,9 @@ def puntos1Func():
 
 def listo_minas(custom, dif, mult=False , nuev = False,):  # valor es para reiniciar
     global listaMinasObjetos, mainFrame, cliente, puntos, puntos2, jugador1
-    jugador1 = True
+    jugador1 =False
     progra_2.main.perdio = False
-
+    
     try:
     	if nuev:
     		mainFrame.destroy()
@@ -184,9 +190,9 @@ def listo_minas(custom, dif, mult=False , nuev = False,):  # valor es para reini
     	raise
 
 
-    #recibapuntosThread = Thread(target=reciba_puntos_Func, args=(puntos2 if esJ1 else puntos2))
-    #recibapuntosThread.daemon = True
-    #recibapuntosThread.start()
+    recibapuntosThread = Thread(target=reciba_puntos_Func, args=(puntos2 if esJ1 else puntos2))
+    recibapuntosThread.daemon = True
+    recibapuntosThread.start()
     iniTime = int(time.time())
     mainFrame = Frame(root)
     mainFrame.grid(row=1, column=1)
@@ -241,11 +247,11 @@ def listo_minas(custom, dif, mult=False , nuev = False,):  # valor es para reini
         progra_2.main.ubicar_minas(0,ancho= int(textA.get()),largo=int(textL.get()),minas=int(textM.get()))
     else:
         progra_2.main.ubicar_minas(dif)
-    #reiniciar = Label(topMainFrame,bg = "black", image=reiniciarIcon)
+    reiniciar = Label(topMainFrame,bg = "black", image=reiniciarIcon)
     global total
     total = progra_2.main.total - progra_2.main.minas
-    #reiniciar.grid(row=0,column=1)
-    #reiniciar.bind("<Button-1>", lambda x: listo_minas(custom, dif,False,True))
+    reiniciar.grid(row=0,column=1)
+    reiniciar.bind("<Button-1>", lambda x: listo_minas(custom, dif,False,True))
     minasLabel = Label(topMainFrame, text=progra_2.main.minas, bg="black", fg="red", width=30)
     minasLabel.grid(row=0, column=0, sticky="W")
     progra_2.main.lista[0].alrededor_mina()
@@ -253,17 +259,17 @@ def listo_minas(custom, dif, mult=False , nuev = False,):  # valor es para reini
 
 
 
-    # def tiempoFunc():
-    #     aux = 1
-    #     while True:
-    #         if not aux:time.sleep(1)
-    #         else:aux-=1
-    #         tiempoLabel = Label(topMainFrame, text=int(time.time())-iniTime, bg="black", fg="red", width=30)
-    #         tiempoLabel.grid(row=0, column=2, sticky="E" )
+    def tiempoFunc():
+        aux = 1
+        while True:
+            if not aux:time.sleep(1)
+            else:aux-=1
+            tiempoLabel = Label(topMainFrame, text=int(time.time())-iniTime, bg="black", fg="red", width=30)
+            tiempoLabel.grid(row=0, column=2, sticky="E" )
 
-    # tfuncThread = Thread(target=tiempoFunc)
-    # tfuncThread.daemon = True
-    # tfuncThread.start()
+    tfuncThread = Thread(target=tiempoFunc)
+    tfuncThread.daemon = True
+    tfuncThread.start()
     for objeto in progra_2.main.lista:
              rowVar = progra_2.main.lista.index(objeto)//progra_2.main.largo#la fila
              columnVar = progra_2.main.lista.index(objeto)%progra_2.main.largo#la columna
@@ -279,18 +285,18 @@ def listo_minas(custom, dif, mult=False , nuev = False,):  # valor es para reini
          pass
     container.destroy()
 
-# def reinicio(custom):
-# 	progra_2.main.lista = []
-# 	listaMinasObjetos(custom)
-#     with open("temp") as temp:
-#         if temp:
-#             jugador1 = False
-#         else:
-#             jugador1 = True
-#         temp.close()
+def reinicio(custom):
+    progra_2.main.lista = []
+    listaMinasObjetos(custom)
+    with open("temp") as temp:
+        if temp:
+            jugador1 = False
+        else:
+            jugador1 = True
+        temp.close()
 
 def pedirCustom(key):
-    global textA, textL, textM, containerCustom
+    global textA, textL, textM, containerCustom, totalminas
     # tkinter.messagebox.showinfo("personalizado", "personalizado, por favor escriba las caracteristicas del juego")
 
     containerCustom = Frame(root)
@@ -312,7 +318,7 @@ def pedirCustom(key):
 
     readyButt = Button(containerCustom, text="Ok", fg=mainFg, bg=mainBg,
                        font=mainFont, width=mainWidth, command=lambda:  listo_minas(True, 0))
- 
+    #totalminas = int(textM.get()) // 2
     readyButt.grid(row = 3, column = 0)
     labelAncho.grid(row = 0, column = 0)
     entryAncho.grid(row = 0, column = 1)
@@ -324,8 +330,13 @@ def pedirCustom(key):
 
 def Game(players, multiplayer):
     menuFrame.destroy()
-    global container , puntos2, puntos
-    puntos, puntos2 = 0, 0
+    global container, multi
+    
+    if players == 2:
+    	print("pero si llega")
+    	global puntos2, puntos
+    	puntos, puntos2 = 0, 0 
+    	multi = True
     container = Frame(root, bd=10, relief="groove")  
     container.config(bg="#8b8d8e")
 
@@ -419,19 +430,19 @@ def main():
                         fg=mainFg, bg=mainBg, font=mainFont, command=lambda: Game(1, False))
     TwoPlayerL = Button(menuFrame, width=mainWidth, text="2-Player",
                         fg=mainFg, bg=mainBg, font=mainFont, command=lambda: Game(2, False))
-#    TwoPlayerM = Button(menuFrame, width=mainWidth, text="2-Player \nMultiplayer",
- #                       fg=mainFg, bg=mainBg, font=mainFont, command=lambda: Game(2, True))
+    TwoPlayerM = Button(menuFrame, width=mainWidth, text="2-Player \nMultiplayer",
+                       fg=mainFg, bg=mainBg, font=mainFont, command=lambda: Game(2, True))
     minaPNG = PhotoImage(file="./mina.png")
     minaPNG = minaPNG.zoom(28)
     minaPNG = minaPNG.subsample(389)
-    # reiniciarIcon = PhotoImage(file="./reiniciar.png")
-    # reiniciarIcon = reiniciarIcon.zoom(1)
-    # reiniciarIcon = reiniciarIcon.subsample(20)
+    reiniciarIcon = PhotoImage(file="./reiniciar.png")
+    reiniciarIcon = reiniciarIcon.zoom(1)
+    reiniciarIcon = reiniciarIcon.subsample(20)
     print(123456)
     menuFrame.grid(row=0, column=2, sticky="E")
     OnePlayerL.grid(row=0, column=0)
     TwoPlayerL.grid(row=1, column=0)
-#    TwoPlayerM.grid(row=2, column=0)
+    TwoPlayerM.grid(row=2, column=0)
 
 
     root.mainloop()
