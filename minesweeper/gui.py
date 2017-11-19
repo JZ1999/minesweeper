@@ -16,6 +16,13 @@ def color(num):
 
 
 def eval(valor, obj):
+    """
+    esta funcion será para hacer cambios al hacer
+    click excepto los cambios de boton
+    (cambios multijugador) 
+    (aqui es donde se hara cambios de todo lo que viene del server)
+
+    """
     global total
     if not progra_2.main.perdio:    
 	    try:
@@ -38,20 +45,21 @@ def eval(valor, obj):
 	    	tkinter.messagebox.showinfo("Ganaste", "Dale en una dificultad mas dificil :3")
 	      
 	    else:
-	        if valor == -5:
-	            pass
 	        if valor == -1:
                     try:
-                        print("oo")
                         if jugador1:
                             puntos+=1
+                            if puntos > totalminas:
+                                tkinter.messagebox.showinfo("jugador 1 gano")    
                         else:
                             puntos2+=1
-                        print("ok")
+                            if puntos2 > totalminas:
+                                tkinter.messagebox.showinfo("jugador 2 gano")               
+                        
                     except:
                         progra_2.main.perdio = True
                         a = progra_2.choice(perdiendo)
-	            #tkinter.messagebox.showinfo(a[0], a[1])
+	                    #tkinter.messagebox.showinfo(a[0], a[1])
 	        elif valor > 0:
 	            total -= 1
 	            for x in listaMinasObjetos:
@@ -66,14 +74,12 @@ def eval(valor, obj):
 	                                      bg="#555555", width=1, height=1)
 	                    x.cuadro.grid(row=x.x, column=x.y)
 	        elif valor == -2:
-	        	obj.destroy()
-	        	"""
+	            obj.destroy()
 	            for x in listaMinasObjetos:
 	                if x.cuadro == obj:
 	                    x.cuadro = Button(mainFrame, fg="blue",
 	                                      bg="#a6a7a8", width=1, height=1)
 	                    x.cuadro.grid(row=x.x, column=x.y)
-	            """
 	        elif not valor:
 	            total -= 1
 
@@ -162,6 +168,7 @@ def listo_minas(custom, dif, mult=False , nuev = False):  # valor es para reinic
     topMainFrame.config(bg="black")
     
     if mult:
+        print("vamos a lol")
         cliente = server.Cliente("127.0.0.1")
         puntosThread = Thread(target=puntos1Func)
         puntosThread.daemon = True

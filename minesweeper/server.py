@@ -9,7 +9,7 @@ class Servidor:
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         def __init__(self):
 		#primer parametro es el IP que le quiere poner al sock, segundo es el puerto
-                self.sock.bind(('127.0.0.1', 10000))
+                self.sock.bind(('127.0.0.1', 9999))
 
 		#Abilita las conecciones con el parametro diciendo cuantas conecciones deja
                 self.sock.listen(1)
@@ -33,8 +33,9 @@ class Servidor:
         def correr(self): 
             id = 0
             while True:
-                if not id:
-                    os.remove("temp")
+                
+                #if not id:
+                #    os.remove("temp")
                 id+=1
                 # c = coneccion, a = address
                 c, a = self.sock.accept()
@@ -55,6 +56,7 @@ class Servidor:
 
 
 class Cliente:
+    print("sea necio")
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     info = None#Informacion que manda al server
     def mandarMSG(self, *args):
@@ -68,7 +70,7 @@ class Cliente:
             print(data.decode("UTF-8"))
             info = (data.decode("UTF-8")).split(" ")
     def __init__(self, addr):
-        self.sock.connect((addr, 10000))
+        self.sock.connect((addr, 9999))
         
         iThread = threading.Thread(target=self.mandarMSG)
         iThread.daemon = True

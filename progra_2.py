@@ -1,4 +1,10 @@
 from random import *
+class botones:
+    def __init__(self):
+        pass
+
+
+
 
 class partida:
     def __init__(self):
@@ -98,7 +104,7 @@ class cuadro(partida):
                     if not self.mina:
                         if self.minas_alrededor:
                             return self.minas_alrededor
-                        return 0
+                        return 0#no tiene minas alrededor
                     return -1
                 return -5
             return -5

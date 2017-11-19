@@ -13,24 +13,33 @@ listaMinasObjetos = []  # Contiene listas de cada cuadrito y su botón respectiv
 def color(num):
     valores = {1: "#0000FF", 2: "#2d1a4f", 3: "#EF4321", 4: "#000000", 5: "#ba031f", 6: "#06ad91", 7: "#152959", 8: "#565759"}
     return valores[num]
-
-
+    
 def eval(valor, obj):
-    global total , totalminas, multi, jugador1
-    jugador1 = not jugador1
+    """
+    esta funcion será para hacer cambios al hacer
+    click excepto los cambios de boton
+    (cambios multijugador) 
+    (aqui es donde se hara cambios de todo lo que viene del server)
+
+    """
+    global total , totalminas, multi, jugador1, puntos2, puntos
+    
     try:
         print(puntos2,"cececwc")
     except:
         print("no existe")
     if not progra_2.main.perdio:    
         try:
+                
                 cliente
+                print("no deberia de llegar")
                 for indice in listaMinasObjetos:
                      if indice.cuadro == obj:
                          pos_indice = str(listaMinasObjetos.index(indice))
                          break
                 cliente.mandarMSG(str(puntos),pos_indice)
                 print(str(puntos),pos_indice)
+
         except:
 	         pass
         perdiendo = [["Noob", "Por lo menos sabes jugar?"], ["Noob", "Jugando como nunca, pierde como siempre"], ["Noob", "Mejor dediquese a candy crush"]]
@@ -42,17 +51,21 @@ def eval(valor, obj):
                     x.cuadro = Button(mainFrame, text=valor, fg=fgColor, bg="#8b8d8e", width=1, height=1)
                     x.cuadro.grid(row=x.x, column=x.y)
             tkinter.messagebox.showinfo("Ganaste", "Dale en una dificultad mas dificil :3")
-          
+      
         else:
             if valor == -1:
                     try:
-                        print(1)
+                        print(122222212121)
                         if jugador1:
+                            
                             puntos+=1
+                            
                             if puntos > totalminas:
                                 tkinter.messagebox.showinfo("jugador 1 gano")           	
                         else:
-                            puntos2+=1
+                            print("jjjjjjjjjjjjjjjjjjj")
+                            puntos2 +=1
+                            print("si pasa por aqui_2", puntos2)
                             if puntos2 > totalminas:
                                 tkinter.messagebox.showinfo("jugador 2 gano")           	
                         
@@ -60,20 +73,20 @@ def eval(valor, obj):
                         progra_2.main.perdio = True
                         a = progra_2.choice(perdiendo)
                         tkinter.messagebox.showinfo(a[0], a[1])
-                        quit()
+                      
             elif valor > 0:
                 total -= 1
                 for x in listaMinasObjetos:
                     if x.cuadro == obj:
-                        fgColor = color(valor)
+                        fgColor = color(obj.minas_alrededor)
                         x.cuadro = Button(mainFrame, text=valor, fg=fgColor, bg="#8b8d8e", width=1, height=1)
                         x.cuadro.grid(row=x.x, column=x.y)
             elif valor == -3:
-	             for x in listaMinasObjetos:
-	                 if x.cuadro == obj:
-	                     x.cuadro = Button(mainFrame, fg="black",
-	                                       bg="#555555", width=1, height=1)
-	                     x.cuadro.grid(row=x.x, column=x.y)
+                 for x in listaMinasObjetos:
+                     if x.cuadro == obj:
+                         x.cuadro = Button(mainFrame, fg="black",
+                                           bg="#555555", width=1, height=1)
+                         x.cuadro.grid(row=x.x, column=x.y)
             elif valor == -2:
                 obj.destroy()
                 for x in listaMinasObjetos:
@@ -96,52 +109,62 @@ def eval(valor, obj):
                             eval(s, progra_2.main.lista[coordenada])
         
 
-def demostrar(obj, izquierdo = True):
+def demostrar(obj, izquierdo = True): 
+	"""
+	obj es un objeto de listaminasobjetos
+	esta funcion sera para cambiar el tipo de boton cada vez que da click
+	"""
 	print(222)
-	
+	global multi, jugador1
+	jugador1 = not jugador1
+
 	if izquierdo:
 		valorDelClick = progra_2.main.lista[progra_2.main.lista.index(obj.cuadro)].click(True)
 	else:
+		print(obj.cuadro,"gg ixxi")
 		valorDelClick  = progra_2.main.lista[progra_2.main.lista.index(obj.cuadro)].click(False)
-	for x in listaMinasObjetos:
-		try:
-			print(x.cuadro.bandera)
-		except:
-			print("raois")
-	print(obj.mina, "validando")
-	if obj.mina and not obj.cuadro.bandera and izquierdo and not multi:
+	
+	print(multi, "validando")
+	if obj.mina and not obj.cuadro.bandera:#para poner
 		print(obj.mina, "validando")
-		for par in listaMinasObjetos:
-			if par.mina:
-				progra_2.main.lista[progra_2.main.lista.index(par.cuadro)].click(True)
-				obj.boton = Label(mainFrame, image=minaPNG)
-				obj.boton.grid(row=par.x, column=par.y)
-	if obj.cuadro.bandera:
+		if multi:
+			progra_2.main.lista[progra_2.main.lista.index(obj.cuadro)].click(True)
+			obj.boton = Label(mainFrame, image=minaPNG)
+			obj.boton.grid(row=obj.x, column=obj.y)
+		else:		
+			for par in listaMinasObjet os:
+				if par.mina:
+					progra_2.main.lista[progra_2.main.lista.index(par.cuadro)].click(True)
+					par.boton = Label(mainFrame, image=minaPNG)
+					par.boton.grid(row=par.x, column=par.y)
+
+	elif obj.cuadro.bandera:
 		obj.boton.destroy()
-		obj.boton = Button(mainFrame, bg = "red")
+		obj.boton = Button(mainFrame, image = banderaPNG)
+
 		obj.boton.grid(row=obj.x, column=obj.y)
 
 		obj.boton.bind("<Button-1>", lambda x: demostrar(obj))
 		
-		obj.boton.bind("<Button-3>", lambda x: demostrar(obj, False))
+		obj.boton.bind("<Button-3>", lambda x: demostrar(obj, False))                    
+
 	else:
 		obj.boton.destroy()
 		obj.boton = Button(mainFrame, width=1,height=1, bg="#8b8d8e")
+
 		obj.boton.grid(row=obj.x, column=obj.y)
+	
 
 		obj.boton.bind("<Button-1>", lambda x: demostrar(obj))
 		
 		obj.boton.bind("<Button-3>", lambda x: demostrar(obj, False))
 
 	
-	if not obj.bandera:
-		obj.mina -= 1
-		for par in listaMinasObjetos:
-			if not par.cuadro.bandera:
-				print("si funciona")
-				progra_2.main.lista[progra_2.main.lista.index(par.cuadro)].click(True)
-				par.boton = Label(mainFrame, image=banderaPNG, bg = "black")
-				par.boton.grid(row=par.x, column=par.y)
+	# if not obj.bandera:
+	# 			print("si funciona")
+	# 			progra_2.main.lista[progra_2.main.lista.index(par.cuadro)].click(True)
+	# 			par.boton = Label(mainFrame, image=banderaPNG, bg = "black")
+	# 			par.boton.grid(row=par.x, column=par.y)
 	eval(valorDelClick, obj.cuadro)
 	
 
@@ -179,7 +202,7 @@ def puntos1Func():
         time.sleep(0.5)
 
 def listo_minas(custom, dif, mult=False , nuev = False,):  # valor es para reiniciar
-    global listaMinasObjetos, mainFrame, cliente, puntos, puntos2, jugador1
+    global listaMinasObjetos, mainFrame, cliente, puntos, puntos2, jugador1, totalminas
     jugador1 =False
     progra_2.main.perdio = False
     
@@ -190,9 +213,9 @@ def listo_minas(custom, dif, mult=False , nuev = False,):  # valor es para reini
     	raise
 
 
-    recibapuntosThread = Thread(target=reciba_puntos_Func, args=(puntos2 if esJ1 else puntos2))
-    recibapuntosThread.daemon = True
-    recibapuntosThread.start()
+    # recibapuntosThread = Thread(target=reciba_puntos_Func, args=(puntos2 if esJ1 else puntos2))
+    # recibapuntosThread.daemon = True
+    # recibapuntosThread.start()
     iniTime = int(time.time())
     mainFrame = Frame(root)
     mainFrame.grid(row=1, column=1)
@@ -212,13 +235,14 @@ def listo_minas(custom, dif, mult=False , nuev = False,):  # valor es para reini
         if " " in textA.get() or " " in textL.get() or " " in textM.get():
             tkinter.messagebox.showwarning("Error", "no debes incluir espacios")
             return
+
         try:
             int(textA.get())
             int(textL.get())
             int(textM.get())
 
         except:
-            tkinter.messagebox.showwarning("Error","Deben ser numeros y enteros")
+            tkinter.messagebox.showwarning("Error","Deben ser numeros enteros")
             return
 
         if int(textA.get()) < 3:
@@ -245,8 +269,10 @@ def listo_minas(custom, dif, mult=False , nuev = False,):  # valor es para reini
             return
 
         progra_2.main.ubicar_minas(0,ancho= int(textA.get()),largo=int(textL.get()),minas=int(textM.get()))
+        totalminas = int(textM.get()) // 2
     else:
         progra_2.main.ubicar_minas(dif)
+        totalminas = progra_2.main.minas // 2
     reiniciar = Label(topMainFrame,bg = "black", image=reiniciarIcon)
     global total
     total = progra_2.main.total - progra_2.main.minas
@@ -318,7 +344,7 @@ def pedirCustom(key):
 
     readyButt = Button(containerCustom, text="Ok", fg=mainFg, bg=mainBg,
                        font=mainFont, width=mainWidth, command=lambda:  listo_minas(True, 0))
-    #totalminas = int(textM.get()) // 2
+   
     readyButt.grid(row = 3, column = 0)
     labelAncho.grid(row = 0, column = 0)
     entryAncho.grid(row = 0, column = 1)
@@ -337,6 +363,9 @@ def Game(players, multiplayer):
     	global puntos2, puntos
     	puntos, puntos2 = 0, 0 
     	multi = True
+    else:
+    	multi = False
+
     container = Frame(root, bd=10, relief="groove")  
     container.config(bg="#8b8d8e")
 
@@ -409,8 +438,7 @@ def Game(players, multiplayer):
 #         quit()
 
 def main():
-    global root, mainFont, mainFg, mainBg, mainWidth 
-    global reiniciarIcon, menuFrame, minaPNG
+    global root, mainFont, mainFg, mainBg, mainWidth, reiniciarIcon, menuFrame, minaPNG, banderaPNG
     root = Tk()
     root.title("Minesweeper")
     root.configure(background="#111111")
