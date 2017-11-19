@@ -132,7 +132,7 @@ def demostrar(obj, izquierdo = True):
 			obj.boton = Label(mainFrame, image=minaPNG)
 			obj.boton.grid(row=obj.x, column=obj.y)
 		else:		
-			for par in listaMinasObjet os:
+			for par in listaMinasObjet:
 				if par.mina:
 					progra_2.main.lista[progra_2.main.lista.index(par.cuadro)].click(True)
 					par.boton = Label(mainFrame, image=minaPNG)
