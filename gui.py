@@ -397,11 +397,10 @@ def Game(players, multiplayer):
     mode3Butt.grid(row=1, column=0)
     mode4Butt.grid(row=1, column=1)
 
-# def on_closing():
-#     if tkinter.messagebox.askokcancel("Salir", "Enserio quieres salir :( ?"):
-#         try:cliente.sock.shutdown(server.socket.SHUT_RDWR)
-#         except:pass
-#         root.destroy()
+ def on_closing():
+     try:cliente.sock.shutdown(server.socket.SHUT_RDWR)
+     except:pass
+     root.destroy()
 
 
 # root = Tk()
@@ -478,6 +477,8 @@ def main():
 
     root.mainloop()
 
+while True:
+    print(1)
 if __name__ == "__main__":
     main()
 
