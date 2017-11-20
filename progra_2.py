@@ -111,12 +111,12 @@ class cuadro(partida):
         else:
             print(1)
             if not self.activo:
-                print(2)
+                print(self.bandera)
                 self.bandera = not self.bandera
+                print(self.bandera)
                 if self.bandera:
                     return -3#pone bandera
                 print(3)
                 return -2#quita bandera
-            print("mega error")
             return -5# la casilla esta activa, no puede poner bandera
 main = partida()
