@@ -119,7 +119,7 @@ def demostrar(obj, izquierdo = True):
 	jugador1 = not jugador1
 
 	if izquierdo:
-		valorDelClick = progra_2.main.lista[progra_2.main.lista.index(obj.cuadro)].click(True)
+		valorDelClick = obj.cuadro.click(True)
 	else:
 		print(obj.cuadro,"gg ixxi")
 		valorDelClick  = progra_2.main.lista[progra_2.main.lista.index(obj.cuadro)].click(False)
@@ -132,7 +132,7 @@ def demostrar(obj, izquierdo = True):
 			obj.boton = Label(mainFrame, image=minaPNG)
 			obj.boton.grid(row=obj.x, column=obj.y)
 		else:		
-			for par in listaMinasObjet os:
+			for par in listaMinasObjetos:
 				if par.mina:
 					progra_2.main.lista[progra_2.main.lista.index(par.cuadro)].click(True)
 					par.boton = Label(mainFrame, image=minaPNG)
@@ -301,7 +301,6 @@ def listo_minas(custom, dif, mult=False , nuev = False,):  # valor es para reini
              columnVar = progra_2.main.lista.index(objeto)%progra_2.main.largo#la columna
              #print(rowVar)
              listaMinasObjetos.append(minasGUI(Button(mainFrame, width=1,height=1, bg="#8b8d8e"), objeto, rowVar, columnVar, objeto.mina) )
-
              #listaMinasObjetos[-1].boton.bind("<Button-1>",lambda x: demostrar(objeto))
              listaMinasObjetos[-1].setupObj()
              #listaMinasObjetos[-1].boton.grid(row=rowVar, column=columnVar)
