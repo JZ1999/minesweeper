@@ -32,21 +32,18 @@ def eval(valor, obj):
         pass
     if not progra_2.main.perdio:    
         try:
-            
-            cliente
             for indice in listaMinasObjetos:
-                 if indice.cuadro == obj:
-                     pos_indice = str(listaMinasObjetos.index(indice))
-                     break
+                if indice.cuadro == obj:
+                    pos_indice = str(listaMinasObjetos.index(indice))
+                    break
             cliente.mandarMSG(str(puntos),pos_indice)
+            print(cliente.info)
             #print(str(puntos),pos_indice)
-
         except:
             pass
         perdiendo = [["Noob", "Por lo menos sabes jugar?"], ["Noob", "Jugando como nunca, pierde como siempre"], ["Noob", "Mejor dediquese a candy crush"]]
 
         if total == 1 and valor >= 0 and not multi:
-            print(200)
             for x in listaMinasObjetos:
                 if x.cuadro == obj:
                     fgColor = color(valor)
@@ -58,7 +55,6 @@ def eval(valor, obj):
             if valor == -1:
                     try:
                         if not mult:
-                            print(44)
                             if jugador1:
                                 
                                 puntos+=1
@@ -70,16 +66,13 @@ def eval(valor, obj):
                                 #print("si pasa por aqui_2", puntos2)
                                 if puntos2 > totalminas:
                                     tkinter.messagebox.showinfo("jugador 2 gano")           	
-                            print(000)
                         else:
-                            print(33)
                             if jugador1:
                                 print(1)
                             else:
                                 print(2)
                         
                     except:
-                        print(20)
                         progra_2.main.perdio = True
                         a = progra_2.choice(perdiendo)
                         tkinter.messagebox.showinfo(a[0], a[1])
@@ -455,7 +448,7 @@ def main():
     root.configure(background="#111111")
     root.geometry("600x600")
 
-#    root.protocol("WM_DELETE_WINDOW", on_closing)
+    root.protocol("WM_DELETE_WINDOW", on_closing)
     mainFont = ("Times", 11, "bold")
     mainFg = "black"
     mainBg = "#FFFFFF"

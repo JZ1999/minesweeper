@@ -33,8 +33,11 @@ class Servidor:
         def correr(self): 
             id = 0
             while True:
-                if not id:
-                    os.remove("temp")
+                try:
+                    if not id:
+                        os.remove("temp")
+                except:
+                    pass
                 id+=1
                 # c = coneccion, a = address
                 c, a = self.sock.accept()
@@ -65,8 +68,7 @@ class Cliente:
             data = self.sock.recv(1024)
             if not data:
                 break
-            print(data.decode("UTF-8"))
-            info = (data.decode("UTF-8")).split(" ")
+            self.info = data.decode("UTF-8").split(" ")
     def __init__(self, addr):
         self.sock.connect((addr, 9998))
         
