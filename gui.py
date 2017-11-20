@@ -30,18 +30,17 @@ def eval(valor, obj):
         print("no existe")
     if not progra_2.main.perdio:    
         try:
-                
-                cliente
-                print("no deberia de llegar")
-                for indice in listaMinasObjetos:
-                     if indice.cuadro == obj:
-                         pos_indice = str(listaMinasObjetos.index(indice))
-                         break
-                cliente.mandarMSG(str(puntos),pos_indice)
-                print(str(puntos),pos_indice)
+            
+            cliente
+            for indice in listaMinasObjetos:
+                 if indice.cuadro == obj:
+                     pos_indice = str(listaMinasObjetos.index(indice))
+                     break
+            cliente.mandarMSG(str(puntos),pos_indice)
+            #print(str(puntos),pos_indice)
 
         except:
-	         pass
+            pass
         perdiendo = [["Noob", "Por lo menos sabes jugar?"], ["Noob", "Jugando como nunca, pierde como siempre"], ["Noob", "Mejor dediquese a candy crush"]]
 
         if total == 1 and valor >= 0 and not multi:
@@ -55,19 +54,21 @@ def eval(valor, obj):
         else:
             if valor == -1:
                     try:
-                        print(122222212121)
-                        if jugador1:
-                            
-                            puntos+=1
-                            
-                            if puntos > totalminas:
-                                tkinter.messagebox.showinfo("jugador 1 gano")           	
+                        if not mult:
+                            if jugador1:
+                                
+                                puntos+=1
+                                
+                                if puntos > totalminas:
+                                    tkinter.messagebox.showinfo("jugador 1 gano")           	
+                            else:
+                                puntos2 +=1
+                                print("si pasa por aqui_2", puntos2)
+                                if puntos2 > totalminas:
+                                    tkinter.messagebox.showinfo("jugador 2 gano")           	
                         else:
-                            print("jjjjjjjjjjjjjjjjjjj")
-                            puntos2 +=1
-                            print("si pasa por aqui_2", puntos2)
-                            if puntos2 > totalminas:
-                                tkinter.messagebox.showinfo("jugador 2 gano")           	
+                            if jugador1:
+                                print(1)
                         
                     except:
                         progra_2.main.perdio = True
@@ -207,10 +208,10 @@ def listo_minas(custom, dif, mult=False , nuev = False,):  # valor es para reini
     progra_2.main.perdio = False
     
     try:
-    	if nuev:
-    		mainFrame.destroy()
+        if nuev:
+            mainFrame.destroy()
     except:
-    	raise
+        raise
 
 
     # recibapuntosThread = Thread(target=reciba_puntos_Func, args=(puntos2 if esJ1 else puntos2))
@@ -235,6 +236,7 @@ def listo_minas(custom, dif, mult=False , nuev = False,):  # valor es para reini
         if " " in textA.get() or " " in textL.get() or " " in textM.get():
             tkinter.messagebox.showwarning("Error", "no debes incluir espacios")
             return
+        
 
         try:
             int(textA.get())
@@ -309,16 +311,16 @@ def listo_minas(custom, dif, mult=False , nuev = False,):  # valor es para reini
     except:
          pass
     container.destroy()
-
-def reinicio(custom):
-    progra_2.main.lista = []
-    listaMinasObjetos(custom)
     with open("temp") as temp:
         if temp:
             jugador1 = False
         else:
             jugador1 = True
         temp.close()
+
+def reinicio(custom):
+    progra_2.main.lista = []
+    listaMinasObjetos(custom)
 
 def pedirCustom(key):
     global textA, textL, textM, containerCustom, totalminas
@@ -358,12 +360,12 @@ def Game(players, multiplayer):
     global container, multi
     
     if players == 2:
-    	print("pero si llega")
-    	global puntos2, puntos
-    	puntos, puntos2 = 0, 0 
-    	multi = True
+        print("pero si llega")
+        global puntos2, puntos
+        puntos, puntos2 = 0, 0 
+        multi = True
     else:
-    	multi = False
+        multi = False
 
     container = Frame(root, bd=10, relief="groove")  
     container.config(bg="#8b8d8e")
