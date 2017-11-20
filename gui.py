@@ -405,7 +405,6 @@ def on_closing():
     except:pass
     root.destroy()
 
-
 # root = Tk()
 # root.title("Minesweeper")
 # root.configure(background="#111111")
