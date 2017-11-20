@@ -322,6 +322,7 @@ def listo_minas(custom, dif, multParam=False , nuev = False,):  # valor es para 
         else:
             jugador1 = True
         temp.close()
+    print("jugador1 {}".format(jugador1))
 
 def reinicio(custom):
     progra_2.main.lista = []
