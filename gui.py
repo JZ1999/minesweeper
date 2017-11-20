@@ -25,9 +25,11 @@ def eval(valor, obj):
     global total , totalminas, multi, jugador1, puntos2, puntos
     
     try:
-        print(puntos2,"cececwc")
+        #print(puntos2,"cececwc")
+        pass
     except:
-        print("no existe")
+        #print("no existe")
+        pass
     if not progra_2.main.perdio:    
         try:
             
@@ -44,6 +46,7 @@ def eval(valor, obj):
         perdiendo = [["Noob", "Por lo menos sabes jugar?"], ["Noob", "Jugando como nunca, pierde como siempre"], ["Noob", "Mejor dediquese a candy crush"]]
 
         if total == 1 and valor >= 0 and not multi:
+            print(200)
             for x in listaMinasObjetos:
                 if x.cuadro == obj:
                     fgColor = color(valor)
@@ -55,6 +58,7 @@ def eval(valor, obj):
             if valor == -1:
                     try:
                         if not mult:
+                            print(44)
                             if jugador1:
                                 
                                 puntos+=1
@@ -63,14 +67,19 @@ def eval(valor, obj):
                                     tkinter.messagebox.showinfo("jugador 1 gano")           	
                             else:
                                 puntos2 +=1
-                                print("si pasa por aqui_2", puntos2)
+                                #print("si pasa por aqui_2", puntos2)
                                 if puntos2 > totalminas:
                                     tkinter.messagebox.showinfo("jugador 2 gano")           	
+                            print(000)
                         else:
+                            print(33)
                             if jugador1:
                                 print(1)
+                            else:
+                                print(2)
                         
                     except:
+                        print(20)
                         progra_2.main.perdio = True
                         a = progra_2.choice(perdiendo)
                         tkinter.messagebox.showinfo(a[0], a[1])
@@ -115,19 +124,19 @@ def demostrar(obj, izquierdo = True):
 	obj es un objeto de listaminasobjetos
 	esta funcion sera para cambiar el tipo de boton cada vez que da click
 	"""
-	print(222)
+	#print(222)
 	global multi, jugador1
 	jugador1 = not jugador1
 
 	if izquierdo:
 		valorDelClick = progra_2.main.lista[progra_2.main.lista.index(obj.cuadro)].click(True)
 	else:
-		print(obj.cuadro,"gg ixxi")
+		#print(obj.cuadro,"gg ixxi")
 		valorDelClick  = progra_2.main.lista[progra_2.main.lista.index(obj.cuadro)].click(False)
 	
-	print(multi, "validando")
+	##print(multi, "validando")
 	if obj.mina and not obj.cuadro.bandera:#para poner
-		print(obj.mina, "validando")
+		#print(obj.mina, "validando")
 		if multi:
 			progra_2.main.lista[progra_2.main.lista.index(obj.cuadro)].click(True)
 			obj.boton = Label(mainFrame, image=minaPNG)
@@ -202,10 +211,10 @@ def puntos1Func():
         Label(root, text=puntos, fg="#000080", bg=mainBg, width=10).grid(row=1, column=0)
         time.sleep(0.5)
 
-def listo_minas(custom, dif, mult=False , nuev = False,):  # valor es para reiniciar
-    global listaMinasObjetos, mainFrame, cliente, puntos, puntos2, jugador1, totalminas
-    jugador1 =False
+def listo_minas(custom, dif, multParam=False , nuev = False,):  # valor es para reiniciar
+    global listaMinasObjetos, mainFrame, cliente, puntos, puntos2, jugador1, totalminas, mult
     progra_2.main.perdio = False
+    mult = multParam
     
     try:
         if nuev:
@@ -361,7 +370,7 @@ def Game(players, multiplayer):
     global container, multi
     
     if players == 2:
-        print("pero si llega")
+        #print("pero si llega")
         global puntos2, puntos
         puntos, puntos2 = 0, 0 
         multi = True
@@ -468,7 +477,6 @@ def main():
     reiniciarIcon = PhotoImage(file="./reiniciar.png")
     reiniciarIcon = reiniciarIcon.zoom(1)
     reiniciarIcon = reiniciarIcon.subsample(20)
-    print(123456)
     menuFrame.grid(row=0, column=2, sticky="E")
     OnePlayerL.grid(row=0, column=0)
     TwoPlayerL.grid(row=1, column=0)
