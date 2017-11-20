@@ -44,7 +44,7 @@ def eval(valor, obj):
 
             for x in listaMinasObjetos:
                 if x.cuadro == obj:
-                    fgColor = x.color()#######
+                    fgColor = x.color()#
                     x.cuadro = Button(mainFrame, text=valor, fg=fgColor, bg="#8b8d8e", width=1, height=1)
                     x.cuadro.grid(row=x.x, column=x.y)
             tkinter.messagebox.showinfo("Ganaste", "Dale en una dificultad mas dificil :3")
@@ -68,6 +68,7 @@ def eval(valor, obj):
                             	tkinter.messagebox.showinfo("Se acabo","Empate")           	
                             
                     except:
+                        root.bell()
                         progra_2.main.perdio = True
                         a = progra_2.choice(perdiendo)
                         tkinter.messagebox.showinfo(a[0], a[1])
@@ -122,9 +123,11 @@ def demostrar(obj, izquierdo = True):
 	else:
 		#print(obj.cuadro,"gg ixxi")
 		valorDelClick  = progra_2.main.lista[progra_2.main.lista.index(obj.cuadro)].click(False)
-	
+	"""
 	##print(multi_offline, "validando")
+
 	print(izquierdo, "i" )
+	"""
 	if obj.mina and izquierdo:#para poner
 		#print(obj.mina, "validando")
 		if multi_offline or multi_online:
@@ -207,11 +210,17 @@ def puntos1Func():
 
 def listo_minas(custom, dif, multParam=False , nuev = False,):  # valor es para reiniciar
     global listaMinasObjetos, mainFrame, cliente, \
-           puntos, puntos2, jugador1, totalminas, multi_online
+           puntos, puntos2, jugador1, totalminas, multi_online, multi_offline
 
     progra_2.main.perdio = False
     multi_online = multParam
-    
+     
+    if multi_offline or multi_online:
+        #print("pero si llega")
+        puntos, puntos2 = 0, 0 
+        multi_offline = True
+    else:
+        multi_offline = False
     try:
         if nuev:
             mainFrame.destroy()
