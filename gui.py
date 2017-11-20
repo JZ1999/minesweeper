@@ -28,21 +28,20 @@ def eval(valor, obj):
         pass
     if not progra_2.main.perdio:    
         try:
-            
-            cliente
             for indice in listaMinasObjetos:
-                 if indice.cuadro == obj:
-                     pos_indice = str(listaMinasObjetos.index(indice))
-                     break
+                if indice.cuadro == obj:
+                    pos_indice = str(listaMinasObjetos.index(indice))
+                    break
             cliente.mandarMSG(str(puntos),pos_indice)
+            print(cliente.info)
             #print(str(puntos),pos_indice)
-
         except:
             pass
         perdiendo = [["Noob", "Por lo menos sabes jugar?"], ["Noob", "Jugando como nunca, pierde como siempre"], ["Noob", "Mejor dediquese a candy crush"]]
 
         if total == 1 and valor >= 0 and not multi_offline:
             print(200)
+
             for x in listaMinasObjetos:
                 if x.cuadro == obj:
                     fgColor = x.color()#######
@@ -53,26 +52,22 @@ def eval(valor, obj):
         else:
             if valor == -1:
                     try:
-               
-                            
+
                             if jugador1:
                                 
                                 puntos+=1
                                 print("si pasa por aqui_1", puntos)
                                 if puntos > totalminas:
-	                                    tkinter.messagebox.showinfo("Se acabo","jugador 1 gano")           	
+                                        tkinter.messagebox.showinfo("Se acabo","jugador 1 gano")           	
                             
                             else:
                                 puntos2 +=1
-                               
                                 if puntos2 > totalminas:
                                     tkinter.messagebox.showinfo("Se acabo","Jugador 2 gano")           	
                             if puntos + puntos2 == total * 2:
                             	tkinter.messagebox.showinfo("Se acabo","Empate")           	
-         
+                            
                     except:
-                   
-                        print(20)
                         progra_2.main.perdio = True
                         a = progra_2.choice(perdiendo)
                         tkinter.messagebox.showinfo(a[0], a[1])
@@ -404,11 +399,11 @@ def Game(players, multiplayer):
     mode3Butt.grid(row=1, column=0)
     mode4Butt.grid(row=1, column=1)
 
-# def on_closing():
-#     if tkinter.messagebox.askokcancel("Salir", "Enserio quieres salir :( ?"):
-#         try:cliente.sock.shutdown(server.socket.SHUT_RDWR)
-#         except:pass
-#         root.destroy()
+def on_closing():
+    #if tkinter.messagebox.askokcancel("Salir", "Enserio quieres salir :( ?"):
+    try:cliente.sock.shutdown(server.socket.SHUT_RDWR)
+    except:pass
+    root.destroy()
 
 
 # root = Tk()
@@ -453,9 +448,7 @@ def main():
     root = Tk()
     root.title("Minesweeper")
     root.configure(background="#111111")
-    #root.geometry("600x600")
-                                                 
-#    root.protocol("WM_DELETE_WINDOW", on_closing)
+    root.protocol("WM_DELETE_WINDOW", on_closing)
     mainFont = ("Times", 11, "bold")
     mainFg = "black"
     mainBg = "#FFFFFF"
