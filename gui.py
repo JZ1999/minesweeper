@@ -10,10 +10,6 @@ import tkinter.messagebox
 listaMinasObjetos = []  # Contiene listas de cada cuadrito y su botón respectivo
 
 
-def color(num):
-    valores = {1: "#0000FF", 2: "#2d1a4f", 3: "#EF4321", 4: "#000000", 5: "#ba031f", 6: "#06ad91", 7: "#152959", 8: "#565759"}
-    return valores[num]
-    
 def eval(valor, obj):
     """
     esta funcion será para hacer cambios al hacer
@@ -46,7 +42,7 @@ def eval(valor, obj):
         if total == 1 and valor >= 0 and not multi:
             for x in listaMinasObjetos:
                 if x.cuadro == obj:
-                    fgColor = color(valor)
+                    fgColor = x.color()#######
                     x.cuadro = Button(mainFrame, text=valor, fg=fgColor, bg="#8b8d8e", width=1, height=1)
                     x.cuadro.grid(row=x.x, column=x.y)
             tkinter.messagebox.showinfo("Ganaste", "Dale en una dificultad mas dificil :3")
@@ -61,6 +57,7 @@ def eval(valor, obj):
                                 
                                 if puntos > totalminas:
                                     tkinter.messagebox.showinfo("jugador 1 gano")           	
+                            
                             else:
                                 puntos2 +=1
                                 print("si pasa por aqui_2", puntos2)
@@ -71,6 +68,7 @@ def eval(valor, obj):
                                 print(1)
                         
                     except:
+                        raise
                         progra_2.main.perdio = True
                         a = progra_2.choice(perdiendo)
                         tkinter.messagebox.showinfo(a[0], a[1])
@@ -79,7 +77,7 @@ def eval(valor, obj):
                 total -= 1
                 for x in listaMinasObjetos:
                     if x.cuadro == obj:
-                        fgColor = color(obj.minas_alrededor)
+                        fgColor = x.color()
                         x.cuadro = Button(mainFrame, text=valor, fg=fgColor, bg="#8b8d8e", width=1, height=1)
                         x.cuadro.grid(row=x.x, column=x.y)
             elif valor == -3:
@@ -118,7 +116,7 @@ def demostrar(obj, izquierdo = True):
 	print(222)
 	global multi, jugador1
 	jugador1 = not jugador1
-
+    
 	if izquierdo:
 		valorDelClick = obj.cuadro.click(True)
 	else:
@@ -135,10 +133,11 @@ def demostrar(obj, izquierdo = True):
 		else:		
 			for par in listaMinasObjetos:
 				if par.mina:
+					print("cececcec")
 					progra_2.main.lista[progra_2.main.lista.index(par.cuadro)].click(True)
 					par.boton = Label(mainFrame, image=minaPNG)
 					par.boton.grid(row=par.x, column=par.y)
-
+    
 	elif obj.cuadro.bandera:
 		obj.boton.destroy()
 		obj.boton = Button(mainFrame, image = banderaPNG)
@@ -154,12 +153,10 @@ def demostrar(obj, izquierdo = True):
 		obj.boton = Button(mainFrame, width=1,height=1, bg="#8b8d8e")
 
 		obj.boton.grid(row=obj.x, column=obj.y)
-	
-
 		obj.boton.bind("<Button-1>", lambda x: demostrar(obj))
-		
+	
 		obj.boton.bind("<Button-3>", lambda x: demostrar(obj, False))
-
+    
 	
 	# if not obj.bandera:
 	# 			print("si funciona")
@@ -168,8 +165,8 @@ def demostrar(obj, izquierdo = True):
 	# 			par.boton.grid(row=par.x, column=par.y)
 	eval(valorDelClick, obj.cuadro)
 	
-
-
+    
+    
 class minasGUI:
 
     def __init__(self, boton, cuad, x, y, mina):
@@ -178,14 +175,16 @@ class minasGUI:
         self.boton = boton
         self.cuadro = cuad
         self.mina = mina
-   
-
+    
+    
     def setupObj(self):
-
         self.boton.bind("<Button-1>", lambda x: demostrar(self))
         self.boton.grid(row=self.x, column=self.y)
         self.boton.bind("<Button-3>", lambda x: demostrar(self, False))
 
+    def color(self):
+        valores = {1: "#0000FF", 2: "#2d1a4f", 3: "#EF4321", 4: "#000000", 5: "#ba031f", 6: "#06ad91", 7: "#152959", 8: "#565759"}
+        return valores[self.cuadro.minas_alrededor]
 
 def reciba_puntos_Func(puntosParam):
     while True:
@@ -204,7 +203,6 @@ def puntos1Func():
 
 def listo_minas(custom, dif, mult=False , nuev = False,):  # valor es para reiniciar
     global listaMinasObjetos, mainFrame, cliente, puntos, puntos2, jugador1, totalminas
-    jugador1 =False
     progra_2.main.perdio = False
     
     try:
@@ -443,8 +441,8 @@ def main():
     root = Tk()
     root.title("Minesweeper")
     root.configure(background="#111111")
-    root.geometry("600x600")
-
+    #root.geometry("600x600")
+                                                 
 #    root.protocol("WM_DELETE_WINDOW", on_closing)
     mainFont = ("Times", 11, "bold")
     mainFg = "black"
