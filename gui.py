@@ -197,6 +197,7 @@ class minasGUI:
     def setupObj(self):
 
         self.boton.bind("<Button-1>", lambda x: demostrar(self))
+
         self.boton.grid(row=self.x, column=self.y)
         self.boton.bind("<Button-3>", lambda x: demostrar(self, False))
 
@@ -362,6 +363,7 @@ def listo_minas(custom, dif, multParam=False , nuev = False,reinicio= True):  # 
         else:
             jugador1_mult = True
         temp.close()
+    
 
 def reinicio(custom):
     progra_2.main.lista = []

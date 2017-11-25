@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 (<socket.socket fd=432, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 9998), raddr=('127.0.0.1', 59548)>, '1')
+=======
+(<socket.socket fd=5, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 9998), raddr=('127.0.0.1', 59176)>, '1')
+>>>>>>> b859eaf2baaa398145eebb16dab032baccf2bcd3
