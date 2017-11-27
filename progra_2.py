@@ -1,10 +1,4 @@
 from random import *
-class botones:
-    def __init__(self):
-        pass
-
-
-
 
 class partida:
     def __init__(self):
@@ -17,7 +11,9 @@ class partida:
 
     def ubicar_minas(self,dificultad, **customizado):  # creacion y ubicacion de la mina y lista, esto no va en esta class
         nivel = [[8, 8, 10], [16, 16, 40], [16, 30, 99]]
+        print("debugenado" ,dificultad, customizado)
         if dificultad:
+            print("debugenad1" ,dificultad, customizado)
             ancho, largo, minas = nivel[dificultad - 1][0], nivel[dificultad - 1][1], nivel[dificultad - 1][2]
         else:
             ancho = customizado["ancho"]

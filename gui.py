@@ -220,15 +220,17 @@ def puntos1Func():
         Label(root, text=puntos, fg="#000080", bg=mainBg, width=10).grid(row=1, column=0)
         time.sleep(0.5)
 
-def listo_minas(custom, dif, multParam=False , nuev = False,reinicio= True):  # reinicio es para reiniciar true es que no a reinciado
+def listo_minas(custom, dif, multParam=False ,reinicio= False):  # reinicio es para reiniciar true es que hay qeu reiniciar
     global listaMinasObjetos, mainFrame, cliente, \
            puntos, puntos2, jugador1_local, jugador1_mult, \
-            totalminas, multi_online, multi_offline, topMainFrame, segundo
-    segundo = 0
+            totalminas, multi_online, multi_offline, topMainFrame, segundo,textA,textL,textM
+    if not custom:
+    	textA,textL,textM = 0,0,0
 
+    segundo = 0
     progra_2.main.perdio = False
     multi_online = multParam
-     
+    
     if multi_offline or multi_online:
         #print("pero si llega")
         puntos, puntos2 = 0, 0 
@@ -236,10 +238,9 @@ def listo_minas(custom, dif, multParam=False , nuev = False,reinicio= True):  # 
     else:
         multi_offline = False
     try:
-        if nuev:
             mainFrame.destroy()
     except:
-        raise
+        pass
 
 
     # recibapuntosThread = Thread(target=reciba_puntos_Func, args=(puntos2 if esJ1 else puntos2))
@@ -261,61 +262,67 @@ def listo_minas(custom, dif, multParam=False , nuev = False,reinicio= True):  # 
         puntos2Thread = Thread(target=puntos2Func )
         puntos2Thread.daemon = True
         puntos2Thread.start()
-    if custom:
-        if " " in textA.get() or " " in textL.get() or " " in textM.get():
-            tkinter.messagebox.showwarning("Error", "no debes incluir espacios")
-            return
-        
+    if not reinicio:
+	    if custom:
+	        if " " in textA.get() or " " in textL.get() or " " in textM.get():
+	            tkinter.messagebox.showwarning("Error", "no debes incluir espacios")
+	            return
+	        
 
-        try:
-            int(textA.get())
-            int(textL.get())
-            int(textM.get())
+	        try:
+	            int(textA.get())
+	            int(textL.get())
+	            int(textM.get())
 
-        except:
-            tkinter.messagebox.showwarning("Error","Deben ser numeros enteros")
-            return
+	        except:
+	            tkinter.messagebox.showwarning("Error","Deben ser numeros enteros")
+	            return
 
-        if int(textA.get()) < 3:
-            tkinter.messagebox.showwarning("Error","Ancho debe ser mayor o igual a 3")
-            return
-        elif int(textA.get()) > 30:
-            tkinter.messagebox.showwarning("Error", "Ancho debe ser menor o igual a 30")
-            return
+	        if int(textA.get()) < 3:
+	            tkinter.messagebox.showwarning("Error","Ancho debe ser mayor o igual a 3")
+	            return
+	        elif int(textA.get()) > 30:
+	            tkinter.messagebox.showwarning("Error", "Ancho debe ser menor o igual a 30")
+	            return
 
-        elif int(textL.get()) < 3:
-            tkinter.messagebox.showwarning("Error", "Largo debe ser mayor o igual a 3")
-            return
+	        elif int(textL.get()) < 3:
+	            tkinter.messagebox.showwarning("Error", "Largo debe ser mayor o igual a 3")
+	            return
 
-        elif int(textL.get()) > 30:
-            tkinter.messagebox.showwarning("Error", "Largo debe ser menor o igual a 30")
-            return
+	        elif int(textL.get()) > 30:
+	            tkinter.messagebox.showwarning("Error", "Largo debe ser menor o igual a 30")
+	            return
 
-        elif int(textM.get()) < 1:
-            tkinter.messagebox.showwarning("Error", "Minas deben de ser mas que una")
-            return
+	        elif int(textM.get()) < 1:
+	            tkinter.messagebox.showwarning("Error", "Minas deben de ser mas que una")
+	            return
 
-        elif int(textM.get()) > (int(textA.get())*int(textL.get()))-1:
-            tkinter.messagebox.showwarning("Error", "Deben haber menos minas que cuadritos")
-            return
+	        elif int(textM.get()) > (int(textA.get())*int(textL.get()))-1:
+	            tkinter.messagebox.showwarning("Error", "Deben haber menos minas que cuadritos")
+	            return
 
-        progra_2.main.ubicar_minas(0,ancho= int(textA.get()),largo=int(textL.get()),minas=int(textM.get()))
-        totalminas = int(textM.get()) // 2
-   
+	        progra_2.main.ubicar_minas(0,ancho= int(textA.get()),largo=int(textL.get()),minas=int(textM.get()))
+	        totalminas = int(textM.get()) // 2
+	   
+	    else:
+	        print("aqui solo entra si no es custom")
+	        progra_2.main.ubicar_minas(dif)
+	        totalminas = progra_2.main.minas // 2
     else:
-        progra_2.main.ubicar_minas(dif)
+        print("def",dif)
+        progra_2.main.ubicar_minas(custom,ancho= int(dif[1]),largo= int(dif[2]),minas= int(dif[3]))
         totalminas = progra_2.main.minas // 2
     reiniciar = Label(topMainFrame,bg = "black", image=reiniciarIcon)
     global total, minasLabel
     total = progra_2.main.total - progra_2.main.minas
     reiniciar.grid(row=0,column=1)
-    reiniciar.bind("<Button-1>", lambda x: main(reinicio = True, jugadores = 0))
+    reiniciar.bind("<Button-1>", lambda x: main(reinicio = True, jugadores = jugador1_local, detalles = [dif, textA, textL, textM]))
     minasLabel = Label(topMainFrame, text=progra_2.main.minas, bg="black", fg="red", width=30)
     minasLabel.grid(row=0, column=0, sticky="W")
+    print("progra_2.main.lista[0]", progra_2.main.lista[0])
+    time.sleep(2)
     progra_2.main.lista[0].alrededor_mina()
-
-
-
+        
 
     def tiempoFunc():
         # aux = 1
@@ -328,7 +335,7 @@ def listo_minas(custom, dif, multParam=False , nuev = False,reinicio= True):  # 
         #     	tiempoLabel.destroy()
         #     except:
         #     	pass
-        global segund
+        global segundo
         while True:
             tiempoLabel = Label(topMainFrame, text=int(segundo), bg="black", fg="red", width=30)
             tiempoLabel.grid(row=0, column=2, sticky="E")
@@ -365,11 +372,6 @@ def listo_minas(custom, dif, multParam=False , nuev = False,reinicio= True):  # 
         temp.close()
     
 
-def reinicio(custom):
-    progra_2.main.lista = []
-    listaMinasObjetos(custom)
-
-
 def pedirCustom(key):
     global textA, textL, textM, containerCustom, totalminas
     # tkinter.messagebox.showinfo("personalizado", "personalizado, por favor escriba las caracteristicas del juego")
@@ -403,20 +405,19 @@ def pedirCustom(key):
     entryMinas.grid(row=2, column=1)
 
 
-def Game(players, multiplayer, reinicio = False):
+def Game(players, multiplayer, reinicio = False, configuracion = None):
     try :
     	menuFrame.destroy()
     except:
     	pass
-    global container, multi_offline
-    
+    global container, multi_offline,jugador1_local
+    multi_offline = bool(players)
+    jugador1_local = not bool(players)
     if players:
         #print("pero si llega")
-        global puntos2, puntos,jugador1_local
-        puntos, puntos2, jugador1_local = 0, 0, False
-        multi_offline = True
-    else:
-        multi_offline = False
+        global puntos2, puntos
+        puntos, puntos2  = 0, 0
+        
 
     if not reinicio:
 
@@ -445,7 +446,9 @@ def Game(players, multiplayer, reinicio = False):
 	    mode2Butt.grid(row=0, column=1)
 	    mode3Butt.grid(row=1, column=0)
 	    mode4Butt.grid(row=1, column=1)
-
+    else:
+    	listo_minas(False, configuracion["detalles"], False, True )
+    
 def on_closing():
     #if tkinter.messagebox.askokcancel("Salir", "Enserio quieres salir :( ?"):
     try:cliente.sock.shutdown(server.socket.SHUT_RDWR)
@@ -495,7 +498,7 @@ def main(**configuracion):# confi =total mult, tamñao [1,2,4,5] , reinicio , re
     	root.destroy()
     except:
     	pass
-
+# cantidad de jugadores,
     root = Tk()
     root.title("Minesweeper")
     root.configure(background="#111111")
@@ -528,7 +531,7 @@ def main(**configuracion):# confi =total mult, tamñao [1,2,4,5] , reinicio , re
 	    TwoPlayerL.grid(row=1, column=0)
 	    TwoPlayerM.grid(row=2, column=0)
     else:
-        Game(configuracion["jugadores"],False ,True)
+        Game(configuracion["jugadores"],False ,True, configuracion)
     root.mainloop()
 
 if __name__ == "__main__":
