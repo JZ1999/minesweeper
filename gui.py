@@ -27,21 +27,10 @@ def eval(valor, obj):
     except:
         #print("no existe")
         pass
-    if not progra_2.main.perdio:
-        try:
-            for indice in listaMinasObjetos:
-                if indice.cuadro == obj:
-                    pos_indice = str(listaMinasObjetos.index(indice))
-                    break
-            cliente.mandarMSG(str(puntos),pos_indice)
-            print(cliente.info)
-            #print(str(puntos),pos_indice)
-        except:
-            pass
+    if not progra_2.main.perdio and conectados:
         perdiendo = [["Noob", "Por lo menos sabes jugar?"], ["Noob", "Jugando como nunca, pierde como siempre"], ["Noob", "Mejor dediquese a candy crush"]]
 
         if total == 1 and valor > 0 and not multi_offline:
-            print(200)
 
             for x in listaMinasObjetos:
                 if x.cuadro == obj:
@@ -52,50 +41,87 @@ def eval(valor, obj):
       
         else:
             if valor == -1:
-                    try:
+                try:
+                    if not multi_online:
 
-                            if jugador1_local or jugador1_mult :
-                                
-                                puntos+=1
-                                print("si pasa por aqui_1", puntos)
-                                if puntos > totalminas:
-                                        tkinter.messagebox.showinfo("Se acabo","jugador 1 gano")           	
+                        if jugador1_local or jugador1_mult :
                             
-                            else:
-                                puntos2 +=1
-                                if puntos2 > totalminas:
-                                    tkinter.messagebox.showinfo("Se acabo","Jugador 2 gano")           	
-                            if puntos + puntos2 == total * 2:
-                                tkinter.messagebox.showinfo("Se acabo","Empate")
-                            
-                    except:
-                        progra_2.main.perdio = True
-                        a = progra_2.choice(perdiendo)
-                        tkinter.messagebox.showinfo(a[0], a[1])
+                            puntos+=1
+                            if puntos > totalminas:
+                                    tkinter.messagebox.showinfo("Se acabo","jugador 1 gano")           	
+                        
+                        else:
+                            puntos2 +=1
+                            if puntos2 > totalminas:
+                                tkinter.messagebox.showinfo("Se acabo","Jugador 2 gano")           	
+                        if puntos + puntos2 == total * 2:
+                            tkinter.messagebox.showinfo("Se acabo","Empate")
+                    else:
+                        if J2:
+                            puntos2+=1
+                            if puntos2 > totalminas:
+                                tkinter.messagebox.showinfo("Se acabo","Jugador 2 gano")           	
+                        else:
+                            puntos+=1
+                            if puntos > totalminas:
+                                tkinter.messagebox.showinfo("Se acabo","Jugador 1 gano")           	
+
+                        
+                except:
+                    
+                    progra_2.main.perdio = True
+                    a = progra_2.choice(perdiendo)
+                    tkinter.messagebox.showinfo(a[0], a[1])
+                #Algoritmo de cliente a server
+                try:#Dentro de try por si el jugador no escojio online esos variables no
+                    #estan declarados
+                    #Iteracion para buscar en cual mina le dio click el cliente para
+                    #Para mandarlo al server
+                    for indice in listaMinasObjetos:
+                        if indice.cuadro == obj:
+                            pos_indice = str(listaMinasObjetos.index(indice))
+                            break
+                    cliente.mandarMSG(str(puntos2 if J2 else puntos),pos_indice)
+                    print(cliente.info)
+                except:
+                    pass
                       
             elif valor > 0:
+                #Algoritmo de cliente a server
+                try:#Dentro de try por si el jugador no escojio online esos variables no
+                    #estan declarados
+                    #Iteracion para buscar en cual mina le dio click el cliente para
+                    #Para mandarlo al server
+                    for indice in listaMinasObjetos:
+                        if indice.cuadro == obj:
+                            pos_indice = str(listaMinasObjetos.index(indice))
+                            break
+                    cliente.mandarMSG(str(puntos2 if J2 else puntos),pos_indice)
+                    print(cliente.info)
+                except:
+                    pass
                 total -= 1
                 for x in listaMinasObjetos:
                     if x.cuadro == obj:
                         fgColor = x.color()
                         x.cuadro = Button(mainFrame, text=valor, fg=fgColor, bg="#8b8d8e", width=1, height=1)
                         x.cuadro.grid(row=x.x, column=x.y)
-            # elif valor == -3:
-            #      for x in listaMinasObjetos:
-            #          if x.cuadro == obj:
-            #              x.cuadro = Button(mainFrame, fg="black",
-            #                                bg="#555555", width=1, height=1)
-            #              x.cuadro.grid(row=x.x, column=x.y)
-            # elif valor == -2:
-            #     obj.destroy()
-            #     for x in listaMinasObjetos:
-            #         if x.cuadro == obj:
-            #             x.cuadro = Button(mainFrame, fg="blue",
-            #                            bg="#a6a7a8", width=1, height=1)
-            #             x.cuadro.grid(row=x.x, column=x.y)
             elif not valor:
                 total -= 1
 
+                #Algoritmo de cliente a server
+                try:#Dentro de try por si el jugador no escojio online esos variables no
+                    #estan declarados
+                    #Iteracion para buscar en cual mina le dio click el cliente para
+                    #Para mandarlo al server
+                    for indice in listaMinasObjetos:
+                        if indice.cuadro == obj:
+                            pos_indice = str(listaMinasObjetos.index(indice))
+                            break
+                    cliente.mandarMSG(str(puntos2 if J2 else puntos),pos_indice)
+                    print(cliente.info)
+                except:
+                    pass
                 for x in listaMinasObjetos:
                     if x.cuadro == obj:
                         x.cuadro = Button(mainFrame, fg="black",
@@ -106,6 +132,25 @@ def eval(valor, obj):
                         if not progra_2.main.lista[coordenada].activo:
                             s = progra_2.main.lista[coordenada].click(True)
                             eval(s, progra_2.main.lista[coordenada])
+def definir_puntos():
+    global puntos, puntos2
+    """
+    Funcione que debe correr en
+    un thread para conseguir en tiempo
+    real los puntos del oponente mediante
+    la comunicacion con el servidor
+    """
+    while True:
+        time.sleep(0.07)
+        #Cambiar los puntos del oponente
+        try:#Dentro de try porque al inicio cliente.info es None
+            if J2:
+                puntos = cliente.info[0]
+            else:
+                puntos2 = cliente.info[0]
+                if puntos2 == "200":
+                    puntos2 = 0
+        except:pass
 
 def demostrar(obj, izquierdo = True): 
 	"""
@@ -205,10 +250,18 @@ class minasGUI:
         valores = {1: "#0000FF", 2: "#2d1a4f", 3: "#EF4321", 4: "#000000", 5: "#ba031f", 6: "#06ad91", 7: "#152959", 8: "#565759"}
         return valores[self.cuadro.minas_alrededor]
 
-def reciba_puntos_Func(puntosParam):
+def revisar_coneccion():
+    """
+    Esta funcion va dentro de un thread
+    revisa si hay coneccion al otro cliente
+    para comenzar, en ese caso rompe el while
+    """
+    global conectados
     while True:
-        recv = cliente.recibir()
-        print(next(recv))
+        data = cliente.info if cliente.info == None else cliente.info[0]
+        if data == "200":
+            conectados = True
+            break
 
 def puntos2Func():
     while True:
@@ -223,8 +276,10 @@ def puntos1Func():
 def listo_minas(custom, dif, multParam=False , nuev = False,reinicio= True):  # reinicio es para reiniciar true es que no a reinciado
     global listaMinasObjetos, mainFrame, cliente, \
            puntos, puntos2, jugador1_local, jugador1_mult, \
-            totalminas, multi_online, multi_offline, topMainFrame, segundo
+            totalminas, multi_online, multi_offline, topMainFrame, segundo,\
+            J2, conectados
     segundo = 0
+
 
     progra_2.main.perdio = False
     multi_online = multParam
@@ -242,25 +297,35 @@ def listo_minas(custom, dif, multParam=False , nuev = False,reinicio= True):  # 
         raise
 
 
-    # recibapuntosThread = Thread(target=reciba_puntos_Func, args=(puntos2 if esJ1 else puntos2))
-    # recibapuntosThread.daemon = True
-    # recibapuntosThread.start()
-    
-    
     mainFrame = Frame(root)
     mainFrame.grid(row=1, column=1)
     topMainFrame = Frame(root)
     topMainFrame.grid(row=0,columnspan=3)
     topMainFrame.config(bg="black")
     
+    conectados = False if multi_online else True #Variable para saber si los clientes estan conectados
     if multi_online:
         cliente = server.Cliente("127.0.0.1")
         puntosThread = Thread(target=puntos1Func)
         puntosThread.daemon = True
         puntosThread.start()
+
         puntos2Thread = Thread(target=puntos2Func )
         puntos2Thread.daemon = True
         puntos2Thread.start()
+
+        calcularPuntos = Thread(target=definir_puntos)
+        calcularPuntos.daemon = True
+        calcularPuntos.start()
+
+        revisarCon = Thread(target=revisar_coneccion)
+        revisarCon.daemon = True
+        revisarCon.start()
+
+        J2 = cliente.jugador
+        conectados = True if J2 else False
+        if conectados:
+            cliente.mandarMSG("200")
     if custom:
         if " " in textA.get() or " " in textL.get() or " " in textM.get():
             tkinter.messagebox.showwarning("Error", "no debes incluir espacios")
@@ -305,11 +370,12 @@ def listo_minas(custom, dif, multParam=False , nuev = False,reinicio= True):  # 
     else:
         progra_2.main.ubicar_minas(dif)
         totalminas = progra_2.main.minas // 2
-    reiniciar = Label(topMainFrame,bg = "black", image=reiniciarIcon)
+    if not multi_online:
+        reiniciar = Label(topMainFrame,bg = "black", image=reiniciarIcon)
+        reiniciar.grid(row=0,column=1)
+        reiniciar.bind("<Button-1>", lambda x: main(reinicio = True, jugadores = 0))
     global total, minasLabel
     total = progra_2.main.total - progra_2.main.minas
-    reiniciar.grid(row=0,column=1)
-    reiniciar.bind("<Button-1>", lambda x: main(reinicio = True, jugadores = 0))
     minasLabel = Label(topMainFrame, text=progra_2.main.minas, bg="black", fg="red", width=30)
     minasLabel.grid(row=0, column=0, sticky="W")
     progra_2.main.lista[0].alrededor_mina()
@@ -328,20 +394,30 @@ def listo_minas(custom, dif, multParam=False , nuev = False,reinicio= True):  # 
         #     	tiempoLabel.destroy()
         #     except:
         #     	pass
-        global segund
+        global segundo
+        segundo = 0
         while True:
+            try :
+                #Este variable fondoTiempo se mantiene detras de tiempoLabel
+                #para cuando se borre el tiempoLabel no haya un campo vacio
+                fondoTiempo = Label(topMainFrame, bg="black", width=30)
+                fondoTiempo.grid(row=0, column=2, sticky="E")
+                tiempoLabel.destroy()
+            except:pass
             tiempoLabel = Label(topMainFrame, text=int(segundo), bg="black", fg="red", width=30)
             tiempoLabel.grid(row=0, column=2, sticky="E")
             time.sleep(1)
             segundo += 1
+            try:fondoTiempo.destroy()
+            except:pass
 
 
     tfuncThread = Thread(target=tiempoFunc)
     tfuncThread.daemon = True
-    # if reinicio:
-    # 	tfuncThread.start()  
-    # else:
-    #     pass
+    if reinicio:
+    	tfuncThread.start()  
+    else:
+        pass
     
     for objeto in progra_2.main.lista:
              rowVar = progra_2.main.lista.index(objeto)//progra_2.main.largo#la fila
@@ -357,12 +433,16 @@ def listo_minas(custom, dif, multParam=False , nuev = False,reinicio= True):  # 
          pass
     container.destroy()
 
-    with open("temp") as temp:
-        if temp:
-            jugador1_mult = False
-        else:
-            jugador1_mult = True
-        temp.close()
+    try:
+        with open("temp") as temp:
+            if temp:
+                jugador1_mult = False
+            else:
+                jugador1_mult = True
+            temp.close()
+    except:
+        pass
+
     
 
 def reinicio(custom):
