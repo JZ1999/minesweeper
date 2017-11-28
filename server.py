@@ -9,7 +9,7 @@ class Servidor:
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         def __init__(self):
 		#primer parametro es el IP que le quiere poner al sock, segundo es el puerto
-                self.sock.bind(('127.0.0.1', 9998))
+                self.sock.bind(('127.0.0.1', 10000))
 
 		#Abilita las conecciones con el parametro diciendo cuantas conecciones deja
                 self.sock.listen(1)
@@ -43,6 +43,8 @@ class Servidor:
                 c, a = self.sock.accept()
                 #creando una variable en la clase de c de ID
                 c = (c,str(id))
+                #Mandarle al cliente que se conecta cual jugador es - 0 es jugador 1 y 1 jugador 2
+                c[0].send(bytes(str(len(self.conecciones)%2),"utf-8"))
                 #El thread se ocupa para tener mas que una coneccion a la misma vez
                 #target = funcion que se aplicara con lo que retorna el método de Thread, args = los parametros de la funcion de target
                 cThread = threading.Thread(target=self.manejo, args=(c, a))
@@ -60,6 +62,7 @@ class Servidor:
 class Cliente:
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     info = None#Informacion que manda al server
+    jugador = None#Es un 1 o 0, 1 si es jugador 2 sino jugador 1
     def mandarMSG(self, *args):
         self.sock.send(bytes(" ".join(args), "utf-8"))
         #time.sleep(0.5)
@@ -70,8 +73,9 @@ class Cliente:
                 break
             self.info = data.decode("UTF-8").split(" ")
     def __init__(self, addr):
-        self.sock.connect((addr, 9998))
-        
+        self.sock.connect((addr, 10000))
+        data = self.sock.recv(1024)
+        self.jugador = int(data.decode("UTF-8"))
         iThread = threading.Thread(target=self.mandarMSG)
         iThread.daemon = True
         #iThread.start()
