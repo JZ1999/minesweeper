@@ -5,16 +5,16 @@ import socket
 import sys
 
 class Servidor:
-	#primer parametro es que usaremos IPV4, 2do es para decir usaremos una coneccion TCP
+    #primer parametro es que usaremos IPV4, 2do es para decir usaremos una coneccion TCP
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         def __init__(self):
-		#primer parametro es el IP que le quiere poner al sock, segundo es el puerto
+        #primer parametro es el IP que le quiere poner al sock, segundo es el puerto
                 self.sock.bind(('127.0.0.1', 10000))
 
-		#Abilita las conecciones con el parametro diciendo cuantas conecciones deja
+        #Abilita las conecciones con el parametro diciendo cuantas conecciones deja
                 self.sock.listen(1)
 
-	#Lista donde tendremos todas las conecciones
+    #Lista donde tendremos todas las conecciones
         conecciones = []
         
         def manejo(self, c, a):
@@ -71,10 +71,11 @@ class Cliente:
         while True:
             data = self.sock.recv(1024)
             print(data)
+            print("si funciona=? negativo")
             if not data:
                 break
             if data.decode("UTF-8")[-1] == "|":
-                pass
+                print("si funciona=?")
             else:
                 self.info = data.decode("UTF-8").split(" ")
     def __init__(self, addr, plantilla=None):

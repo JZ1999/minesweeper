@@ -11,6 +11,7 @@ class partida:
 
     def ubicar_minas(self,dificultad, **customizado):  # creacion y ubicacion de la mina y lista, esto no va en esta class
         nivel = [[8, 8, 10], [16, 16, 40], [16, 30, 99]]
+        
         print("debugenado" ,dificultad, customizado)
         if dificultad:
             print("debugenad1" ,dificultad, customizado)
@@ -32,6 +33,7 @@ class partida:
                 lista[lista.index(x)].mina = True
                 minas -= 1
         self.lista = lista
+        self.lista[0].alrededor_mina()
         
 class cuadro(partida):
     def __init__(self):
