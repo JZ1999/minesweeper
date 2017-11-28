@@ -261,17 +261,38 @@ def revisar_coneccion():
         data = cliente.info if cliente.info == None else cliente.info[0]
         if data == "200":
             conectados = True
+            cliente.mandarMSG(cliente.plantilla)
             break
 
 def puntos2Func():
+    #Constantemente consigue los puntos del J2 y lo coloca en la ventana
     while True:
         Label(root, text=puntos2, fg="#800000", bg=mainBg, width=10).grid(row=1, column=2)
         time.sleep(0.5)
 
 def puntos1Func():
+    #Constantemente consigue los puntos del J1 y lo coloca en la ventana
     while True:
         Label(root, text=puntos, fg="#000080", bg=mainBg, width=10).grid(row=1, column=0)
         time.sleep(0.5)
+
+
+def MandarPlantilla():
+#Mandar la plantilla al servidor solo si cliente es J1
+#Y formatearla en string y bytes
+    plantilla = progra_2.main.lista.copy()
+    plantillaMatriz = []
+    for cuadro in plantilla:
+        lista = ["|",str(cuadro.x),str(cuadro.activo),str(cuadro.bandera),
+                str(cuadro.mina),str(cuadro.minas_alrededor),
+                str(cuadro.coordenadas_alrededor),"|"]
+        plantillaMatriz.append(lista)
+    plantillaString = ""
+    for cuadro in plantillaMatriz:
+        plantillaString+=",".join(cuadro)
+
+#plantillaMatriz = ",".join(plantillaMatriz)
+    cliente.plantilla = plantillaString
 
 def listo_minas(custom, dif, multParam=False , nuev = False,reinicio= True):  # reinicio es para reiniciar true es que no a reinciado
     global listaMinasObjetos, mainFrame, cliente, \
@@ -293,8 +314,7 @@ def listo_minas(custom, dif, multParam=False , nuev = False,reinicio= True):  # 
     try:
         if nuev:
             mainFrame.destroy()
-    except:
-        raise
+    except:pass
 
 
     mainFrame = Frame(root)
@@ -302,7 +322,7 @@ def listo_minas(custom, dif, multParam=False , nuev = False,reinicio= True):  # 
     topMainFrame = Frame(root)
     topMainFrame.grid(row=0,columnspan=3)
     topMainFrame.config(bg="black")
-    
+
     conectados = False if multi_online else True #Variable para saber si los clientes estan conectados
     if multi_online:
         cliente = server.Cliente("127.0.0.1")
@@ -326,122 +346,128 @@ def listo_minas(custom, dif, multParam=False , nuev = False,reinicio= True):  # 
         conectados = True if J2 else False
         if conectados:
             cliente.mandarMSG("200")
-    if custom:
-        if " " in textA.get() or " " in textL.get() or " " in textM.get():
-            tkinter.messagebox.showwarning("Error", "no debes incluir espacios")
-            return
+        if custom:
+            if " " in textA.get() or " " in textL.get() or " " in textM.get():
+                tkinter.messagebox.showwarning("Error", "no debes incluir espacios")
+                return
+            
+
+            try:
+                int(textA.get())
+                int(textL.get())
+                int(textM.get())
+
+            except:
+                tkinter.messagebox.showwarning("Error","Deben ser numeros enteros")
+                return
+
+            if int(textA.get()) < 3:
+                tkinter.messagebox.showwarning("Error","Ancho debe ser mayor o igual a 3")
+                return
+            elif int(textA.get()) > 30:
+                tkinter.messagebox.showwarning("Error", "Ancho debe ser menor o igual a 30")
+                return
+
+            elif int(textL.get()) < 3:
+                tkinter.messagebox.showwarning("Error", "Largo debe ser mayor o igual a 3")
+                return
+
+            elif int(textL.get()) > 30:
+                tkinter.messagebox.showwarning("Error", "Largo debe ser menor o igual a 30")
+                return
+
+            elif int(textM.get()) < 1:
+                tkinter.messagebox.showwarning("Error", "Minas deben de ser mas que una")
+                return
+
+            elif int(textM.get()) > (int(textA.get())*int(textL.get()))-1:
+                tkinter.messagebox.showwarning("Error", "Deben haber menos minas que cuadritos")
+                return
+
+            progra_2.main.ubicar_minas(0,ancho= int(textA.get()),largo=int(textL.get()),minas=int(textM.get()))
+            totalminas = int(textM.get()) // 2
+       
+        else:
+            progra_2.main.ubicar_minas(dif)
+            totalminas = progra_2.main.minas // 2
+        global total, minasLabel
+        total = progra_2.main.total - progra_2.main.minas
+        minasLabel = Label(topMainFrame, text=progra_2.main.minas, bg="black", fg="red", width=30)
+        minasLabel.grid(row=0, column=0, sticky="W")
+        progra_2.main.lista[0].alrededor_mina()
+        if not multi_online:
+            reiniciar = Label(topMainFrame,bg = "black", image=reiniciarIcon)
+            reiniciar.grid(row=0,column=1)
+            reiniciar.bind("<Button-1>", lambda x: main(reinicio = True, jugadores = 0))
+        else:
+            if not J2:
+                MandarPlantilla()
+            else:
+                pass
+                #ConseguirPlantilla()
+
+
+
+
+        def tiempoFunc():
+            # aux = 1
+            # while True:
+            #     if not aux:
+            #     	time.sleep(1)
+            #     else:
+            #     	aux-=1
+            #     try :
+            #     	tiempoLabel.destroy()
+            #     except:
+            #     	pass
+            global segundo
+            segundo = 0
+            while True:
+                try :
+                    #Este variable fondoTiempo se mantiene detras de tiempoLabel
+                    #para cuando se borre el tiempoLabel no haya un campo vacio
+                    fondoTiempo = Label(topMainFrame, bg="black", width=30)
+                    fondoTiempo.grid(row=0, column=2, sticky="E")
+                    tiempoLabel.destroy()
+                except:pass
+                tiempoLabel = Label(topMainFrame, text=int(segundo), bg="black", fg="red", width=30)
+                tiempoLabel.grid(row=0, column=2, sticky="E")
+                time.sleep(1)
+                segundo += 1
+                try:fondoTiempo.destroy()
+                except:pass
+
+
+        tfuncThread = Thread(target=tiempoFunc)
+        tfuncThread.daemon = True
+        if reinicio:
+            tfuncThread.start()  
+        else:
+            pass
         
+        for objeto in progra_2.main.lista:
+                 rowVar = progra_2.main.lista.index(objeto)//progra_2.main.largo#la fila
+                 columnVar = progra_2.main.lista.index(objeto)%progra_2.main.largo#la columna
+                 #print(rowVar)
+                 listaMinasObjetos.append(minasGUI(Button(mainFrame, width=1,height=1, bg="#8b8d8e"), objeto, rowVar, columnVar, objeto.mina) )
+                 #listaMinasObjetos[-1].boton.bind("<Button-1>",lambda x: demostrar(objeto))
+                 listaMinasObjetos[-1].setupObj()
+                 #listaMinasObjetos[-1].boton.grid(row=rowVar, column=columnVar)
+        try:
+             containerCustom.destroy() 
+        except:
+             pass
+        container.destroy()
 
         try:
-            int(textA.get())
-            int(textL.get())
-            int(textM.get())
-
+            with open("temp") as temp:
+                if temp:
+                    jugador1_mult = False
+                else:
+                    jugador1_mult = True
+                temp.close()
         except:
-            tkinter.messagebox.showwarning("Error","Deben ser numeros enteros")
-            return
-
-        if int(textA.get()) < 3:
-            tkinter.messagebox.showwarning("Error","Ancho debe ser mayor o igual a 3")
-            return
-        elif int(textA.get()) > 30:
-            tkinter.messagebox.showwarning("Error", "Ancho debe ser menor o igual a 30")
-            return
-
-        elif int(textL.get()) < 3:
-            tkinter.messagebox.showwarning("Error", "Largo debe ser mayor o igual a 3")
-            return
-
-        elif int(textL.get()) > 30:
-            tkinter.messagebox.showwarning("Error", "Largo debe ser menor o igual a 30")
-            return
-
-        elif int(textM.get()) < 1:
-            tkinter.messagebox.showwarning("Error", "Minas deben de ser mas que una")
-            return
-
-        elif int(textM.get()) > (int(textA.get())*int(textL.get()))-1:
-            tkinter.messagebox.showwarning("Error", "Deben haber menos minas que cuadritos")
-            return
-
-        progra_2.main.ubicar_minas(0,ancho= int(textA.get()),largo=int(textL.get()),minas=int(textM.get()))
-        totalminas = int(textM.get()) // 2
-   
-    else:
-        progra_2.main.ubicar_minas(dif)
-        totalminas = progra_2.main.minas // 2
-    if not multi_online:
-        reiniciar = Label(topMainFrame,bg = "black", image=reiniciarIcon)
-        reiniciar.grid(row=0,column=1)
-        reiniciar.bind("<Button-1>", lambda x: main(reinicio = True, jugadores = 0))
-    global total, minasLabel
-    total = progra_2.main.total - progra_2.main.minas
-    minasLabel = Label(topMainFrame, text=progra_2.main.minas, bg="black", fg="red", width=30)
-    minasLabel.grid(row=0, column=0, sticky="W")
-    progra_2.main.lista[0].alrededor_mina()
-
-
-
-
-    def tiempoFunc():
-        # aux = 1
-        # while True:
-        #     if not aux:
-        #     	time.sleep(1)
-        #     else:
-        #     	aux-=1
-        #     try :
-        #     	tiempoLabel.destroy()
-        #     except:
-        #     	pass
-        global segundo
-        segundo = 0
-        while True:
-            try :
-                #Este variable fondoTiempo se mantiene detras de tiempoLabel
-                #para cuando se borre el tiempoLabel no haya un campo vacio
-                fondoTiempo = Label(topMainFrame, bg="black", width=30)
-                fondoTiempo.grid(row=0, column=2, sticky="E")
-                tiempoLabel.destroy()
-            except:pass
-            tiempoLabel = Label(topMainFrame, text=int(segundo), bg="black", fg="red", width=30)
-            tiempoLabel.grid(row=0, column=2, sticky="E")
-            time.sleep(1)
-            segundo += 1
-            try:fondoTiempo.destroy()
-            except:pass
-
-
-    tfuncThread = Thread(target=tiempoFunc)
-    tfuncThread.daemon = True
-    if reinicio:
-    	tfuncThread.start()  
-    else:
-        pass
-    
-    for objeto in progra_2.main.lista:
-             rowVar = progra_2.main.lista.index(objeto)//progra_2.main.largo#la fila
-             columnVar = progra_2.main.lista.index(objeto)%progra_2.main.largo#la columna
-             #print(rowVar)
-             listaMinasObjetos.append(minasGUI(Button(mainFrame, width=1,height=1, bg="#8b8d8e"), objeto, rowVar, columnVar, objeto.mina) )
-             #listaMinasObjetos[-1].boton.bind("<Button-1>",lambda x: demostrar(objeto))
-             listaMinasObjetos[-1].setupObj()
-             #listaMinasObjetos[-1].boton.grid(row=rowVar, column=columnVar)
-    try:
-         containerCustom.destroy() 
-    except:
-         pass
-    container.destroy()
-
-    try:
-        with open("temp") as temp:
-            if temp:
-                jugador1_mult = False
-            else:
-                jugador1_mult = True
-            temp.close()
-    except:
-        pass
+            pass
 
     
 

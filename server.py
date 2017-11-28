@@ -63,16 +63,22 @@ class Cliente:
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     info = None#Informacion que manda al server
     jugador = None#Es un 1 o 0, 1 si es jugador 2 sino jugador 1
+    plantilla = None#Plantilla del juego
     def mandarMSG(self, *args):
         self.sock.send(bytes(" ".join(args), "utf-8"))
         #time.sleep(0.5)
     def recibir(self):
         while True:
             data = self.sock.recv(1024)
+            print(data)
             if not data:
                 break
-            self.info = data.decode("UTF-8").split(" ")
-    def __init__(self, addr):
+            if data.decode("UTF-8")[-1] == "|":
+                pass
+            else:
+                self.info = data.decode("UTF-8").split(" ")
+    def __init__(self, addr, plantilla=None):
+        self.plantilla = plantilla
         self.sock.connect((addr, 10000))
         data = self.sock.recv(1024)
         self.jugador = int(data.decode("UTF-8"))
