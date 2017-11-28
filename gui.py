@@ -19,7 +19,8 @@ def eval(valor, obj):
 
     """
 
-    global total , totalminas, multi_offline, jugador1_local, jugador1_mult, puntos2, puntos
+    global total , totalminas, multi_offline, jugador1_local,
+    jugador1_mult, puntos2, puntos
 
     try:
         #print(puntos2,"cececwc")
@@ -27,7 +28,7 @@ def eval(valor, obj):
     except:
         #print("no existe")
         pass
-    if not progra_2.main.perdio:
+    if not progra_2.main.perdio and conectados:
         try:
             for indice in listaMinasObjetos:
                 if indice.cuadro == obj:
