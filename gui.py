@@ -175,73 +175,74 @@ def demostrar(obj, izquierdo = True):
     """
     #print(222)
     global multi_offline, jugador1_local, jugador1_mult, multi_online, minasLabel
-    if not izquierdo  and (multi_online or multi_offline):
-        return
-    try:
-        jugador1_local = not jugador1_local
-    except:
-        pass
-    if izquierdo:
-        valorDelClick = obj.cuadro.click(True)
-    else:
-        #print(obj.cuadro,"gg ixxi")
-        valorDelClick  = progra_2.main.lista[progra_2.main.lista.index(obj.cuadro)].click(False)
-    """
-    ##print(multi_offline, "validando")
+    if not progra_2.main.perdio:
+        if not izquierdo  and (multi_online or multi_offline):
+            return
+        try:
+            jugador1_local = not jugador1_local
+        except:
+            pass
+        if izquierdo:
+            valorDelClick = obj.cuadro.click(True)
+        else:
+            #print(obj.cuadro,"gg ixxi")
+            valorDelClick  = progra_2.main.lista[progra_2.main.lista.index(obj.cuadro)].click(False)
+        """
+        ##print(multi_offline, "validando")
 
-    print(izquierdo, "i" )
-    """
+        print(izquierdo, "i" )
+        """
 
-    if obj.mina and izquierdo:#para poner
-        #print(obj.mina, "validando")
-        if multi_offline or multi_online:
-            progra_2.main.lista[progra_2.main.lista.index(obj.cuadro)].click(True)
-            obj.boton = Label(mainFrame, image=minaPNG)
-            obj.boton.grid(row=obj.x, column=obj.y)
-        else:       
-            for par in listaMinasObjetos:
-                if par.mina:
-                    print("cececcec")
-                    progra_2.main.lista[progra_2.main.lista.index(par.cuadro)].click(True)
-                    par.boton = Label(mainFrame, image=minaPNG)
-                    par.boton.grid(row=par.x, column=par.y)
-    
-    elif obj.cuadro.bandera :
-        obj.boton.grid_remove()
-        minasLabel.destroy()
-        progra_2.main.minas -= 1 
-        minasLabel = Label(topMainFrame, text=progra_2.main.minas, bg="black", fg="red", width=30)
-        minasLabel.grid(row=0, column=0, sticky="W")
-        print("gg no llego")
-        obj.boton = Button(mainFrame, image = banderaPNG)
-
-        obj.boton.grid(row=obj.x, column=obj.y)
-
-        obj.boton.bind("<Button-1>", lambda x: demostrar(obj))
+        if obj.mina and izquierdo:#para poner
+            #print(obj.mina, "validando")
+            if multi_offline or multi_online:
+                progra_2.main.lista[progra_2.main.lista.index(obj.cuadro)].click(True)
+                obj.boton = Label(mainFrame, image=minaPNG)
+                obj.boton.grid(row=obj.x, column=obj.y)
+            else:       
+                for par in listaMinasObjetos:
+                    if par.mina:
+                        print("cececcec")
+                        progra_2.main.lista[progra_2.main.lista.index(par.cuadro)].click(True)
+                        par.boton = Label(mainFrame, image=minaPNG)
+                        par.boton.grid(row=par.x, column=par.y)
         
-        obj.boton.bind("<Button-3>", lambda x: demostrar(obj, False))                    
+        elif obj.cuadro.bandera :
+            obj.boton.grid_remove()
+            minasLabel.destroy()
+            progra_2.main.minas -= 1 
+            minasLabel = Label(topMainFrame, text=progra_2.main.minas, bg="black", fg="red", width=30)
+            minasLabel.grid(row=0, column=0, sticky="W")
+            print("gg no llego")
+            obj.boton = Button(mainFrame, image = banderaPNG)
 
-    elif not obj.cuadro.bandera and not izquierdo:
-        print(222)
-        minasLabel.destroy()
-        progra_2.main.minas += 1 
-        minasLabel = Label(topMainFrame, text=progra_2.main.minas, bg="black", fg="red", width=30)
-        minasLabel.grid(row=0, column=0, sticky="W")
-        obj.boton.grid_remove()
-        obj.boton = Button(mainFrame, width=1,height=1, bg="#8b8d8e")
+            obj.boton.grid(row=obj.x, column=obj.y)
 
-        obj.boton.grid(row=obj.x, column=obj.y)
-        obj.boton.bind("<Button-1>", lambda x: demostrar(obj))
-    
-        obj.boton.bind("<Button-3>", lambda x: demostrar(obj, False))
-    
-    
-    # if not obj.bandera:
-    #           print("si funciona")
-    #           progra_2.main.lista[progra_2.main.lista.index(par.cuadro)].click(True)
-    #           par.boton = Label(mainFrame, image=banderaPNG, bg = "black")
-    #           par.boton.grid(row=par.x, column=par.y)
-    eval(valorDelClick, obj.cuadro)
+            obj.boton.bind("<Button-1>", lambda x: demostrar(obj))
+            
+            obj.boton.bind("<Button-3>", lambda x: demostrar(obj, False))                    
+
+        elif not obj.cuadro.bandera and not izquierdo:
+            print(222)
+            minasLabel.destroy()
+            progra_2.main.minas += 1 
+            minasLabel = Label(topMainFrame, text=progra_2.main.minas, bg="black", fg="red", width=30)
+            minasLabel.grid(row=0, column=0, sticky="W")
+            obj.boton.grid_remove()
+            obj.boton = Button(mainFrame, width=1,height=1, bg="#8b8d8e")
+
+            obj.boton.grid(row=obj.x, column=obj.y)
+            obj.boton.bind("<Button-1>", lambda x: demostrar(obj))
+        
+            obj.boton.bind("<Button-3>", lambda x: demostrar(obj, False))
+        
+        
+        # if not obj.bandera:
+        #           print("si funciona")
+        #           progra_2.main.lista[progra_2.main.lista.index(par.cuadro)].click(True)
+        #           par.boton = Label(mainFrame, image=banderaPNG, bg = "black")
+        #           par.boton.grid(row=par.x, column=par.y)
+        eval(valorDelClick, obj.cuadro)
     
     
    
