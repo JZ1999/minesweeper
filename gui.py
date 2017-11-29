@@ -7,24 +7,21 @@ from tkinter import *
 import time
 import progra_2
 import tkinter.messagebox
-listaMinasObjetos = []  # Contiene listas de cada cuadrito y su botÃ³n respectivo
+
  
 def MandarPlantilla():
-#Mandar la plantilla al servidor solo si cliente es J1
-#Y formatearla en string y bytes
+    #Mandar la plantilla al servidor solo si cliente es J1
+    #Y formatearla en string y bytes
     plantilla = progra_2.main.lista.copy()
-    plantillaMatriz = []
-    for cuadro in plantilla:
-        lista = ["|",str(cuadro.x),str(cuadro.activo),str(cuadro.bandera),
-                str(cuadro.mina),str(cuadro.minas_alrededor),
-                str(cuadro.coordenadas_alrededor),"|"]
-        plantillaMatriz.append(lista)
-    plantillaString = ""
-    for cuadro in plantillaMatriz:
-        plantillaString+=",".join(cuadro)
+    plantillaMatriz = "|"
 
-#plantillaMatriz = ",".join(plantillaMatriz)
-    cliente.plantilla = plantillaString
+    for cuadro in plantilla:           
+        objeto = str(cuadro.mina) + ","
+        plantillaMatriz+= objeto
+
+    plantillaMatriz+= "|"
+
+    cliente.plantilla = plantillaMatriz
  
 def eval(valor, obj):
     
@@ -281,7 +278,7 @@ def revisar_coneccion():
        
        
        data = cliente.info if cliente.info == None else cliente.info[0]
-       print(data," con lo que sea")
+       
        if data == "200":
             conectados = True
             cliente.mandarMSG(cliente.plantilla)
@@ -350,7 +347,11 @@ def listo_minas(custom, dif, multParam=False , configuracion = {"reinicio" : Fal
             if conectados:
                 print("un  si")
                 cliente.mandarMSG("200")
-        if custom:
+            else:
+                print("minimo entra")
+                progra_2.main.ubicacion_online(cliente.plantilla)
+
+        elif custom:
             if " " in textA.get() or " " in textL.get() or " " in textM.get():
                 tkinter.messagebox.showwarning("Error", "no debes incluir espacios")
                 return
@@ -401,7 +402,7 @@ def listo_minas(custom, dif, multParam=False , configuracion = {"reinicio" : Fal
         progra_2.main.ubicar_minas(detalle[0],ancho=detalle[1],largo = detalle[2], minas = detalle[3])
         totalminas = progra_2.main.minas // 2
 
-    if not multi_online:
+    if  not multi_online:
         reiniciar = Label(topMainFrame,bg = "black", image=reiniciarIcon)
         reiniciar.grid(row=0,column=1)
         reiniciar.bind("<Button-1>", lambda x: main(reinicio = True ,detalles = [dif, textA, textL, textM]))
@@ -529,20 +530,31 @@ def Game(players , multiplayer, configuracion = {"reinicio" : False}):
         menuFrame.destroy()
     except:
         pass
-    global container, multi_offline
+    global container, multi_offline, multi_online
+
     
     if players:
         #print("pero si llega")
         global puntos2, puntos,jugador1_local
         puntos, puntos2, jugador1_local = 0, 0, False
-        multi_offline = True
+        
+        if multiplayer:
+            multi_online = True
+            multi_offline = False
+        else:
+            multi_online = False
+            multi_offline = True
     else:
-        multi_offline = False
-
+        multi_offline = False 
     if not configuracion["reinicio"]:
         container = Frame(root, bd=10, relief="groove")  
         container.config(bg="#8b8d8e")
- 
+            # Custom
+        mode4Butt = Button(container, text="Custom", fg=mainFg,
+                           bg=mainBg, font=mainFont, width=mainWidth)
+
+        mode4Butt.bind("<Button-1>", pedirCustom)
+        mode4Butt.grid(row=1, column=1)
         # 8x8
         mode1Butt = Button(container, text="8x8", fg=mainFg,
                            bg=mainBg, font=mainFont, width=mainWidth)
@@ -552,10 +564,8 @@ def Game(players , multiplayer, configuracion = {"reinicio" : False}):
         # 30x16
         mode3Butt = Button(container, text="30x16", fg=mainFg,
                            bg=mainBg, font=mainFont, width=mainWidth)
-        # Custom
-        mode4Butt = Button(container, text="Custom", fg=mainFg,
-                           bg=mainBg, font=mainFont, width=mainWidth)
-        mode4Butt.bind("<Button-1>", pedirCustom)
+
+
         mode3Butt.bind("<Button-1>", lambda x: listo_minas(False, 3, multiplayer))
         mode2Butt.bind("<Button-1>", lambda x: listo_minas(False, 2, multiplayer))
         mode1Butt.bind("<Button-1>", lambda x: listo_minas(False, 1, multiplayer))
@@ -564,7 +574,7 @@ def Game(players , multiplayer, configuracion = {"reinicio" : False}):
         mode1Butt.grid(row=0, column=0)
         mode2Butt.grid(row=0, column=1)
         mode3Butt.grid(row=1, column=0)
-        mode4Butt.grid(row=1, column=1)
+        
     else:
         listo_minas(0,configuracion["detalles"][0],False,configuracion)
 
@@ -576,6 +586,7 @@ def on_closing():
     try:cliente.sock.shutdown(server.socket.SHUT_RDWR)
     except:pass
     root.destroy()
+
 def main(**configuracion):# confi =total mult, tamÃ±ao [1,2,4,5] , reinicio , reinicio va a ser False cuando es la primera llamada
     global root, mainFont, mainFg, mainBg, mainWidth, reiniciarIcon, menuFrame, minaPNG, banderaPNG
     try:

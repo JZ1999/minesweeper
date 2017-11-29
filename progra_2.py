@@ -9,6 +9,26 @@ class partida:
         self.total = 0
         self.perdio = False
 
+    def ubicacion_online(minas):
+        if  len(minas) == 64:
+            self.largo = 8
+            self.minas = 10
+        elif  len(minas) == 256:
+            self.largo = 16
+            self.minas = 40
+        else:
+            self.largo = 30
+            self.minas = 99
+        self.total = len(minas)
+
+        lista =[[]] * self.total
+        lista = list(map(lambda x: cuadro(x), minas))
+        self.lista = lista
+
+        self.lista[0].alrededor_mina()
+
+
+
     def ubicar_minas(self,dificultad, **customizado):  # creacion y ubicacion de la mina y lista, esto no va en esta class
         nivel = [[8, 8, 10], [16, 16, 40], [16, 30, 99]]
         
@@ -36,11 +56,11 @@ class partida:
         self.lista[0].alrededor_mina()
         
 class cuadro(partida):
-    def __init__(self):
+    def __init__(self, minas = False):
         self.x = None
         self.activo =  False # si es True se muestra al usuario, independientemente si es bandera/ bomba / vacio o un numero
         self.bandera = False 
-        self.mina = False 
+        self.mina = minas
         self.minas_alrededor = 0
         self.coordenadas_alrededor = [] # esta va a tener las instrucciones para ir a los vecinos del cuadro
 

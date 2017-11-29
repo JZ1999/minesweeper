@@ -75,9 +75,19 @@ class Cliente:
             if not data:
                 break
             if data.decode("UTF-8")[-1] == "|":
-                print("si funciona=?")
+                dato_mina = data.decode("UTF-8").split(",")
+                dato_mina[0] = dato_mina[0][1:]
+                dato_mina[-1] = dato_mina[-1][:-1]
+
+                x = len(data_mina) - 1
+
+                while x:
+                    dato_mina[x] = eval(dato_mina[x])
+                    x -= 1
+                
             else:
                 self.info = data.decode("UTF-8").split(" ")
+
     def __init__(self, addr, plantilla=None):
         self.plantilla = plantilla
         self.sock.connect((addr, 10000))
