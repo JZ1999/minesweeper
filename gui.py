@@ -349,9 +349,9 @@ def listo_minas(custom, dif, multParam=False , configuracion = {"reinicio" : Fal
                 print("un  si")
                 cliente.mandarMSG("200")
             else:
-                print("minimo entra")
-                progra_2.main.ubicacion_online(cliente.plantilla)
-
+                #print("minimo entra")
+                #progra_2.main.ubicacion_online(cliente.plantilla)
+                pass
         elif custom:
             if " " in textA.get() or " " in textL.get() or " " in textM.get():
                 tkinter.messagebox.showwarning("Error", "no debes incluir espacios")
@@ -394,7 +394,6 @@ def listo_minas(custom, dif, multParam=False , configuracion = {"reinicio" : Fal
             textM = int(textM.get())
             progra_2.main.ubicar_minas(0,ancho= textA,largo= textL,minas= textM)
             totalminas = textM // 2
-       #########
         else:
             progra_2.main.ubicar_minas(dif)
             totalminas = progra_2.main.minas // 2

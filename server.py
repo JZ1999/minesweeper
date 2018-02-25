@@ -2,7 +2,6 @@
 import time
 import threading
 import socket
-import sys
 
 class Servidor:
     #primer parametro es que usaremos IPV4, 2do es para decir usaremos una coneccion TCP

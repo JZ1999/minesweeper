@@ -9,7 +9,7 @@ class partida:
         self.total = 0
         self.perdio = False
 
-    def ubicacion_online(minas):
+    def ubicacion_online(self, minas):
         if  len(minas) == 64:
             self.largo = 8
             self.minas = 10
